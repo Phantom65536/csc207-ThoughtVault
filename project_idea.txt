@@ -1,0 +1,18 @@
+NOTE TAKING + CALENDAR APP
+
+1. A page for saving important notes
+2. List view of created events 
+   a) show title of each event + subevent up to height 2
+   b) simple filtering (by label, date), simple sorting (by label, date, title), search (exact match by title of event/sub-event)
+3. Events can have sub-events (height = 2 or possible to make it generic)
+   eg Google job application: interviews: phone interview, face-to-face;
+			      essays: technical essay
+4. Can choose to give a deadline/start+endtime/all-day, venue/video-call-link to each event and sub-event
+5. Calendar view of all events with deadline and a separate column for list of events (not sub-events) w/o deadlines
+   a) view by month, week, day
+   b) show title and label of event or sub-event on calendar
+6. Events can be created, deleted or edited and saved to a json file
+   a) each event/sub-event saved in a json object with attributes: date (deadline), start time, end time, title, content, list of sub-events, label)
+   b) sub-events are saved hierarchically and events are saved in a list of json objects
+7. Add functionality with the use of an API eg import and export calendar events with Google/Outlook calendar API (no need sync)
+8. Create label (category fixed: personal, work) for each event (not sub-event)
