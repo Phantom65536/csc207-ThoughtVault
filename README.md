@@ -32,7 +32,12 @@ This app, designed for efficient event and sub-event management, employs a JSON-
   - View by month, week, day
   - Show title and label of event or sub-event on the calendar if its date is specified (boldfacing pinned events/sub-events)
   - A small listed view showing titles of all pinned events/sub-events (with or without date)
+  - Allow quick edit of events/sub-events including title, date, all-day/starttime/endtime
+## Pop-up notifications
+- Notify user of upcoming events
+- Notification settings: eg send reminders ?? min before event/sub-event starts
 ## Use of API: Google Calendar
 - A demo Google account will be used (Future improvement: allow users to enter their Google account credentials and access their Google calendar)
 - Create a top-level event by importing an event from the user's Google Calendar
 - Exporting an event/sub-event with date specified to the user's Google Calendar
+- The link to Google Calendar API: https://developers.google.com/calendar/api/guides/overview
