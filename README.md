@@ -41,3 +41,11 @@ This app, designed for efficient event and sub-event management, employs a JSON-
 - Create a top-level event by importing an event from the user's Google Calendar
 - Exporting an event/sub-event with date specified to the user's Google Calendar
 - The link to Google Calendar API: https://developers.google.com/calendar/api/guides/overview
+
+## Screenshot of using Postman to call the API
+![Screenshot of using API](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/f9339619-1099-478c-ad5d-a3c09caac352)
+
+## Example output of running our Java code
+![Screenshot of output](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/ac58042f-3c4d-4544-8a46-6fb22985f763)
+![Screenshot of output 2](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/77ff5cd0-d8fc-484a-b9ca-3b125cee1ef6)
+![Screenshot of output 3](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/5ee97b0a-3edc-4108-8b0a-561a4aad23a2)
