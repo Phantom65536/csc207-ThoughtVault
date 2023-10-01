@@ -43,9 +43,9 @@ This app, designed for efficient event and sub-event management, employs a JSON-
 - The link to Google Calendar API: https://developers.google.com/calendar/api/guides/overview
 
 ## Screenshot of using Postman to call the API
-![Screenshot of using API](https://raw.githubusercontent.com/annietjx/csc207-ThoughtVault/annie/img/API.png)
+![Screenshot of using API](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/API.png)
 
 ## Example output of running our Java code
-![Screenshot of output](https://raw.githubusercontent.com/annietjx/csc207-ThoughtVault/annie/img/output_1.png)
-![Screenshot of output 2](https://raw.githubusercontent.com/annietjx/csc207-ThoughtVault/annie/img/output_2.png)
-![Screenshot of output 3](https://raw.githubusercontent.com/annietjx/csc207-ThoughtVault/annie/img/output_3.png)
+![Screenshot of output](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/output_1.png)
+![Screenshot of output 2](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/output_2.png)
+![Screenshot of output 3](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/output_3.png)
