@@ -4,35 +4,35 @@ This app, designed for efficient event and sub-event management, employs a JSON-
 - Home page shows pinned events
 - Each event/sub-event is stored in a JSON object
 - The JSON object has attributes title, content, date, starttime, endtime, whole-day, label, pinned, sub-events
-  - date, starttime and endtime can be null if the user does not specify the date and time for a certain event
-  - whole-day is a boolean variable which can only be checked if the user does not specify starttime and endtime
-  - if user specifies date, either all-day has to be checked or starttime and endtime must be filled in
-  - label categorizes the event (work, personal) (all sub-events must have the same label as their top-level event)
-  - pinned is a boolean variable indicating whether this event/sub-event is important
-  - sub-events is a list of event JSON ovjects
+    - date, starttime and endtime can be null if the user does not specify the date and time for a certain event
+    - whole-day is a boolean variable which can only be checked if the user does not specify starttime and endtime
+    - if user specifies date, either all-day has to be checked or starttime and endtime must be filled in
+    - label categorizes the event (work, personal) (all sub-events must have the same label as their top-level event)
+    - pinned is a boolean variable indicating whether this event/sub-event is important
+    - sub-events is a list of event JSON ovjects
 ## Graphical User Interface:
 - Listed view of the created events (home page)
-  - Show titles of each event with up to 2 levels of their subevents in a hierarchical structure
-  - Simple search bar (exact match of event/sub-event's title)
-  - Filtering by label, date and pinned
-  - Sorting by label, date and title
-  - A button for user to add a top-level event
-  - Show pinned events before other events
-  - A button for user to pin a listed event/sub-event
+    - Show titles of each event with up to 2 levels of their subevents in a hierarchical structure
+    - Simple search bar (exact match of event/sub-event's title)
+    - Filtering by label, date and pinned
+    - Sorting by label, date and title
+    - A button for user to add a top-level event
+    - Show pinned events before other events
+    - A button for user to pin a listed event/sub-event
 - Detailed view of an event/sub-event in detail
-  - Show title and content of the selected event/sub-event
-  - Show titles of ancestor and/or descendant events, if any, in a hierarchical structure
-  - Buttons for uesr to choose to delete all its descendant events or only this event (all its sub-events will move up one level in the latter case)
-  - A button for user to edit the details of this event
-  - A button for user to add a sub-event as a direct child of this event
-  - A button for uesr to pin this event
+    - Show title and content of the selected event/sub-event
+    - Show titles of ancestor and/or descendant events, if any, in a hierarchical structure
+    - Buttons for uesr to choose to delete all its descendant events or only this event (all its sub-events will move up one level in the latter case)
+    - A button for user to edit the details of this event
+    - A button for user to add a sub-event as a direct child of this event
+    - A button for uesr to pin this event
 - Editting view of an event/sub-event
-  - User can edit any of the attributes of this event except sub-events
+    - User can edit any of the attributes of this event except sub-events
 - Calendar view of all events
-  - View by month, week, day
-  - Show title and label of event or sub-event on the calendar if its date is specified (boldfacing pinned events/sub-events)
-  - A small listed view showing titles of all pinned events/sub-events (with or without date)
-  - Allow quick edit of events/sub-events including title, date, all-day/starttime/endtime
+    - View by month, week, day
+    - Show title and label of event or sub-event on the calendar if its date is specified (boldfacing pinned events/sub-events)
+    - A small listed view showing titles of all pinned events/sub-events (with or without date)
+    - Allow quick edit of events/sub-events including title, date, all-day/starttime/endtime
 ## Pop-up notifications
 - Notify user of upcoming events
 - Notification settings: eg send reminders ?? min before event/sub-event starts
@@ -43,9 +43,9 @@ This app, designed for efficient event and sub-event management, employs a JSON-
 - The link to Google Calendar API: https://developers.google.com/calendar/api/guides/overview
 
 ## Screenshot of using Postman to call the API
-![Screenshot of using API](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/f9339619-1099-478c-ad5d-a3c09caac352)
+![Screenshot of using API](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/API.png)
 
 ## Example output of running our Java code
-![Screenshot of output](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/ac58042f-3c4d-4544-8a46-6fb22985f763)
-![Screenshot of output 2](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/77ff5cd0-d8fc-484a-b9ca-3b125cee1ef6)
-![Screenshot of output 3](https://github.com/Phantom65536/csc207-ThoughtVault/assets/73708386/5ee97b0a-3edc-4108-8b0a-561a4aad23a2)
+![Screenshot of output](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/output_1.png)
+![Screenshot of output 2](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/output_2.png)
+![Screenshot of output 3](https://raw.githubusercontent.com/Phantom65536/csc207-ThoughtVault/annie/img/output_3.png)
