@@ -7,7 +7,7 @@ This app, designed for efficient event and sub-event management, employs a JSON-
     - date, starttime and endtime can be null if the user does not specify the date and time for a certain event
     - whole-day is a boolean variable which can only be checked if the user does not specify starttime and endtime
     - if user specifies date, either all-day has to be checked or starttime and endtime must be filled in
-    - label categorizes the event (user can make their own label) (all sub-events must have the same label as their top-level event)
+    - label categorizes the event (work, personal) (all sub-events must have the same label as their top-level event)
     - pinned is a boolean variable indicating whether this event/sub-event is important
     - sub-events is a list of event JSON ovjects
 ## Graphical User Interface:
@@ -16,10 +16,9 @@ This app, designed for efficient event and sub-event management, employs a JSON-
     - Simple search bar (exact match of event/sub-event's title)
     - Filtering by label, date and pinned
     - Sorting by label, date and title
-    - A button at the top of the page for user to add a top-level event
+    - A button for user to add a top-level event
     - Show pinned events before other events
-    - A button next to a listed event for user to pin a listed event/sub-event
-    - A button at the top of the page for user to add a new label or delete or change the name of an existing label
+    - A button for user to pin a listed event/sub-event
 - Detailed view of an event/sub-event in detail
     - Show title and content of the selected event/sub-event
     - Show titles of ancestor and/or descendant events, if any, in a hierarchical structure
