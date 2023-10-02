@@ -1,5 +1,5 @@
 # csc207-ThoughtVault
-This app, designed for efficient event and sub-event management, employs a JSON-based storage system. Users can easily organize and view events, with support for sub-events, labels, and pins. The graphical user interface includes a home page for event lists, detailed event views, editing capabilities, and a calendar view. It integrates with Google Calendar for importing and exporting events.
+This app, designed for efficient event and sub-event management, employs a JSON-based storage system. Users can easily organize and view events, with support for sub-events, labels, and pins. The graphical user interface includes a home page for event lists, detailed event views, editing capabilities, and a calendar view. It integrates with Google Calendar for importing and exporting events. Users can configure the application settings so that they can get notified before a certain event.
 ## Storage and formatting of events and sub-events:
 - Home page shows pinned events
 - Each event/sub-event is stored in a JSON object
