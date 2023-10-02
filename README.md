@@ -3,10 +3,11 @@ This app, designed for efficient event and sub-event management, employs a JSON-
 ## Storage and formatting of events and sub-events:
 - Home page shows pinned events
 - Each event/sub-event is stored in a JSON object
-- The JSON object has attributes title, content, date, starttime, endtime, whole-day, label, pinned, sub-events
+- The JSON object has attributes title, content, location, date, starttime, endtime, whole-day, label, pinned, sub-events
     - date, starttime and endtime can be null if the user does not specify the date and time for a certain event
     - whole-day is a boolean variable which can only be checked if the user does not specify starttime and endtime
     - if user specifies date, either all-day has to be checked or starttime and endtime must be filled in
+    - location stores the physical location or the virtual meeting link of the event
     - label categorizes the event (work, personal) (all sub-events must have the same label as their top-level event)
     - pinned is a boolean variable indicating whether this event/sub-event is important
     - sub-events is a list of event JSON ovjects
