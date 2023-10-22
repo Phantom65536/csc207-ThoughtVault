@@ -11,10 +11,11 @@ Event:
 - Label (enum): Label or category associated with the event (default enum values: personal or work)
 - Pinned (boolean): Indicates whether the event is pinned for quick access
 - Sub-events (ArrayList of Event): The child events of this event
-*Note:*
-*- Sub-events have same structure as events*
-*- Let's not deal with recurring events first (possibly imported from Google Calendar)*
-*- Event is displayed as "all-day" if StartTime and EndTime are indicated as 00:00 and 23:59 respectively*
+
+*Note:* 
+1) *Sub-events have same structure as events*
+2) *Let's not deal with recurring events first (possibly imported from Google Calendar)*
+3) *Event is displayed as "all-day" if StartTime and EndTime are indicated as 00:00 and 23:59 respectively*
 
 Notification:
 - Event (Event): The event to be notified
@@ -31,3 +32,35 @@ User:
 - Name (string): Name of the user 
 - UserCredential (Credentials): The Credential instance associated with the user
 - Calendar (com.google.api.services.calendar.Calendar): The Google Calendar instance associated with the user obtained from Google
+
+## Classes and methods
+Use case interactors:
+- Local Event Input Boundary:
+  - bool createEvent(): create and save an event
+  - bool editEvent(): edit an existing event and save its changes
+  - bool deleteEvent(): delete an existing event
+  - Event getEvent(): return an Event instance when the user wants to view its details
+- External Event Input Boundary:
+  - bool importEvent()
+  - bool exportEvent()
+- Local Event interactor (implementing Local Event Input Boundary):
+  - bool createEvent(all details associated with an event): create a local event
+  - bool editEvent(an existing Event instance)
+  - bool deleteEvent(an existing Event instance)
+  - Event getEvent()
+- Google Calendar Event interactor (implementing External Event Input Boundary):
+  - bool importEvent(Google Calendar Event instance): import an event from Google Calendar
+  - bool exportEvent(local Event instance): export an existing local event to the user's Google Calendar
+- Notifications Input Boundary:
+  - bool setOccurrences()
+  - ArraryList<java.time.LocalDateTime> getOccurrences()
+- Notifications interactor (implementing Notifications Input Boundary):
+  - bool setOccurrences(local Event instance, ArrayList of occurences datetime): add, remove or edit existing occurrences
+  - ArraryList<java.time.LocalDateTime> getOccurrences(): get the list of occurrences associated with this event
+- Sign up Input Boundary:
+  - bool createUser()
+  - bool setCredentials()
+- Sign up interactor (implementing Sign up Input Boundary):
+  - bool createUser(all details associated with a user): create a User instance and save it in storage device
+  - bool setCredentials(
+  - bool createCalendar(
