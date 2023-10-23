@@ -77,6 +77,5 @@ Data Acess (depends on whether we implement it with database tables or JSON file
   - Object getEntry()
   - bool addEntry()
   - bool removeEntry()
-- Event Data Access Object
-- Notification Data Access Object
-- User Data Access Object
+- Event Data Access Object (associated with Event and Notification entities)
+- User Data Access Object (associated with User and Credentials entities)
