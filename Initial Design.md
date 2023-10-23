@@ -72,7 +72,7 @@ Use case interactors:
   - bool logIn(username, password): Match username with a User instance and check if password is correct
   - bool logOut(User): Log out and the system should return to Login page
 
-Data Acess (depends on if we implement it with database tables or JSON files):
+Data Acess (depends on whether we implement it with database tables or JSON files):
 - Data Access Interface:
   - Object getEntry()
   - bool addEntry()
