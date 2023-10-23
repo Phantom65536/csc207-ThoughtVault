@@ -19,11 +19,11 @@ Event:
 3) *Event is displayed as "all-day" if StartTime and EndTime are indicated as 00:00 and 23:59 respectively*
 
 Notification:
-- EventID (int): The event ID of the event to be notified
+- Event (Event): event object 
 - Occurences (ArrayList of java.time.LocalDateTime): The list of when to notify the user of this event
 
 Credentials:
-- ID (int): The ID of the user that this Credentials instance is associated with
+- User (User): user object 
 - Username (String): Username of the user used during login
 - Password (byte[]): The hashed hashed password string
 - API key (String): OAuth API key to interact with the the user's Google Calendar
