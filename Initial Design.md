@@ -1,6 +1,7 @@
 # Initial Design
 ## Entities (from project blueprint and incorporated comments from TA)
 Event: 
+- ID (int): Unique identifier of the event
 - Name (string): The title or name of the event
 - User (User): The user that this event belongs to
 - Date (java.time.LocalDate): The date of the event
@@ -18,7 +19,7 @@ Event:
 3) *Event is displayed as "all-day" if StartTime and EndTime are indicated as 00:00 and 23:59 respectively*
 
 Notification:
-- Event (Event): The event to be notified
+- EventID (int): The event ID of the event to be notified
 - Occurences (ArrayList of java.time.LocalDateTime): The list of when to notify the user of this event
 
 Credentials:
@@ -62,5 +63,20 @@ Use case interactors:
   - bool setCredentials()
 - Sign up interactor (implementing Sign up Input Boundary):
   - bool createUser(all details associated with a user): create a User instance and save it in storage device
-  - bool setCredentials(
-  - bool createCalendar(
+  - bool setCredentials(all details associated with the user's credentials): save the credentials for the user, hash the password
+  - bool createCalendar(API String): create a Google Calendar instance with this OAuth Client ID
+- Log in/out Input Boundary:
+  - bool logIn()
+  - bool logOut()
+- Log in/out interactor (implementing Log In/Out Input Boundary):
+  - bool logIn(username, password): Match username with a User instance and check if password is correct
+  - bool logOut(User): Log out and the system should return to Login page
+
+Data Acess (depends on if we implement it with database tables or JSON files):
+- Data Access Interface:
+  - Object getEntry()
+  - bool addEntry()
+  - bool removeEntry()
+- Event Data Access Object
+- Notification Data Access Object
+- User Data Access Object
