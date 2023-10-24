@@ -31,7 +31,6 @@ Credentials:
 User:
 - ID (int): Unique identifier for each user [IDENTIFIER]
 - Name (string): Name of the user 
-- UserCredential (Credentials): The Credential instance associated with the user
 - Calendar (com.google.api.services.calendar.Calendar): The Google Calendar instance associated with the user obtained from Google
 
 ## Classes and methods
@@ -115,3 +114,6 @@ Controllers:
 - Login+out controller
 
 Output Data classes:
+- Event output data
+  - Structure similar to Event input data
+- 
