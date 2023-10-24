@@ -27,8 +27,6 @@ This app, designed for efficient event and sub-event management, employs a JSON-
     - Show pinned events before other events
     - Show titles of each event with up to 2 levels of their subevents in a hierarchical structure
     - Simple search bar (exact match of event/sub-event's title)
-    - Filtering by label, date and pinned
-    - Sorting by label, date and title
     - A button for user to add a top-level event
     - Show pinned events before other events
     - A button for user to pin a listed event/sub-event
