@@ -39,8 +39,8 @@ Use case interactors:
   - bool createEvent(): create and save an event
   - bool editEvent(): edit an existing event and save its changes
   - bool deleteEvent(): delete an existing event
-  - Event getEvent(): return an Event instance when the user wants to view its details
-  - ArrayList<Event> getAllEvents(): get all events to show in listed or calendar view
+  - Event Output Data getEvent(): return an Event instance when the user wants to view its details
+  - Event Output Data getAllEvents(): get all events to show in listed or calendar view
 - External Event Input Boundary:
   - bool importEvent()
   - bool exportEvent()
@@ -48,18 +48,18 @@ Use case interactors:
   - bool createEvent(Event Input Data Object): create a local event
   - bool editEvent(Event Input Data Object)
   - bool deleteEvent(Event Input Data Object)
-  - Event getEvent(Identifier Input Data Object)
-  - ArrayList<Event> getAllEvents()
+  - Event Output Data getEvent(Identifier Input Data Object)
+  - Event Output Data getAllEvents()
 - Google Calendar Event interactor (implementing External Event Input Boundary):
   - bool importEvent(Google Calendar Event Input Data Object): import an event from Google Calendar
   - bool exportEvent(Event Input Data Object): export an existing local event to the user's Google Calendar
-  - Google Calendar Event getAllEvents(): get the user's events on their Google Calendar so that they can view them and choose which to import
+  - Google Calendar Event Output Data getAllEvents(): get the user's events on their Google Calendar so that they can view them and choose which to import
 - Notifications Input Boundary:
   - bool setOccurrences()
-  - ArraryList<java.time.LocalDateTime> getOccurrences()
+  - Notification Output Data getOccurrences()
 - Notifications interactor (implementing Notifications Input Boundary):
   - bool setOccurrences(Notification Input Data Object): add, remove or edit existing occurrences
-  - ArraryList<java.time.LocalDateTime> getOccurrences(Identifier Input Data Object): get the list of occurrences associated with this event
+  - Notification Output Data getOccurrences(Identifier Input Data Object): get the list of occurrences associated with this event
 - Sign up Input Boundary:
   - bool createUser()
   - bool setCredentials()
@@ -69,10 +69,10 @@ Use case interactors:
   - private bool setCredentials(Username, password, API key): save the credentials for the user, hash the password
   - private bool createCalendar(API String): create a Google Calendar instance with this OAuth Client ID
 - Log in+out Input Boundary:
-  - bool logIn()
+  - User Output Data logIn()
   - bool logOut()
 - Log in+out interactor (implementing Log In+Out Input Boundary):
-  - bool logIn(Login Data Input Object): Match username with a User instance and check if password is correct
+  - User Output Data logIn(Login Data Input Object): Match username with a User instance and check if password is correct
   - bool logOut(Identifier Data Input Object): Log out and the system should return to Login page
 
 Data Access (depends on whether we implement it with database tables or JSON files):
@@ -114,6 +114,16 @@ Controllers:
 - Login+out controller
 
 Output Data classes:
-- Event output data
-  - Structure similar to Event input data
-- 
+- Event/Notification/User output data
+  - Private instance attribute: ArrayList of Event/Notification/User
+- Google Calendar Event output data:
+  - Private instance attribute: ArrayList of Google Calendar Event
+ 
+Presenters and Output Boundaries:
+
+View models and Views:
+- Calendar view
+- Listed view
+- Notifications settings
+- Signup view
+- Login view
