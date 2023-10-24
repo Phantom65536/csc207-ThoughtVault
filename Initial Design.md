@@ -64,16 +64,17 @@ Use case interactors:
 - Sign up Input Boundary:
   - bool createUser()
   - bool setCredentials()
+  - bool createCalendar()
 - Sign up interactor (implementing Sign up Input Boundary):
-  - bool createUser(all details associated with a user): create a User instance and save it in storage device
-  - bool setCredentials(all details associated with the user's credentials): save the credentials for the user, hash the password
-  - bool createCalendar(API String): create a Google Calendar instance with this OAuth Client ID
+  - bool createUser(Signup Data Input Object): create a User instance and save it in storage device
+  - private bool setCredentials(Username, password, API key): save the credentials for the user, hash the password
+  - private bool createCalendar(API String): create a Google Calendar instance with this OAuth Client ID
 - Log in+out Input Boundary:
   - bool logIn()
   - bool logOut()
 - Log in+out interactor (implementing Log In+Out Input Boundary):
-  - bool logIn(username, password): Match username with a User instance and check if password is correct
-  - bool logOut(User): Log out and the system should return to Login page
+  - bool logIn(Login Data Input Object): Match username with a User instance and check if password is correct
+  - bool logOut(Identifier Data Input Object): Log out and the system should return to Login page
 
 Data Access (depends on whether we implement it with database tables or JSON files):
 - Data Access Interface:
@@ -86,15 +87,31 @@ Data Access (depends on whether we implement it with database tables or JSON fil
 
 Data Input classes:
 - Identifier input data:
-  - Instance attribute: an ID (event ID for entities Notification and Event, user ID for entities User and Credentials)
+  - Private instance attribute: an ID (event ID for entities Notification and Event, user ID for entities User and Credentials and method logOut)
   - Constructor assigning ID and method getting the ID
 - Event/Notification input data:
   - All instance attributes in User/Notification but make them private
   - Constructor assigning values to all instance attributes
   - A method for returning values of all instance attributes
 - Google Calendar Event input data:
-  - Instance attribute: Google Calendar Event instance
+  - Private instance attribute: Google Calendar Event instance
   - Contructor to assign this
   - A method for returning the Event instance
 - Signup input data:
-  - All instance attributes 
+  - Private instance attributes: Name, Username, Password, API key
+  - Constructor assigning these
+  - A method for returning these
+- Login input data:
+  - Private instance attributes: Username, Password
+  - Constructor assigning these
+  - A method for returning these
+
+Controllers:
+- Event controller:
+  - Methods to create, edit, delete, get or get all event(s) in which the corresponsing method in Local Event Input Boundary is called
+- Google Calendar Event controller
+- Notifications controller
+- Signup controller
+- Login+out controller
+
+Output Data classes:
