@@ -39,8 +39,8 @@ Use case interactors:
   - bool createEvent(): create and save an event
   - bool editEvent(): edit an existing event and save its changes
   - bool deleteEvent(): delete an existing event
-  - Event Output Data getEvent(): return an Event instance when the user wants to view its details
-  - Event Output Data getAllEvents(): get all events to show in listed or calendar view
+  - [Event Output Data, Notification Output Data] getEvent(): return an Event instance when the user wants to view its details
+  - ArrayList of Event Output Data getAllEvents(): get all events to show in listed or calendar view
 - External Event Input Boundary:
   - bool importEvent()
   - bool exportEvent()
@@ -48,22 +48,20 @@ Use case interactors:
   - bool createEvent(Event Input Data Object): create a local event
   - bool editEvent(Event Input Data Object)
   - bool deleteEvent(Event Input Data Object)
-  - Event Output Data getEvent(Identifier Input Data Object)
-  - Event Output Data getAllEvents()
+  - Event Output Data, Notification Output Data getEvent(EventID)
+  - ArrayList of Event Output Data getAllEvents()
 - Google Calendar Event interactor (implementing External Event Input Boundary):
-  - bool importEvent(Google Calendar Event Input Data Object): import an event from Google Calendar
+  - bool importEvent(GoogleCalendarEventID): import an event from Google Calendar
   - bool exportEvent(Event Input Data Object): export an existing local event to the user's Google Calendar
-  - Google Calendar Event Output Data getAllEvents(): get the user's events on their Google Calendar so that they can view them and choose which to import
+  - ArrayList of Google Calendar Event Output Data getAllEvents(): get the user's events on their Google Calendar so that they can view them and choose which to import
 - Notifications Input Boundary:
   - bool setOccurrences()
-  - Notification Output Data getOccurrences()
+  - ArrayList<Java.time.localDateTime> getOccurrences()
 - Notifications interactor (implementing Notifications Input Boundary):
   - bool setOccurrences(Notification Input Data Object): add, remove or edit existing occurrences
-  - Notification Output Data getOccurrences(Identifier Input Data Object): get the list of occurrences associated with this event
+  - ArrayList<Java.time.localDateTime> getOccurrences(EventID): get the list of occurrences associated with this event
 - Sign up Input Boundary:
   - bool createUser()
-  - bool setCredentials()
-  - bool createCalendar()
 - Sign up interactor (implementing Sign up Input Boundary):
   - bool createUser(Signup Data Input Object): create a User instance and save it in storage device
   - private bool setCredentials(Username, password, API key): save the credentials for the user, hash the password
@@ -73,29 +71,24 @@ Use case interactors:
   - bool logOut()
 - Log in+out interactor (implementing Log In+Out Input Boundary):
   - User Output Data logIn(Login Data Input Object): Match username with a User instance and check if password is correct
-  - bool logOut(Identifier Data Input Object): Log out and the system should return to Login page
+  - bool logOut(userID): Log out and the system should return to Login page
 
 Data Access (depends on whether we implement it with database tables or JSON files):
 - Data Access Interface:
   - Object getEntry()
   - bool addEntry()
   - bool removeEntry()
-- Event Data Access Object (associated with Event and Notification entities)
+- Event Data Access Object (associated with Event entities)
+- Notification Data Access Object (associated with Notification entities)
+  - A special row for saving general notification occurrences which applies to all events without specific notification settings
 - User Data Access Object (associated with User and Credentials entities)
 - Google Calendar Access Object
 
 Data Input classes:
-- Identifier input data:
-  - Private instance attribute: an ID (event ID for entities Notification and Event, user ID for entities User and Credentials and method logOut)
-  - Constructor assigning ID and method getting the ID
 - Event/Notification input data:
   - All instance attributes in User/Notification but make them private
   - Constructor assigning values to all instance attributes
   - A method for returning values of all instance attributes
-- Google Calendar Event input data:
-  - Private instance attribute: Google Calendar Event instance
-  - Contructor to assign this
-  - A method for returning the Event instance
 - Signup input data:
   - Private instance attributes: Name, Username, Password, API key
   - Constructor assigning these
@@ -114,16 +107,20 @@ Controllers:
 - Login+out controller
 
 Output Data classes:
-- Event/Notification/User output data
-  - Private instance attribute: ArrayList of Event/Notification/User
 - Google Calendar Event output data:
-  - Private instance attribute: ArrayList of Google Calendar Event
+  - Private instance attribute: important deatils in Google Calendar Event instance
+  - Contructor to assign this
+  - A method for returning the Event instance
+- Event/Notification/User output data:
+  - Private instance attribute: all instance attributes in Event/Notification/User
  
 Presenters and Output Boundaries:
 
-View models and Views:
+View models and Views (Details of each view described in README.md):
 - Calendar view
 - Listed view
-- Notifications settings
+- Detailed view of an event (specific notifications can be configured here)
+- Add/Edit view of an event (only details associated with the entity Event can be augmented here)
+- General Notifications settings
 - Signup view
 - Login view
