@@ -25,10 +25,10 @@ Notification:
 LocalCredentials:
 - User (User): user object [IDENTIFIER]
 - Username (String): Username of the user used during login
-- Password (byte[]): The hashed hashed password string
+- Password (byte[]): The hashed password string
 - API key (String): OAuth API key to interact with the the user's Google Calendar
 
-LocalUser:
+User:
 - ID (int): Unique identifier for each user [IDENTIFIER]
 - Name (string): Name of the user 
 - Calendar (com.google.api.services.calendar.Calendar): The Google Calendar instance associated with the user obtained from Google
