@@ -1,6 +1,6 @@
 # Initial Design
 ## Entities (from project blueprint and incorporated comments from TA)
-Event: 
+LocalEvent: 
 - ID (int): Unique identifier of the event [IDENTIFIER]
 - Name (string): The title or name of the event
 - User (User): The user that this event belongs to
@@ -22,13 +22,13 @@ Notification:
 - Event (Event): event object [IDENTIFIER]
 - Occurences (ArrayList of java.time.LocalDateTime): The list of when to notify the user of this event
 
-Credentials:
+LocalCredentials:
 - User (User): user object [IDENTIFIER]
 - Username (String): Username of the user used during login
 - Password (byte[]): The hashed hashed password string
 - API key (String): OAuth API key to interact with the the user's Google Calendar
 
-User:
+LocalUser:
 - ID (int): Unique identifier for each user [IDENTIFIER]
 - Name (string): Name of the user 
 - Calendar (com.google.api.services.calendar.Calendar): The Google Calendar instance associated with the user obtained from Google
