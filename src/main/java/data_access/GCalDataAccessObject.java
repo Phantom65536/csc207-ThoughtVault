@@ -4,6 +4,8 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 
+import java.io.IOException;
+
 public class GCalDataAccessObject implements GCalEventDataAccessInterface {
     private final Calendar calendar;
     private final String calendarId;
@@ -19,5 +21,8 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
 
     public String getCalendarId() {
         return calendarId;
+    }
+    public boolean eventExists(String eventId) throws IOException {
+        return calendar.events().get(calendarId, eventId).execute().getId() != null;
     }
 }

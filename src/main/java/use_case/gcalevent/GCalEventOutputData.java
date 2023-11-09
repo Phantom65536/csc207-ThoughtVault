@@ -12,7 +12,7 @@ public class GCalEventOutputData {
         this.eventId = eventId;
     }
 
-    public Event getEvent(Calendar calendar, String calendarId, String eventId) throws IOException {
+    public Event getEventById(Calendar calendar, String calendarId, String eventId) throws IOException {
         return calendar.events().get(calendarId, eventId).execute();
     }
 }

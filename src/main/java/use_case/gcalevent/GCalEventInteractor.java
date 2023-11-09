@@ -22,20 +22,22 @@ public class GCalEventInteractor implements ExternalEventInputBoundary {
 
     @Override
     public boolean importEvent(ExternalEventInputData externalEventInputData) throws IOException {
-//        Calendar calendar = externalEventInputData.getCalendar();
-//        String calendarId = externalEventInputData.getCalendarId();
-
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
         String eventId = externalEventInputData.getEventId();
 
-        Event event = calendar.events().get(calendarId, eventId).execute();
-        System.out.println(event.getSummary());
+        if (!userDataAccessObject.eventExists(eventId)) {
+            gCalEventPresenter.prepareFailView(eventId + " :Event does not exist in your calendar.");
+            return false;
+        } else {
+            Event event = calendar.events().get(calendarId, eventId).execute();
+            System.out.println(event.getSummary());
 
-        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId);
-        gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
+            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId);
+            gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
 
-        return true;
+            return true;
+        }
     }
 
     @Override
@@ -47,6 +49,10 @@ public class GCalEventInteractor implements ExternalEventInputBoundary {
         Event event = calendar.events().get(calendarId, eventId).execute();
         Event importedEvent = calendar.events().calendarImport(calendarId, event).execute();
         System.out.println(importedEvent.getId());
+
+        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId);
+        gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
+
         return true;
     }
 
