@@ -35,8 +35,8 @@ User:
 ## Classes and methods
 Use case interactors:
 - Local Event Input Boundary:
-  - bool createEvent(): create and save an event
-  - bool editEvent(): edit an existing event and save its changes
+  - bool createEvent(): create and save an event (make sure no sub-events are the same)
+  - bool editEvent(): edit an existing event and save its changes (make sure no sub-events are the same)
   - bool deleteEvent(): delete an existing event
   - [Event Output Data, Notification Output Data] getEvent(): check whether the event belongs to the user and return its corresponding Event instance when the user wants to view its details
   - ArrayList of Event Output Data getAllEvents(): get all events to show in listed or calendar view
