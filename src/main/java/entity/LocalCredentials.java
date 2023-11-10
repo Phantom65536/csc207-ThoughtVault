@@ -49,6 +49,14 @@ public class LocalCredentials {
         return password;
     }
 
+    public Credential getCredential() {
+        return credential;
+    }
+
+    public boolean existsCredential() {
+        return credential != null;
+    }
+
     /**
      * Creates an authorized Credential object.
      *
@@ -56,7 +64,7 @@ public class LocalCredentials {
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
      */
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+    private static Credential createCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
         // Load client secrets.
         InputStream in = LocalCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);

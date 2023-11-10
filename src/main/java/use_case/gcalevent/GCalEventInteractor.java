@@ -56,7 +56,7 @@ public class GCalEventInteractor implements ExternalEventInputBoundary {
         return true;
     }
 
-    public ArrayList<Event> getAllEvents(ExternalEventInputData externalEventInputData) throws IOException {
+    public ArrayList<Event> getAllEvents() throws IOException {
         ArrayList<Event> listOfEvents = new ArrayList<>();
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
