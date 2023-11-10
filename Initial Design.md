@@ -3,7 +3,7 @@
 LocalEvent: 
 - ID (int): Unique identifier of the event [IDENTIFIER]
 - Name (string): The title or name of the event
-- User (User): The user that this event belongs to
+- User (UserID): The user that this event belongs to
 - Date (java.time.LocalDate): The date of the event
 - StartTime (java.time.LocalTime): The time when the event occurs (default value: 00:00)
 - EndTime (java.time.LocalTime): The time when the event ends (default value: 23:59)
@@ -11,7 +11,7 @@ LocalEvent:
 - Description (String): A description of the event
 - Label (enum): Label or category associated with the event (default enum values: personal or work)
 - Pinned (boolean): Indicates whether the event is pinned for quick access
-- Sub-events (ArrayList of Event): The child events of this event
+- Sub-events (ArrayList of EventID): The child events of this event
 
 *Note:* 
 1) *Sub-events have same structure as events*
@@ -19,11 +19,11 @@ LocalEvent:
 3) *Event is displayed as "all-day" if StartTime and EndTime are indicated as 00:00 and 23:59 respectively*
 
 Notification:
-- Event (Event): event object [IDENTIFIER]
+- Event (EventID): ID of event object [IDENTIFIER]
 - Occurences (ArrayList of java.time.LocalDateTime): The list of when to notify the user of this event
 
 LocalCredentials:
-- User (User): user object [IDENTIFIER]
+- User (UserID): ID of user object [IDENTIFIER]
 - Username (String): Username of the user used during login
 - Password (byte[]): The hashed password string
 - API key (String): OAuth API key to interact with the the user's Google Calendar
@@ -112,8 +112,9 @@ Output Data classes:
   - Private instance attribute: important deatils in Google Calendar Event instance
   - Contructor to assign this
   - A method for returning the details
-- Event/Notification output data:
-  - Private instance attribute: all instance attributes in Event/Notification
+- LocalEvent/Notification output data:
+  - Private instance attribute: all instance attributes in LocalEvent/Notification
+  - Eventid and its corresponding name for associated event in Notification and sub-events in LocalEvent 
 - User output data:
   - Private instance attributes: Name, UserID, GcalID associated with them
  
