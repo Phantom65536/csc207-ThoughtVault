@@ -4,18 +4,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Notifications implements NotificationsInterface{
-    private final LocalEventInterface event;
+    private final int eventID;
     private ArrayList<LocalDateTime> occurrences;
 
-    public Notifications(LocalEventInterface event, ArrayList<LocalDateTime> occurrences) {
-        this.event = event;
-        this.occurrences = occurrences;
+    public Notifications(int eventID, ArrayList<LocalDateTime> occurrences) {
+        this.eventID = eventID;
+        this.occurrences = new ArrayList<>(occurrences);
     }
 
     @Override
     public ArrayList<LocalDateTime> getOccurrences() {
         return occurrences;
     }
+
+    public int getEventID() { return eventID; }
 
     @Override
     public void setOccurrences(ArrayList<LocalDateTime> occurrences) {
