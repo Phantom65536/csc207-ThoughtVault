@@ -9,5 +9,4 @@ public interface GCalEventDataAccessInterface {
     Calendar getCalendar();
     String getCalendarId();
     boolean eventExists(String eventId) throws IOException;
-    Calendar createCalendar() throws GeneralSecurityException, IOException;
 }

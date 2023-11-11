@@ -12,7 +12,8 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 
 import java.io.FileNotFoundException;
@@ -33,23 +34,7 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    public GCalDataAccessObject(Calendar calendar, String calendarId) {
-        this.calendar = calendar;
-        this.calendarId = calendarId;
-    }
-
-    public Calendar getCalendar() {
-        return calendar;
-    }
-
-    public String getCalendarId() {
-        return calendarId;
-    }
-    public boolean eventExists(String eventId) throws IOException {
-        return calendar.events().get(calendarId, eventId).execute().getId() != null;
-    }
-
-    public Calendar createCalendar() throws GeneralSecurityException, IOException {
+    public GCalDataAccessObject() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
         Calendar service =
@@ -57,7 +42,21 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
                         .setApplicationName(APPLICATION_NAME)
                         .build();
 
-        return service;
+        this.calendar = service;
+
+        CalendarList calendarList = service.calendarList().list().setPageToken(null).execute();
+        List<CalendarListEntry> items = calendarList.getItems();
+        this.calendarId = items.get(0).getId();
+
+    }
+
+    public Calendar getCalendar(){ return calendar; }
+
+    public String getCalendarId() {
+        return calendarId;
+    }
+    public boolean eventExists(String eventId) throws IOException {
+        return calendar.events().get(calendarId, eventId).execute().getId() != null;
     }
 
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
