@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import use_case.EventsDataAccessInterface;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventsDataAccessObject {
+public class EventsDataAccessObject implements EventsDataAccessInterface {
     private final Map<Integer, LocalEvent> events = new HashMap<>();
     private final File jsonFile;
     private int lastID = 0;

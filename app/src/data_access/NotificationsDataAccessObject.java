@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import use_case.NotificationsDataAccessInterface;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class NotificationsDataAccessObject {
+public class NotificationsDataAccessObject implements NotificationsDataAccessInterface {
     private final Map<Integer, Notifications> notifications = new HashMap<>();
     private final File jsonFile;
 
