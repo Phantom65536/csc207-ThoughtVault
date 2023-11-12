@@ -16,8 +16,8 @@ public class GCalEventOutputData {
     final private DateTime date;
     final private DateTime startTime;
     final private DateTime endTime;
-    private String location;
-    private String description;
+    final private String location;
+    final private String description;
 
     public GCalEventOutputData(String eventId, Calendar calendar) throws IOException {
         this.eventId = eventId;
