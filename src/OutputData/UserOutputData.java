@@ -1,4 +1,4 @@
-package use_case;
+package OutputData;
 
 public class UserOutputData {
     private final int userID;
