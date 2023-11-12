@@ -24,7 +24,4 @@ public class LocalEventOutputData {
         return (this.event_name);
     }
 
-
-
-
 }
