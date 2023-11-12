@@ -1,7 +1,6 @@
 package interface_adapter.gcalevent;
 
 import use_case.external_event.ExternalEventInputBoundary;
-import use_case.external_event.ExternalEventInputData;
 
 import java.io.IOException;
 
@@ -12,12 +11,10 @@ public class GCalEventController {
     }
 
     public void importEvent(String eventId) throws IOException {
-        ExternalEventInputData externalEventInputData = new ExternalEventInputData(eventId);
-        externalEventUseCaseInteractor.importEvent(externalEventInputData);
+        externalEventUseCaseInteractor.importEvent(eventId);
     }
 
     public void exportEvent(String eventId) throws IOException {
-        ExternalEventInputData externalEventInputData = new ExternalEventInputData(eventId);
-        externalEventUseCaseInteractor.exportEvent(externalEventInputData);
+        externalEventUseCaseInteractor.exportEvent(eventId);
     }
 }

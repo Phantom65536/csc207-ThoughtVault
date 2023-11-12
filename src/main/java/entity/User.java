@@ -8,12 +8,13 @@ import java.util.Map;
 public class User {
     private final int id;
     private final String name;
-    private final Calendar calendar;
 
-    public User(int id, String name, Calendar calendar) {
+    private final String calendarId;
+
+    public User(int id, String name, String calendarId) {
         this.id = id;
         this.name = name;
-        this.calendar = calendar;
+        this.calendarId = calendarId;
     }
 
     public int getId() {
@@ -24,15 +25,15 @@ public class User {
         return name;
     }
 
-    public Calendar getCalendar() {
-        return calendar;
+    public String getCalendarId() {
+        return calendarId;
     }
 
     public Map<String, Object> getAllAttributes() {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("id", id);
         attributes.put("name", name);
-        attributes.put("calendar", calendar);
+        attributes.put("calendarId", calendarId);
         return attributes;
     }
 }

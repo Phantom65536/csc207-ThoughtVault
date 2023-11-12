@@ -34,11 +34,15 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    public GCalDataAccessObject() throws GeneralSecurityException, IOException {
+
+    /**
+    Assume that there is only ONE calendar.
+    **/
+    public GCalDataAccessObject(Credential credential) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
         Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
                         .setApplicationName(APPLICATION_NAME)
                         .build();
 
@@ -50,11 +54,14 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
 
     }
 
-    public Calendar getCalendar(){ return calendar; }
+    public Calendar getCalendar() {
+        return calendar;
+    }
 
     public String getCalendarId() {
         return calendarId;
     }
+
     public boolean eventExists(String eventId) throws IOException {
         return calendar.events().get(calendarId, eventId).execute().getId() != null;
     }
@@ -80,6 +87,5 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
         //returns an authorized Credential object.
         return credential;
     }
-
 
 }

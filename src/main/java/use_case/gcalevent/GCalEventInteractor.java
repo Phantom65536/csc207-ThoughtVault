@@ -4,7 +4,6 @@ import com.google.api.services.calendar.Calendar;
 import use_case.external_event.ExternalEventInputBoundary;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import use_case.external_event.ExternalEventInputData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,10 +20,9 @@ public class GCalEventInteractor implements ExternalEventInputBoundary {
     }
 
     @Override
-    public boolean importEvent(ExternalEventInputData externalEventInputData) throws IOException {
+    public boolean importEvent(String eventId) throws IOException {
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
-        String eventId = externalEventInputData.getEventId();
 
         if (!userDataAccessObject.eventExists(eventId)) {
             gCalEventPresenter.prepareFailView(eventId + " :Event does not exist in your calendar.");
@@ -33,7 +31,7 @@ public class GCalEventInteractor implements ExternalEventInputBoundary {
             Event event = calendar.events().get(calendarId, eventId).execute();
             System.out.println(event.getSummary());
 
-            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId);
+            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar);
             gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
 
             return true;
@@ -41,16 +39,15 @@ public class GCalEventInteractor implements ExternalEventInputBoundary {
     }
 
     @Override
-    public boolean exportEvent(ExternalEventInputData externalEventInputData) throws IOException {
+    public boolean exportEvent(String localEventId) throws IOException {
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
-        String eventId = externalEventInputData.getEventId();
 
-        Event event = calendar.events().get(calendarId, eventId).execute();
+        Event event = calendar.events().get(calendarId, localEventId).execute();
         Event importedEvent = calendar.events().calendarImport(calendarId, event).execute();
         System.out.println(importedEvent.getId());
 
-        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId);
+        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(localEventId, calendar);
         gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
 
         return true;
