@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/csc207-ThoughtVault.iml" filepath="$PROJECT_DIR$/.idea/csc207-ThoughtVault.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/csc207-ThoughtVault-last.iml" filepath="$PROJECT_DIR$/.idea/modules/csc207-ThoughtVault-last.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/csc207-ThoughtVault-last.main.iml" filepath="$PROJECT_DIR$/.idea/modules/csc207-ThoughtVault-last.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/csc207-ThoughtVault-last.test.iml" filepath="$PROJECT_DIR$/.idea/modules/csc207-ThoughtVault-last.test.iml" />
     </modules>
