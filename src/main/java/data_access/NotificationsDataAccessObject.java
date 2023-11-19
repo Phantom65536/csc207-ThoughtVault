@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import use_case.NotificationsDataAccessInterface;
 
 import java.io.File;
 import java.io.FileReader;
@@ -87,7 +88,7 @@ public class NotificationsDataAccessObject implements NotificationsDataAccessInt
 
     // for testing only
     public static void main(String[] args) throws IOException, ParseException {
-        NotificationsDataAccessObject dao = new NotificationsDataAccessObject("./testNotifications");
+        NotificationsDataAccessObject dao = new NotificationsDataAccessObject("./testNotifications.json");
 
         Notifications notif1 = new Notifications(1, new ArrayList<>());
         dao.save(notif1);

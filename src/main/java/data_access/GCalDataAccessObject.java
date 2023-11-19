@@ -14,7 +14,7 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
-import use_case.gcalevent.GCalEventDataAccessInterface;
+import use_case.GCalEventDataAccessInterface;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
