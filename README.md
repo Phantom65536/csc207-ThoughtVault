@@ -1,21 +1,32 @@
 # csc207-ThoughtVault
-This app, designed for efficient event and sub-event management, employs a JSON-based storage system. Users can easily organize and view events, with support for sub-events, labels, and pins. The graphical user interface includes a home page for event lists, detailed event views, editing capabilities, and a calendar view. It integrates with Google Calendar for importing and exporting events.
+This app, designed for efficient event and sub-event management, employs a JSON-based storage system. Users can easily organize and view events, with support for sub-events, labels, and pins. The graphical user interface includes a home page for event lists, detailed event views, editing capabilities, and a calendar view. It integrates with Google Calendar for importing and exporting events. Users can configure the application settings so that they can get notified before a certain event.
 ## Storage and formatting of events and sub-events:
-- Home page shows pinned events
 - Each event/sub-event is stored in a JSON object
-- The JSON object has attributes title, content, date, starttime, endtime, whole-day, label, pinned, sub-events
+- The JSON object has attributes user, title, content, location, date, starttime, endtime, whole-day, label, pinned, sub-events
+    - user stores the user id this event is associated with
     - date, starttime and endtime can be null if the user does not specify the date and time for a certain event
     - whole-day is a boolean variable which can only be checked if the user does not specify starttime and endtime
     - if user specifies date, either all-day has to be checked or starttime and endtime must be filled in
+    - location stores the physical location or the virtual meeting link of the event
     - label categorizes the event (work, personal) (all sub-events must have the same label as their top-level event)
     - pinned is a boolean variable indicating whether this event/sub-event is important
     - sub-events is a list of event JSON ovjects
+- Each user is stored as JSON object
+- The JSON object has attributes username, password, calendar, google calendar api key
+    - Username (string): username of the user who is interacting with the Calendar
+    - API key (string): API key to interact with the aforementioned Calendar
+    - ID (int): unique identifier for each user
+    - Calendar (calendar instance): The Google Calendar associated with the user
 ## Graphical User Interface:
+- Login page:
+    - Allow users to put in their credentials to log into their account
+- User registration page:
+    - Allow users to create username and password
+    - Allow users to give their google calendar API key
 - Listed view of the created events (home page)
+    - Show pinned events before other events
     - Show titles of each event with up to 2 levels of their subevents in a hierarchical structure
     - Simple search bar (exact match of event/sub-event's title)
-    - Filtering by label, date and pinned
-    - Sorting by label, date and title
     - A button for user to add a top-level event
     - Show pinned events before other events
     - A button for user to pin a listed event/sub-event

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="20" />
+    <bytecodeTargetLevel>
+      <module name="csc207-ThoughtVault-last" target="11" />
+      <module name="csc207-ThoughtVault-last.main" target="11" />
+      <module name="csc207-ThoughtVault-last.test" target="11" />
+      <module name="thought-vault" target="17" />
+      <module name="thought-vault.main" target="17" />
+      <module name="thought-vault.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
