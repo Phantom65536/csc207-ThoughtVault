@@ -26,11 +26,12 @@ LocalCredentials:
 - User (UserID): ID of user object [IDENTIFIER]
 - Username (String): Username of the user used during login
 - Password (byte[]): The hashed password string
-- API key (String): OAuth API key to interact with the the user's Google Calendar
+- Credential (Credential): Credential object to interact with user's google calendar via OAuth client ID.
 
 User:
 - ID (int): Unique identifier for each user [IDENTIFIER]
-- Name (string): Name of the user 
+- Name (string): Name of the user
+- Calendar (Calendar): The user's Google Calendar object
 
 ## Classes and methods
 Use case interactors:
@@ -64,14 +65,14 @@ Use case interactors:
   - bool setCredentials()
 - Sign up interactor (implementing Sign up Input Boundary):
   - bool createUser(Signup Data Input Object): create a User instance and save it in storage device
-  - private bool setCredentials(Username, password, API key): save the credentials for the user, hash the password
-  - private bool isAPIKeyValid(API key): check if the Google Calendar API key is valid
+  - private bool setCredentials(Username, password, Credential): save the credentials for the user, hash the password
+  - private bool isCredentialValid(Credential): check if the Credential object is valid
 - Log in+out Input Boundary:
   - User Output Data logIn()
   - bool logOut()
 - Log in+out interactor (implementing Log In+Out Input Boundary):
   - User Output Data logIn(Login Data Input Object): Match username with a User instance and check if password is correct
-  - private bool createCalendar(API String): create a Google Calendar instance with this OAuth Client ID
+  - private bool createCalendar(Credential): create a Google Calendar instance with this OAuth Client ID
   - bool logOut(): Log out and the system should return to Login page
 
 Data Access (depends on whether we implement it with database tables or JSON files):
