@@ -1,37 +1,31 @@
 package entity;
 
-import java.util.HashMap;
-import java.util.Map;
+public class User implements UserInterface {
+    private final int userid;
+    private final String username;
+    private final String password;
+    private final String credential;
 
-public class User {
-    private final int id;
-    private final String name;
-
-    private final String calendarId;
-
-    public User(int id, String name, String calendarId) {
-        this.id = id;
-        this.name = name;
-        this.calendarId = calendarId;
+    public User(int userid, String username, String password, String credential) {
+        this.userid = userid;
+        this.username = username;
+        this.password = password;
+        this.credential = credential;
     }
 
-    public int getId() {
-        return id;
+    public int getUserid() {
+        return userid;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public String getCalendarId() {
-        return calendarId;
+    public String getHashedPassword() {
+        return password;
     }
 
-    public Map<String, Object> getAllAttributes() {
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("id", id);
-        attributes.put("name", name);
-        attributes.put("calendarId", calendarId);
-        return attributes;
+    public String getCredential() {
+        return credential;
     }
 }

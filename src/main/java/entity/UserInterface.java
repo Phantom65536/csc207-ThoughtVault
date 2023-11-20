@@ -1,7 +1,8 @@
 package entity;
 
-import java.util.HashMap;
-
 public interface UserInterface {
-    HashMap<String, Object> getAllAttributes();
+    int getUserid();
+    String getUsername();
+    String getHashedPassword();
+    String getCredential();
 }

@@ -22,15 +22,11 @@ Notification:
 - Event (EventID): ID of event object [IDENTIFIER]
 - Occurences (ArrayList of java.time.LocalDateTime): The list of when to notify the user of this event
 
-LocalCredentials:
-- User (UserID): ID of user object [IDENTIFIER]
+User:
+- ID (UserID): ID of user object [IDENTIFIER]
 - Username (String): Username of the user used during login
 - Password (byte[]): The hashed password string
-- Credential (Credential): Credential object to interact with user's google calendar via OAuth client ID.
-
-User:
-- ID (int): Unique identifier for each user [IDENTIFIER]
-- Name (string): Name of the user
+- Credential (String): Credential JSON object from the user's credentials.json file they uploaded to access their Google account
 
 ## Classes and methods
 Use case interactors:
@@ -91,7 +87,7 @@ Data Input classes:
   - Constructor assigning values to all instance attributes
   - A method for returning values of all instance attributes
 - Signup input data:
-  - Private instance attributes: Name, Username, Password, RepeatPassword, API key
+  - Private instance attributes: Username, Password, RepeatPassword, Credentials String
   - Constructor assigning these
   - A method for returning these
 - Login input data:
@@ -116,7 +112,7 @@ Output Data classes:
   - Private instance attribute: all instance attributes in LocalEvent/Notification
   - Eventid and its corresponding name for associated event in Notification and sub-events in LocalEvent 
 - User output data:
-  - Private instance attributes: Name, UserID, GcalID associated with them
+  - Private instance attributes: UserID, username associated with them
  
 Presenters and Output Boundaries:
 
