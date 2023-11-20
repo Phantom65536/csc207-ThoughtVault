@@ -31,7 +31,6 @@ LocalCredentials:
 User:
 - ID (int): Unique identifier for each user [IDENTIFIER]
 - Name (string): Name of the user
-- Calendar (Calendar): The user's Google Calendar object
 
 ## Classes and methods
 Use case interactors:
