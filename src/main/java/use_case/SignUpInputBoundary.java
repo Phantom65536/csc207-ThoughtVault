@@ -3,5 +3,6 @@ package use_case;
 import InputData.SignUpInputData;
 
 public interface SignUpInputBoundary {
-    boolean createUser(SignUpInputData inputData);
+    void createUser(SignUpInputData inputData);
+    String hashPassword(String password);
 }
