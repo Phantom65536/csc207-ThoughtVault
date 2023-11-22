@@ -15,7 +15,7 @@ Note:
 2) *Let's not deal with recurring events first (possibly imported from Google Calendar)*
 3) *Event is displayed as "all-day" if StartTime and EndTime are indicated as 00:00 and 23:59 respectively*
 
-Notification:
+LocalEvent (inheriting Note):
 - Date (java.time.LocalDate): The date of the event
 - StartTime (java.time.LocalTime): The time when the event occurs (default value: 00:00 when user didn't specify time)
 - EndTime (java.time.LocalTime): The time when the event ends (default value: 23:59 when user didn't specify time)

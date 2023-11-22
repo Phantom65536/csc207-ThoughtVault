@@ -1,7 +1,7 @@
 # JSON files:
 ## Events:
 - id (int)
-- name (String)
+- title (String)
 - userid (int)
 - date (String in ISO_Local_Date format)
 - starttime (String in ISO_Local_Time format)
@@ -12,9 +12,15 @@
 - pinned (boolean)
 - sub-events (JSONArray of int)
 
-## Notifications:
-- eventid (int)
-- occurrences (JSONArray of String in ISO_Local_Date_Time format)
+## Notes:
+- id (int)
+- title (String)
+- userid (int)
+- location (String)
+- description (String)
+- label (String)
+- pinned (boolean)
+- sub-notes (JSONArray of int)
 
 ## Users:
 - id (int)
