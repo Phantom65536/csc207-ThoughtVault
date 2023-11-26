@@ -26,8 +26,7 @@ public class SignUpInteractor implements SignUpInputBoundary{
         signUpPresenter.prepareSuccessView(newUser.getUserid());
     }
 
-    @Override
-    public String hashPassword(String password) {
+    public static String hashPassword(String password) {
         return BCrypt.with(BCrypt.Version.VERSION_2Y).hashToString(6, password.toCharArray());
     }
 }
