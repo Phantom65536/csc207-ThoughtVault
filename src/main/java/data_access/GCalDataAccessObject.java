@@ -16,29 +16,28 @@ import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
 public class GCalDataAccessObject implements GCalEventDataAccessInterface {
-    private final Calendar calendar;
-    private final String calendarId;
+    private Calendar calendar = null;
+    private String calendarId = null;
     private static final String APPLICATION_NAME = "Thought Vault";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
+    public GCalDataAccessObject() {
+    }
 
     /**
-    Assume that there is only ONE calendar.
-    **/
-    public GCalDataAccessObject(Credential credential) throws GeneralSecurityException, IOException {
+     * Assume that there is only ONE calendar.
+     **/
+    public void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
         Calendar service =
@@ -63,18 +62,15 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
     }
 
     public boolean eventExists(String eventId) throws IOException {
+        if (calendar == null)
+            return false;
         return calendar.events().get(calendarId, eventId).execute().getId() != null;
     }
 
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, String jsonCredentials)
             throws IOException {
-        // Load client secrets.
-        InputStream in = GCalDataAccessObject.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
         GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+                GoogleClientSecrets.load(JSON_FACTORY, new StringReader(jsonCredentials));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
