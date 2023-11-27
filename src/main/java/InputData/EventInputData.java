@@ -33,4 +33,47 @@ public class EventInputData {
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public LabelCat getLabel() {
+        return label;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public ArrayList<Integer> getDescendantsID() {
+        return descendantsID;
+    }
+    public boolean getPinned() {
+        return pinned;
+    }
 }
