@@ -1,4 +1,4 @@
-package use_case;
+package InputData;
 
 public class GCalEventInputData {
 }
