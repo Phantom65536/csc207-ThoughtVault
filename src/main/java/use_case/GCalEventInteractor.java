@@ -1,5 +1,6 @@
 package use_case;
 
+import OutputData.GCalEventOutputData;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
