@@ -1,6 +1,6 @@
 package interface_adapter.gcalevent;
 
-import use_case.external_event.ExternalEventInputBoundary;
+import use_case.ExternalEventInputBoundary;
 
 import java.io.IOException;
 
