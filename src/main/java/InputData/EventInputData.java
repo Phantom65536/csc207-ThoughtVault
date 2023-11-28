@@ -8,15 +8,16 @@ import java.util.ArrayList;
 
 public class EventInputData {
     private final int ID;
-    private String title;
+    private final String title;
     private final int userID;
-    private String location;
-    private String description;
-    private boolean pinned;
-    private ArrayList<Integer> descendantsID;
-    private LocalDate date;
+    private final String location;
+    private final String description;
+    private final boolean pinned;
+    private final ArrayList<Integer> subEvents;
+    private final LocalDate date;
     private LocalTime startTime = LocalTime.MIDNIGHT;                 // default starttime when user specifies whole-day
     private LocalTime endTime = LocalTime.of(23, 59);
+    private final boolean isWork;
     public EventInputData (int ID, String title, int userID, LocalDate date, LocalTime startTime, LocalTime endTime,
                            String location, String description, boolean isWork, boolean pinned, ArrayList<Integer> subEvents) {
         this.ID = ID;
@@ -28,6 +29,8 @@ public class EventInputData {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.isWork = isWork;
+        this.subEvents = subEvents;
     }
 
     public int getID() {
@@ -62,10 +65,14 @@ public class EventInputData {
         return startTime;
     }
 
-    public ArrayList<Integer> getDescendantsID() {
-        return descendantsID;
+    public ArrayList<Integer> getSubEvents() {
+        return subEvents;
     }
     public boolean getPinned() {
         return pinned;
+    }
+
+    public boolean getIsWork() {
+        return isWork;
     }
 }
