@@ -14,7 +14,7 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
-import use_case.GCalEventDataAccessInterface;
+import use_case.gcalevent.GCalEventDataAccessInterface;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class GCalDataAccessObject implements GCalEventDataAccessInterface {
-    private Calendar calendar = null;
-    private String calendarId = null;
+    private final Calendar calendar;
+    private final String calendarId;
     private static final String APPLICATION_NAME = "Thought Vault";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -34,12 +34,11 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    public GCalDataAccessObject() {}
 
     /**
     Assume that there is only ONE calendar.
     **/
-    public void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException {
+    public GCalDataAccessObject(Credential credential) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
         Calendar service =
@@ -64,12 +63,10 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
     }
 
     public boolean eventExists(String eventId) throws IOException {
-        if (calendar == null)
-            return false;
         return calendar.events().get(calendarId, eventId).execute().getId() != null;
     }
 
-    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
         // Load client secrets.
         InputStream in = GCalDataAccessObject.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
