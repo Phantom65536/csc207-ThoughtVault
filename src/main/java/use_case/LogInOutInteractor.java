@@ -33,7 +33,12 @@ public class LogInOutInteractor implements LogInOutInputBoundary{
 
     @Override
     public void logOut() {
-        // potentially reset gcalDAO's cal to null
+        gcalDAO.resetUserCalendar();
         logInOutPresenter.logOutSuccessView();
+    }
+
+    @Override
+    public void switchToSignup() {
+        logInOutPresenter.switchToSignup();
     }
 }

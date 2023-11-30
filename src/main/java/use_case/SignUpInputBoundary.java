@@ -4,4 +4,5 @@ import InputData.SignUpInputData;
 
 public interface SignUpInputBoundary {
     void createUser(SignUpInputData inputData);
+    void switchtoLogin();
 }
