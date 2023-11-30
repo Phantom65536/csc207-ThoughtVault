@@ -55,6 +55,11 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
 
     }
 
+    public void resetUserCalendar() {
+        calendar = null;
+        calendarId = null;
+    }
+
     public Calendar getCalendar() {
         return calendar;
     }
