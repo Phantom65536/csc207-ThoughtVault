@@ -1,6 +1,7 @@
 package data_access;
 
-import entity.LocalEvent;
+import entity.Event;
+import entity.NoteInterface;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,13 +20,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventsDataAccessObject implements EventsDataAccessInterface {
-    private final Map<Integer, LocalEvent> events = new HashMap<>();
+public class NoteDataAccessObject implements NoteDataAccessInterface {
+    private final Map<String, NoteInterface> notes = new HashMap<>();
     private final File jsonFile;
     private int lastID = 0;
 
     @SuppressWarnings("unchecked")
-    public EventsDataAccessObject(String jsonPath) throws IOException, ParseException {
+    public NoteDataAccessObject(String jsonPath) throws IOException, ParseException {
         jsonFile = new File(jsonPath);
 
         if (jsonFile.length() == 0) {
@@ -59,17 +60,17 @@ public class EventsDataAccessObject implements EventsDataAccessInterface {
         for (Long eventLongID : (ArrayList<Long>) eventsJSONArr)
             eventsList.add(eventLongID.intValue());
 
-        events.put(eventID, new LocalEvent(eventID, title, userID, date, startTime, endTime, location, description, labelIsWork, pinned, eventsList));
+        events.put(eventID, new Event(title, userID, date, startTime, endTime, location, description, labelIsWork, pinned, eventsList));
         lastID = eventID;
     }
 
-    public LocalEvent getByID(int eventID) {
-        return events.get(eventID);
+    public NoteInterface getByTitle(String title) {
+        return notes.get(title);
     }
 
     // Get all events associated with a user
-    public ArrayList<LocalEvent> getAllUserEvents(int userID) {
-        ArrayList<LocalEvent> userEventsID = new ArrayList<>();
+    public ArrayList<Event> getAllUserEvents(int userID) {
+        ArrayList<Event> userEventsID = new ArrayList<>();
         for (int id : events.keySet())
             if (events.get(id).getUserID() == userID)
                 userEventsID.add(events.get(id));
@@ -80,13 +81,13 @@ public class EventsDataAccessObject implements EventsDataAccessInterface {
         return ++lastID;
     }
 
-    public void save(LocalEvent event) {
+    public void save(Event event) {
         events.put(event.getID(), event);
         save();
     }
 
     public void delete(int eventID) {
-        LocalEvent rmEvent = events.remove(eventID);
+        Event rmEvent = events.remove(eventID);
         if (rmEvent == null)
             return;
         // If this event is a child of any other event, remove this event's id in its parent's sub-events
@@ -140,17 +141,17 @@ public class EventsDataAccessObject implements EventsDataAccessInterface {
 
     // for testing only
     public static void main(String[] args) throws IOException, ParseException {
-        EventsDataAccessObject dao = new EventsDataAccessObject("./testEvent.json");
+        NoteDataAccessObject dao = new NoteDataAccessObject("./testEvent.json");
 
-        LocalEvent firstEvent = new LocalEvent(dao.getNewID(), "first", 0, LocalDate.parse("2023-11-09"), LocalTime.NOON, LocalTime.parse("20:00"),
+        Event firstEvent = new Event(dao.getNewID(), "first", 0, LocalDate.parse("2023-11-09"), LocalTime.NOON, LocalTime.parse("20:00"),
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
         dao.save(firstEvent);
-        dao.save(new LocalEvent(dao.getNewID(), "second", 0, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("11:00"),
+        dao.save(new Event(dao.getNewID(), "second", 0, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("11:00"),
                 "TA guy's toilet", "There is no way this is not a description.", true, true, new ArrayList<>(Arrays.asList(firstEvent.getID(), 1000))));
-        dao.save(new LocalEvent(dao.getNewID(), "third", 0, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("23:59"),
+        dao.save(new Event(dao.getNewID(), "third", 0, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("23:59"),
                 "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>(Arrays.asList(0, firstEvent.getID()))));
 
-        LocalEvent otherUserEvent = new LocalEvent(dao.getNewID(), "another user", 1, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("23:59"),
+        Event otherUserEvent = new Event(dao.getNewID(), "another user", 1, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("23:59"),
                 "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>());
         dao.save(otherUserEvent);
 
@@ -158,7 +159,7 @@ public class EventsDataAccessObject implements EventsDataAccessInterface {
                 "Garbage chute :(((", "EDITED DESCRIPTION T_T", true, true, new ArrayList<>());
         dao.save(otherUserEvent);
 
-        ArrayList<LocalEvent> user0Events = dao.getAllUserEvents(0);
+        ArrayList<Event> user0Events = dao.getAllUserEvents(0);
         dao.delete(firstEvent.getID());
     }
 }
