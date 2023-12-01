@@ -16,14 +16,14 @@ public class SignUpInteractor implements SignUpInputBoundary{
     @Override
     public void createUser(SignUpInputData inputData) {
         if (userDataAccessObject.getUserByUsername(inputData.getUsername()) != null) {
-            signUpPresenter.prepareFailView("This username is already taken.");
+            signUpPresenter.prepareFailView("This username is already taken.", SignUpOutputBoundary.ErrorType.USERNAME);
         } else if (!inputData.getPassword().equals(inputData.getRepeatPassword())) {
-            signUpPresenter.prepareFailView("The password you entered does not match your repeated password.");
+            signUpPresenter.prepareFailView("The password you entered does not match your repeated password.", SignUpOutputBoundary.ErrorType.PASSWORD);
         } // checks if credentials json string is valid
         String hashedPw = hashPassword(inputData.getPassword());
         User newUser = new User(userDataAccessObject.getNewID(), inputData.getUsername(), hashedPw, inputData.getAPIKEy());
         userDataAccessObject.save(newUser);
-        signUpPresenter.prepareSuccessView(newUser.getUserid());
+        signUpPresenter.prepareSuccessView(newUser.getUsername());
     }
 
     @Override

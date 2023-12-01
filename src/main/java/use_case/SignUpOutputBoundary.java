@@ -1,7 +1,8 @@
 package use_case;
 
 public interface SignUpOutputBoundary {
-    void prepareSuccessView(int userid);
-    void prepareFailView(String error);
+    enum ErrorType {USERNAME, PASSWORD, CREDENTIALS};
+    void prepareSuccessView(String username);
+    void prepareFailView(String error, ErrorType errorType);
     void switchToLogin();
 }

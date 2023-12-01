@@ -1,7 +1,6 @@
 package use_case;
 
 import InputData.LoginInputData;
-import com.google.api.client.auth.oauth2.Credential;
 import data_access.GCalDataAccessObject;
 import entity.User;
 
@@ -22,12 +21,12 @@ public class LogInOutInteractor implements LogInOutInputBoundary{
     public void logIn(LoginInputData inputData) throws java.security.GeneralSecurityException, IOException {
         User currUser = userDataAccessObject.getUserByUsername(inputData.getUsername());
         if (currUser == null) {
-            logInOutPresenter.prepareFailView("This user does not exist.");
+            logInOutPresenter.prepareFailView("This user does not exist.", LogInOutOutputBoundary.ErrorType.USERNAME);
         } else if (!SignUpInteractor.hashPassword(inputData.getPassword()).equals(currUser.getHashedPassword())) {
-            logInOutPresenter.prepareFailView("Password incorrect.");
+            logInOutPresenter.prepareFailView("Password incorrect.", LogInOutOutputBoundary.ErrorType.PASSWORD);
         }
-        Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());
-        gcalDAO.setUserCalendar(retrievedCred);
+//        Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());
+//        gcalDAO.setUserCalendar(retrievedCred);
         logInOutPresenter.logInSuccessView(currUser.getUserid());
     }
 
