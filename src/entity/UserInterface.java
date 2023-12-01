@@ -1,7 +1,9 @@
 package entity;
 
-import java.util.HashMap;
+import java.util.Calendar;
 
 public interface UserInterface {
-    HashMap<String, Object> getAllAttributes();
+    String getUserID();
+    Calendar getCalendar();
+    CredentialsInterface getCredentials();
 }
