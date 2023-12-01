@@ -14,4 +14,8 @@ public class SignUpController {
         SignUpInputData inputData = new SignUpInputData(username, password, repeatedPw, credentialsJSON);
         signUpInteractor.createUser(inputData);
     }
+
+    public void switchToLoginView() {
+        signUpInteractor.switchtoLogin();
+    }
 }

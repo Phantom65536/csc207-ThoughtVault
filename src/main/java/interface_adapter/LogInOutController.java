@@ -21,4 +21,8 @@ public class LogInOutController {
     public void logOut() {
         logInOutInteractor.logOut();
     }
+
+    public void switchToSignupView() {
+        logInOutInteractor.switchToSignup();
+    }
 }
