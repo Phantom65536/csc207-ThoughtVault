@@ -1,7 +1,5 @@
 package use_case.user;
 
-import input_data.LoginInputData;
-
 import java.io.IOException;
 
 public interface LogInOutInputBoundary {
