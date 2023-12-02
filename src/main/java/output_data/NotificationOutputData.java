@@ -1,4 +1,4 @@
-package OutputData;
+package output_data;
 
 import java.util.ArrayList;
 

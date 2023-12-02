@@ -1,4 +1,4 @@
-package use_case;
+package use_case.gcalevent;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;

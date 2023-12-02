@@ -1,7 +1,7 @@
-package interface_adapter;
+package interface_adapter.log_in_out;
 
-import InputData.LoginInputData;
-import use_case.LogInOutInputBoundary;
+import input_data.LoginInputData;
+import use_case.user.LogInOutInputBoundary;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

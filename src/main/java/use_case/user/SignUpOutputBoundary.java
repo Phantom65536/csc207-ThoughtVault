@@ -1,4 +1,4 @@
-package use_case;
+package use_case.user;
 
 public interface SignUpOutputBoundary {
     enum ErrorType {USERNAME, PASSWORD, CREDENTIALS};

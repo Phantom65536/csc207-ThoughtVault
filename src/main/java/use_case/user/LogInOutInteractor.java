@@ -1,6 +1,6 @@
-package use_case;
+package use_case.user;
 
-import InputData.LoginInputData;
+import input_data.LoginInputData;
 import data_access.GCalDataAccessObject;
 import entity.User;
 

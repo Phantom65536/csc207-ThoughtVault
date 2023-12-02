@@ -1,4 +1,4 @@
-package InputData;
+package input_data;
 
 public class SignUpInputData {
     private final String userName;

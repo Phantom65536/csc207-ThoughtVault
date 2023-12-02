@@ -1,4 +1,4 @@
-package use_case;
+package use_case.gcalevent;
 
 public interface GCalEventOutputBoundary {
     void prepareSuccessView(GCalEventOutputData gCalEventOutputData);

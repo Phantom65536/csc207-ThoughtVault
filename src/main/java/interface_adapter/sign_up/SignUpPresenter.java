@@ -1,6 +1,9 @@
-package interface_adapter;
+package interface_adapter.sign_up;
 
-import use_case.SignUpOutputBoundary;
+import interface_adapter.ViewManagerModel;
+import interface_adapter.log_in_out.LogInState;
+import interface_adapter.log_in_out.LogInViewModel;
+import use_case.user.SignUpOutputBoundary;
 
 public class SignUpPresenter implements SignUpOutputBoundary {
     private final LogInViewModel logInViewModel;

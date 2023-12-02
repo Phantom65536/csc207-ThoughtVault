@@ -1,6 +1,6 @@
-package use_case;
+package use_case.user;
 
-import InputData.SignUpInputData;
+import input_data.SignUpInputData;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import entity.User;
 

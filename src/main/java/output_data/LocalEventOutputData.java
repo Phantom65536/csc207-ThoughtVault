@@ -1,6 +1,4 @@
-package OutputData;
-
-import entity.LocalEvent;
+package output_data;
 
 import java.util.ArrayList;
 
