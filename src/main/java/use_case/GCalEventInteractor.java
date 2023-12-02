@@ -1,4 +1,4 @@
-package use_case.gcalevent;
+package use_case;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
@@ -6,7 +6,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import entity.LocalEvent;
-import use_case.EntriesDataAccessInterface;
+import use_case.GCalEventInputBoundary;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -81,8 +81,8 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         return true;
     }
 
-    public ArrayList<Event> getAllEvents() throws IOException {
-        ArrayList<Event> listOfEvents = new ArrayList<>();
+    public ArrayList<GCalEventOutputData> getAllEvents() throws IOException {
+        ArrayList<GCalEventOutputData> listOfEvents = new ArrayList<>();
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
         String pageToken = null;
@@ -91,7 +91,8 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
             Events events = calendar.events().list(calendarId).setPageToken(pageToken).execute();
             List<Event> items = events.getItems();
             for (Event event : items) {
-                listOfEvents.add(event);
+                GCalEventOutputData outputData = new GCalEventOutputData(event.getId(), calendar);
+                listOfEvents.add(outputData);
                 System.out.println(event.getSummary());
             }
             pageToken = events.getNextPageToken();

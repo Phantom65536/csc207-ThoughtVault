@@ -1,36 +1,43 @@
 # Initial Design
 ## Entities (from project blueprint and incorporated comments from TA)
+<<<<<<< HEAD
 LocalEvent:
+=======
+Note: 
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
 - ID (int): Unique identifier of the event [IDENTIFIER]
 - Name (string): The title or name of the event
 - User (UserID): The user that this event belongs to
-- Date (java.time.LocalDate): The date of the event
-- StartTime (java.time.LocalTime): The time when the event occurs (default value: 00:00)
-- EndTime (java.time.LocalTime): The time when the event ends (default value: 23:59)
 - Location (String): The physical location or the virtual meeting link of the event
 - Description (String): A description of the event
 - Label (enum): Label or category associated with the event (default enum values: personal or work)
 - Pinned (boolean): Indicates whether the event is pinned for quick access
 - Sub-events (ArrayList of EventID): The child events of this event
 
+<<<<<<< HEAD
 *Note:*
+=======
+*Reminders:* 
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
 1) *Sub-events have same structure as events*
 2) *Let's not deal with recurring events first (possibly imported from Google Calendar)*
 3) *Event is displayed as "all-day" if StartTime and EndTime are indicated as 00:00 and 23:59 respectively*
 
-Notification:
-- Event (EventID): ID of event object [IDENTIFIER]
-- Occurences (ArrayList of java.time.LocalDateTime): The list of when to notify the user of this event
-
-LocalCredentials:
-- User (UserID): ID of user object [IDENTIFIER]
-- Username (String): Username of the user used during login
-- Password (byte[]): The hashed password string
-- Credential (Credential): Credential object to interact with user's google calendar via OAuth client ID.
+LocalEvent (inheriting Note):
+- Date (java.time.LocalDate): The date of the event
+- StartTime (java.time.LocalTime): The time when the event occurs (default value: 00:00 when user didn't specify time)
+- EndTime (java.time.LocalTime): The time when the event ends (default value: 23:59 when user didn't specify time)
 
 User:
+<<<<<<< HEAD
 - ID (int): Unique identifier for each user [IDENTIFIER]
 - Name (string): Name of the user
+=======
+- ID (UserID): ID of user object [IDENTIFIER]
+- Username (String): Username of the user used during login
+- Password (byte[]): The hashed password string
+- Credential (String): Credential JSON object from the user's credentials.json file they uploaded to access their Google account
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
 
 ## Classes and methods
 Use case interactors:
@@ -91,9 +98,15 @@ Data Input classes:
     - Constructor assigning values to all instance attributes
     - A method for returning values of all instance attributes
 - Signup input data:
+<<<<<<< HEAD
     - Private instance attributes: Name, Username, Password, RepeatPassword, Credentials
     - Constructor assigning these
     - A method for returning these
+=======
+  - Private instance attributes: Username, Password, RepeatPassword, Credentials String
+  - Constructor assigning these
+  - A method for returning these
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
 - Login input data:
     - Private instance attributes: Username, Password
     - Constructor assigning these
@@ -116,15 +129,30 @@ Output Data classes:
     - Private instance attribute: all instance attributes in LocalEvent/Notification
     - Eventid and its corresponding name for associated event in Notification and sub-events in LocalEvent
 - User output data:
+<<<<<<< HEAD
     - Private instance attributes: Name, UserID, GcalID associated with them
 
+=======
+  - Private instance attributes: UserID, username associated with them
+ 
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
 Presenters and Output Boundaries:
 
 View models and Views (Details of each view described in README.md):
-- Calendar view
 - Listed view
+<<<<<<< HEAD
 - Detailed view of an event (specific notifications can be configured here)
 - Add/Edit view of an event (only details associated with the entity Event can be augmented here)
 - General Notifications settings
 - Signup view
 - Login view
+=======
+- Edit view for note
+- Edit view for event 
+- Login view (elsie)
+- Sign up view (elsie)
+- Add view for note
+- Add view for event 
+- Import event view (annie)
+- Export event view (annie)
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b

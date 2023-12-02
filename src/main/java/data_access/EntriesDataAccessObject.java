@@ -3,32 +3,24 @@ package data_access;
 import entity.Note;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-<<<<<<< HEAD
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import use_case.EntriesDataAccessInterface;
 
 import java.io.File;
 import java.io.FileReader;
-=======
-import org.json.simple.parser.ParseException;
-
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-public class NotesDataAccessObject<T extends Note> implements EntriesDataAccessInterface<T> {
+abstract public class EntriesDataAccessObject<T extends Note> implements EntriesDataAccessInterface<T> {
     final Map<Integer, T> entries = new HashMap<>();
     final File jsonFile;
     int lastID = 0;
 
-    public NotesDataAccessObject(String jsonPath) throws IOException, ParseException {
+    public EntriesDataAccessObject(String jsonPath) throws IOException, ParseException {
         jsonFile = new File(jsonPath);
 
         if (jsonFile.length() == 0) {
@@ -43,29 +35,10 @@ public class NotesDataAccessObject<T extends Note> implements EntriesDataAccessI
                 entriesList.forEach(ent -> parseEntryObj((JSONObject) ent));
             }
         }
-=======
-
-public class NotesDataAccessObject extends EntriesDataAccessObject<Note> {
-    public NotesDataAccessObject(String jsonFile) throws IOException, ParseException {
-        super(jsonFile);
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
     }
 
-    void parseEntryObj(JSONObject entryJSON) {
-        JSONArray notesJSONArr = (JSONArray) entryJSON.get("sub-notes");
-        ArrayList<Integer> notesList = parseSubEntries(notesJSONArr);
+    abstract void parseEntryObj(JSONObject entryJSON);
 
-        int noteID = parseEntryID(entryJSON);
-<<<<<<< HEAD
-        entries.put(noteID, (T) new Note(noteID, parseTitle(entryJSON), parseUserID(entryJSON), parseLocation(entryJSON),
-=======
-        entries.put(noteID, new Note(noteID, parseTitle(entryJSON), parseUserID(entryJSON), parseLocation(entryJSON),
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
-                parseDescription(entryJSON), parseLabel(entryJSON), parsePinned(entryJSON), notesList));
-        lastID = noteID;
-    }
-
-<<<<<<< HEAD
     int parseEntryID(JSONObject entryJSON) {
         return ((Long) entryJSON.get("id")).intValue();
     }
@@ -97,7 +70,7 @@ public class NotesDataAccessObject extends EntriesDataAccessObject<Note> {
     ArrayList<Integer> parseSubEntries(JSONArray subEntriesJSON) {
         ArrayList<Integer> entriesList = new ArrayList<>();
         for (Long eventLongID : (ArrayList<Long>) subEntriesJSON)
-            entriesList.add(eventLongID.intValue());
+            entriesList.add(eventLongID.intValue()); 
         return entriesList;
     }
 
@@ -146,30 +119,8 @@ public class NotesDataAccessObject extends EntriesDataAccessObject<Note> {
         return ++lastID;
     }
 
-=======
-    @SuppressWarnings("unchecked")
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
-    void save() {
-        try (FileWriter writer = new FileWriter(jsonFile)) {
-            // Write every entry in the entries map to jsonFile
-            JSONArray allEntriesJSON = new JSONArray();
-            for (int id : entries.keySet()) {
-                JSONObject entryDetails = putEntryDetails(id);
+    abstract void save();
 
-                JSONArray subNotesJSON = new JSONArray();
-                subNotesJSON.addAll(entries.get(id).getDescendants());
-                entryDetails.put("sub-notes", subNotesJSON);
-
-                allEntriesJSON.add(entryDetails);
-            }
-            writer.write(allEntriesJSON.toJSONString());
-            writer.flush();
-        } catch (IOException e) {
-            throw new RuntimeException((e));
-        }
-    }
-
-<<<<<<< HEAD
     JSONObject putEntryDetails(int entryID) {
         JSONObject entryDetails = new JSONObject();
         entryDetails.put("id", entries.get(entryID).getID());
@@ -181,35 +132,4 @@ public class NotesDataAccessObject extends EntriesDataAccessObject<Note> {
         entryDetails.put("pinned", entries.get(entryID).getPinned());
         return entryDetails;
     }
-
-    public static void main(String[] args) throws IOException, ParseException {
-        NotesDataAccessObject<Note> dao = new NotesDataAccessObject<>("./testNotes.json");
-=======
-    public static void main(String[] args) throws IOException, ParseException {
-        NotesDataAccessObject dao = new NotesDataAccessObject("./testNotes.json");
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
-
-        Note firstNote = new Note(dao.getNewID(), "first", 0,
-                "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
-        dao.save(firstNote);
-        dao.save(new Note(dao.getNewID(), "second", 0,
-                "TA guy's toilet", "There is no way this is not a description.", true, true, new ArrayList<>(Arrays.asList(firstNote.getID(), 1000))));
-        dao.save(new Note(dao.getNewID(), "third", 0,
-                "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>(Arrays.asList(0, firstNote.getID()))));
-
-        Note otherUserEvent = new Note(dao.getNewID(), "another user", 1,
-                "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>());
-        dao.save(otherUserEvent);
-
-        otherUserEvent.amendAllAttributes("another user edited",
-                "Garbage chute :(((", "EDITED DESCRIPTION T_T", true, true, new ArrayList<>());
-        dao.save(otherUserEvent);
-
-        ArrayList<Note> user0Events = dao.getAllUserEntries(0);
-        dao.delete(firstNote.getID());
-    }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b

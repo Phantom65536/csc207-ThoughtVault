@@ -14,7 +14,7 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
-import use_case.gcalevent.GCalEventDataAccessInterface;
+import use_case.GCalEventDataAccessInterface;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
@@ -34,8 +34,13 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
     public GCalDataAccessObject() {}
 
     /**
+<<<<<<< HEAD
      Assume that there is only ONE calendar.
      **/
+=======
+    Assume that there is only ONE calendar.
+    **/
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
     public void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -71,10 +76,22 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
         return calendar.events().get(calendarId, eventId).execute().getId() != null;
     }
 
+<<<<<<< HEAD
     public static Credential getCredentials(String jsonCredentials) {
         try {
             GoogleClientSecrets clientSecrets =
                     GoogleClientSecrets.load(JSON_FACTORY, new StringReader(jsonCredentials));
+=======
+    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+            throws IOException {
+        // Load client secrets.
+        InputStream in = GCalDataAccessObject.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        if (in == null) {
+            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+        }
+        GoogleClientSecrets clientSecrets =
+                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+>>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
 
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
