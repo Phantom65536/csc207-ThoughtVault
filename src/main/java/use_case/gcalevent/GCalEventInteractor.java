@@ -1,22 +1,31 @@
 package use_case.gcalevent;
 
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
-import use_case.external_event.ExternalEventInputBoundary;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
+import entity.LocalEvent;
+import use_case.EntriesDataAccessInterface;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.Date;
 
-public class GCalEventInteractor implements ExternalEventInputBoundary {
+public class GCalEventInteractor implements GCalEventInputBoundary {
     final GCalEventDataAccessInterface userDataAccessObject;
     final GCalEventOutputBoundary gCalEventPresenter;
+    final EntriesDataAccessInterface entriesDataAccessObject;
 
     public GCalEventInteractor(GCalEventDataAccessInterface userDataAccessObject,
-                               GCalEventOutputBoundary gCalEventPresenter) {
+                               GCalEventOutputBoundary gCalEventPresenter,
+                               EntriesDataAccessInterface entriesDataAccessObject) {
         this.userDataAccessObject = userDataAccessObject;
         this.gCalEventPresenter = gCalEventPresenter;
+        this.entriesDataAccessObject = entriesDataAccessObject;
     }
 
     @Override
@@ -39,15 +48,34 @@ public class GCalEventInteractor implements ExternalEventInputBoundary {
     }
 
     @Override
-    public boolean exportEvent(String localEventId) throws IOException {
+    public boolean exportEvent(int localEventId) throws IOException {
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
+        LocalEvent localEvent = (LocalEvent) entriesDataAccessObject.getByID(localEventId);
 
-        Event event = calendar.events().get(calendarId, localEventId).execute();
-        Event importedEvent = calendar.events().calendarImport(calendarId, event).execute();
+        Event exportedEvent = new Event();
+        exportedEvent.setICalUID(calendarId);
+
+        LocalDateTime startDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getStartEndTIme()[0]);
+        Date startDate = Date.from(startDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
+
+        DateTime start = new DateTime(startDate, TimeZone.getTimeZone("UTC"));
+        exportedEvent.setStart(new EventDateTime().setDateTime(start));
+
+        LocalDateTime endDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getStartEndTIme()[1]);
+        Date endDate = Date.from(endDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
+
+        DateTime end = new DateTime(endDate, TimeZone.getTimeZone("UTC"));
+        exportedEvent.setEnd(new EventDateTime().setDateTime(end));
+
+        exportedEvent.setDescription(localEvent.getDescription());
+        exportedEvent.setSummary(localEvent.getTitle());
+        exportedEvent.setLocation(localEvent.getLocation());
+
+        Event importedEvent = calendar.events().calendarImport(calendarId, exportedEvent).execute();
         System.out.println(importedEvent.getId());
 
-        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(localEventId, calendar);
+        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(importedEvent.getId(), calendar);
         gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
 
         return true;

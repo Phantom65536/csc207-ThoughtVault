@@ -51,4 +51,8 @@ public class GCalEventOutputData {
         eventAttributes.put("description", event.getDescription());
         return eventAttributes;
     }
+
+    public String getTitle() {
+        return title;
+    }
 }
