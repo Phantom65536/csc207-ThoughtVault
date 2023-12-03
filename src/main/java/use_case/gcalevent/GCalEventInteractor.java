@@ -1,7 +1,6 @@
 package use_case.gcalevent;
 
 import com.google.api.services.calendar.Calendar;
-import use_case.external_event.ExternalEventInputBoundary;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
