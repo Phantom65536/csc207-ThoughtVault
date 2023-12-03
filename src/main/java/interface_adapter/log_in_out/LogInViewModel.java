@@ -10,7 +10,6 @@ public class LogInViewModel extends ViewModel {
     public static final String USERNAME_LABEL = "Username: ";
     public static final String PASSWORD_LABEL = "Password: ";
     public static final String LOGIN_BUTTON_LABEL = "Log in";
-    public static final String CANCEL_BUTTON_LABEL = "Cancel";
     public static final String SWITCH_VIEW_LABEL = "Switch to Sign up view";
     private LogInState state = new LogInState();
 
