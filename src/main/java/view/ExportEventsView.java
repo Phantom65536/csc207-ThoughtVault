@@ -4,6 +4,7 @@ import com.google.api.services.calendar.model.Event;
 import interface_adapter.exportevents.ExportEventsController;
 import interface_adapter.exportevents.ExportEventsState;
 import interface_adapter.exportevents.ExportEventsViewModel;
+import interface_adapter.home.HomeViewModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -23,6 +24,7 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
     final JList<String> eventsList;
     final JButton exportEvents;
     private final ExportEventsController exportEventsController;
+    final JButton home;
 
     public ExportEventsView(ExportEventsViewModel exportEventsViewModel, ExportEventsController exportEventsController) {
         this.exportEventsViewModel = exportEventsViewModel;
@@ -77,9 +79,23 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
                 }
         );
 
+        home = new JButton(HomeViewModel.HOME_BUTTON_LABEL);
+        buttons.add(home);
+
+        home.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(home)){
+                            exportEventsController.switchToHome();
+                        }
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
-        this.add(eventsInfo);
+        this.add(eventsList);
         this.add(buttons);
     }
 

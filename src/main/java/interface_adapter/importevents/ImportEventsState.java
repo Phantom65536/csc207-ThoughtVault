@@ -1,14 +1,17 @@
 package interface_adapter.importevents;
 
-import com.google.api.services.calendar.model.Event;
+import use_case.GCalEventInputData;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ImportEventsState {
     private int selectedEventIndex;
-    private Event selectedEvent;
-    private List<Event> listOfEvents;
+    private GCalEventInputData selectedEvent;
+
+    private ArrayList<GCalEventInputData> listOfEvents;
+
     private String importedEventSummary = null;
+
     private String importEventError = null;
 
     public ImportEventsState(ImportEventsState copy) {
@@ -25,16 +28,16 @@ public class ImportEventsState {
         return selectedEventIndex;
     }
 
-    public Event getSelectedEvent() {
+    public GCalEventInputData getSelectedEvent() {
         return selectedEvent;
     }
 
-    public List<Event> getListOfEvents() {
+    public ArrayList<GCalEventInputData> getListOfEvents() {
         return listOfEvents;
     }
 
     public String getSelectedEventId() {
-        return selectedEvent.getId();
+        return selectedEvent.getEventId();
     }
 
     public String getImportedEventSummary(){
@@ -44,14 +47,6 @@ public class ImportEventsState {
     public String getImportEventError() {
         return importEventError;
     }
-
-    //    public String getSelectedEventTitle() {
-//        return selectedEvent.getSummary();
-//    }
-//
-//    public String getImportedEventSummary() {
-//        return importedEventSummary;
-//    }
 
     public void setSelectedEventIndex(int selectedEventIndex) {
         this.selectedEventIndex = selectedEventIndex;
@@ -68,4 +63,9 @@ public class ImportEventsState {
     public void setImportEventError(String importEventError) {
         this.importEventError = importEventError;
     }
+
+    public void setListOfEvents(ArrayList<GCalEventInputData> listOfEvents) {
+        this.listOfEvents = listOfEvents;
+    }
+
 }

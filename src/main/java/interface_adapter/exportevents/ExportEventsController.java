@@ -12,4 +12,8 @@ public class ExportEventsController {
     public void execute(int localEventId) throws IOException {
         gCalEventUseCaseInteractor.exportEvent(localEventId);
     }
+
+    public void switchToHome(){
+        gCalEventUseCaseInteractor.switchToHome();
+    }
 }

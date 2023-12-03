@@ -1,9 +1,10 @@
 package view;
 
-import com.google.api.services.calendar.model.Event;
+import interface_adapter.home.HomeViewModel;
 import interface_adapter.importevents.ImportEventsController;
 import interface_adapter.importevents.ImportEventsState;
 import interface_adapter.importevents.ImportEventsViewModel;
+import use_case.GCalEventInputData;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -22,9 +23,10 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
     final DefaultListModel<String> eventsListModel;
     final JList<String> eventsList;
     final JButton importEvents;
+    final JButton home;
     private final ImportEventsController importEventsController;
 
-    public ImportEventsView(ImportEventsViewModel importEventsViewModel, ImportEventsController controller) {
+    public ImportEventsView(ImportEventsViewModel importEventsViewModel, ImportEventsController controller) throws IOException {
 
         this.importEventsController = controller;
         this.importEventsViewModel = importEventsViewModel;
@@ -39,8 +41,9 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
         // Create a list to display events
         eventsListModel = new DefaultListModel<>();
         ImportEventsState currentState = importEventsViewModel.getState();
-        for (Event event : currentState.getListOfEvents()) {
-            eventsListModel.addElement(event.getSummary());
+        currentState.setListOfEvents(controller.getAllEvents());
+        for (GCalEventInputData event : currentState.getListOfEvents()) {
+            eventsListModel.addElement(event.getTitle());
         }
 
         eventsList = new JList<>(eventsListModel);
@@ -78,9 +81,23 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
                 }
         );
 
+        home = new JButton(HomeViewModel.HOME_BUTTON_LABEL);
+        buttons.add(home);
+
+        home.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(home)){
+                            importEventsController.switchToHome();
+                        }
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
-        this.add(eventsInfo);
+        this.add(eventsList);
         this.add(buttons);
     }
         public void actionPerformed(ActionEvent evt){

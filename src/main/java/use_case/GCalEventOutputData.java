@@ -31,6 +31,10 @@ public class GCalEventOutputData {
         this.description = (String) eventAttributes.get("description");
     }
 
+    public String getEventId() {
+        return eventId;
+    }
+
     public Event getEventById(Calendar calendar, String calendarId, String eventId) throws IOException {
         return calendar.events().get(calendarId, eventId).execute();
     }
