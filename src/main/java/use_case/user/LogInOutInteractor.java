@@ -1,5 +1,6 @@
 package use_case.user;
 
+import com.google.api.client.auth.oauth2.Credential;
 import data_access.GCalDataAccessObject;
 import entity.User;
 
@@ -24,8 +25,8 @@ public class LogInOutInteractor implements LogInOutInputBoundary{
         } else if (!SignUpInteractor.hashPassword(inputData.getPassword()).equals(currUser.getHashedPassword())) {
             logInOutPresenter.prepareFailView("Password incorrect.", LogInOutOutputBoundary.ErrorType.PASSWORD);
         }
-//        Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());
-//        gcalDAO.setUserCalendar(retrievedCred);
+        Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());
+        gcalDAO.setUserCalendar(retrievedCred);
         logInOutPresenter.logInSuccessView(currUser.getUserid());
     }
 
