@@ -28,11 +28,17 @@ User:
 
 ## Classes and methods
 Use case interactors:
+- Note Input Boundary:
+  - bool createNote(): create and save a note (make sure no descendants are the same)
+  - bool editNote(): edit an existing note and save its changes (make sure no descendants are the same)
+  - bool deleteNote(): delete an existing note
+  - Note Output Data getNode(): check whether the note belongs to the user and return its corresponding Note instance when the user wants to view its details
+  - ArrayList of Note Output Data getAllNotes(): get all notes to show in list or view
 - Local Event Input Boundary:
   - bool createEvent(): create and save an event (make sure no sub-events are the same)
   - bool editEvent(): edit an existing event and save its changes (make sure no sub-events are the same)
   - bool deleteEvent(): delete an existing event
-  - [Event Output Data, Notification Output Data] getEvent(): check whether the event belongs to the user and return its corresponding Event instance when the user wants to view its details
+  - Event Output Data getEvent(): check whether the event belongs to the user and return its corresponding Event instance when the user wants to view its details
   - ArrayList of Event Output Data getAllEvents(): get all events to show in listed or calendar view
 - External Event Input Boundary:
   - bool importEvent()
@@ -73,15 +79,14 @@ Data Access (depends on whether we implement it with database tables or JSON fil
   - Object getEntry()
   - bool addEntry()
   - bool removeEntry()
+- Note Data Access Object (associated with Note entities)
 - Event Data Access Object (associated with Event entities)
-- Notification Data Access Object (associated with Notification entities)
-  - A special row for saving general notification occurrences which applies to all events without specific notification settings
 - User Data Access Object (associated with User and Credentials entities)
 - Google Calendar Access Object
 
 Data Input classes:
 - Event/Notification input data:
-  - All instance attributes in User/Notification but make them private
+  - All instance attributes in User but make them private
   - Constructor assigning values to all instance attributes
   - A method for returning values of all instance attributes
 - Signup input data:
@@ -115,12 +120,14 @@ Output Data classes:
 Presenters and Output Boundaries:
 
 View models and Views (Details of each view described in README.md):
-- Listed view
+- List view
+- Add view for note
+- Add view for event
 - Edit view for note
-- Edit view for event 
+- Edit view for event
+- Detailed view for note
+- Detailed view for event
 - Login view (elsie)
 - Sign up view (elsie)
-- Add view for note
-- Add view for event 
 - Import event view (annie)
 - Export event view (annie)
