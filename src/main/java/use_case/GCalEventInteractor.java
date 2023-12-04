@@ -39,7 +39,7 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
             Event event = calendar.events().get(calendarId, eventId).execute();
             System.out.println(event.getSummary());
 
-            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar);
+            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar, calendarId);
             gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
 
             return true;
@@ -71,10 +71,11 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         exportedEvent.setSummary(localEvent.getTitle());
         exportedEvent.setLocation(localEvent.getLocation());
 
-        Event importedEvent = calendar.events().calendarImport(calendarId, exportedEvent).execute();
-        System.out.println(importedEvent.getId());
+        // Event importedEvent = calendar.events().calendarImport(calendarId, exportedEvent).execute();
+        exportedEvent = calendar.events().insert(calendarId, exportedEvent).execute();
+        System.out.println(exportedEvent.getId());
 
-        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(importedEvent.getId(), calendar);
+        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(exportedEvent.getId(), calendar, calendarId);
         gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
 
         return true;
@@ -87,7 +88,7 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         String pageToken = null;
 
         do {
-            Events events = calendar.events().list(calendarId).setPageToken(pageToken).execute();
+            Events events = calendar.events().list(calendarId).setMaxResults(10).setPageToken(pageToken).execute();
             List<Event> items = events.getItems();
             for (Event event : items) {
                 GCalEventInputData inputData = new GCalEventInputData(event.getId(), calendar);

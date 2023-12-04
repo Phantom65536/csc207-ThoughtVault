@@ -13,11 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-<<<<<<< HEAD
-public class EventsDataAccessObject extends NotesDataAccessObject<LocalEvent> {
-=======
 public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> {
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b
 
     public EventsDataAccessObject(String jsonPath) throws IOException, ParseException {
         super(jsonPath);
@@ -86,8 +82,4 @@ public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> 
         ArrayList<LocalEvent> user0Events = dao.getAllUserEntries(0);
         dao.delete(firstEvent.getID());
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 8a370b815b9e81e3465ed189b97b54d70909ee1b

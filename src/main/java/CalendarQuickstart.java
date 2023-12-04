@@ -11,6 +11,8 @@ import com.google.api.client.util.DateTime;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 
@@ -96,8 +98,10 @@ public class CalendarQuickstart {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        String APIkey = "{\"installed\":{\"client_id\":\"676658923300-jefh7ko5cp9n7cf92vj427ltrd0rumo4.apps.googleusercontent.com\",\"project_id\":\"thought-vault-400423\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"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\",\"redirect_uris\":[\"http://localhost\"]}}";
+
         Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, "{\"installed\":{\"client_id\":\"795633948902-lnv99a5r05977jor1cm9harbqhq4kcv2.apps.googleusercontent.com\",\"project_id\":\"thought-vault-400118\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"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\",\"redirect_uris\":[\"http://localhost\"]}}"))
+                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, APIkey))
                         .setApplicationName(APPLICATION_NAME)
                         .build();
 
@@ -105,49 +109,6 @@ public class CalendarQuickstart {
 //        List<CalendarListEntry> items = calendarList.getItems();
 //        System.out.println(items.get(0).getId());
 
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
-                .setMaxResults(10)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-
-        // The main application window.
-        JFrame application = new JFrame("ThoughtVault Example");
-        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JPanel p =new JPanel();
-
-        eventsListModel = new DefaultListModel<String>();
-        for (Event event : items) {
-            eventsListModel.addElement(event.getSummary()); // Assuming 'getSummary()' returns the event title
-        }
-//        eventsListModel.addAll(items);
-        b = new JList<>(eventsListModel);
-        b.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-//        CalendarQuickstart c = new CalendarQuickstart();
-        b.addListSelectionListener(
-                new ListSelectionListener() {
-                    @Override
-                    public void valueChanged(ListSelectionEvent e) {
-                        int selectedIndex = b.getSelectedIndex();
-                        System.out.println(selectedIndex);
-                    }
-                }
-        );
-
-        p.add(b);
-
-        application.add(p);
-
-
-        application.setSize(400,400);
-        application.show();
-
-
-        // List the next 10 events from the primary calendar.
 //        DateTime now = new DateTime(System.currentTimeMillis());
 //        Events events = service.events().list("primary")
 //                .setMaxResults(10)
@@ -156,17 +117,61 @@ public class CalendarQuickstart {
 //                .setSingleEvents(true)
 //                .execute();
 //        List<Event> items = events.getItems();
-//        if (items.isEmpty()) {
-//            System.out.println("No upcoming events found.");
-//        } else {
-//            System.out.println("Upcoming events");
-//            for (Event event : items) {
-//                DateTime start = event.getStart().getDateTime();
-//                if (start == null) {
-//                    start = event.getStart().getDate();
-//                }
-//                System.out.printf("%s (%s)\n", event.getSummary(), start);
-//            }
+//
+//        // The main application window.
+//        JFrame application = new JFrame("ThoughtVault Example");
+//        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//        JPanel p =new JPanel();
+//
+//        eventsListModel = new DefaultListModel<String>();
+//        for (Event event : items) {
+//            eventsListModel.addElement(event.getSummary()); // Assuming 'getSummary()' returns the event title
 //        }
+////        eventsListModel.addAll(items);
+//        b = new JList<>(eventsListModel);
+//        b.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//
+////        CalendarQuickstart c = new CalendarQuickstart();
+//        b.addListSelectionListener(
+//                new ListSelectionListener() {
+//                    @Override
+//                    public void valueChanged(ListSelectionEvent e) {
+//                        int selectedIndex = b.getSelectedIndex();
+//                        System.out.println(selectedIndex);
+//                    }
+//                }
+//        );
+//
+//        p.add(b);
+//
+//        application.add(p);
+//
+//
+//        application.setSize(400,400);
+//        application.show();
+
+
+        // List the next 10 events from the primary calendar.
+        DateTime now = new DateTime(System.currentTimeMillis());
+        Events events = service.events().list("primary")
+                .setMaxResults(10)
+                .setTimeMin(now)
+                .setOrderBy("startTime")
+                .setSingleEvents(true)
+                .execute();
+        List<Event> items = events.getItems();
+        if (items.isEmpty()) {
+            System.out.println("No upcoming events found.");
+        } else {
+            System.out.println("Upcoming events");
+            for (Event event : items) {
+                DateTime start = event.getStart().getDateTime();
+                if (start == null) {
+                    start = event.getStart().getDate();
+                }
+                System.out.printf("%s (%s)\n", event.getSummary(), start);
+                System.out.println(event.getId());
+            }
+        }
     }
 }
