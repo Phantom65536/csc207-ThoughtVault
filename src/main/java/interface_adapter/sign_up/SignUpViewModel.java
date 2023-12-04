@@ -9,9 +9,11 @@ public class SignUpViewModel extends ViewModel {
     public static final String TITLE_VIEW = "Log in view";
     public static final String USERNAME_LABEL = "Username: ";
     public static final String PASSWORD_LABEL = "Password: ";
-    public static final String LOGIN_BUTTON_LABEL = "Log in";
-    public static final String CANCEL_BUTTON_LABEL = "Cancel";
-    public static final String SWITCH_VIEW_LABEL = "Switch to Sign up view";
+    public static final String REPEAT_PASSWORD_LABEL = "Repeated Password: ";
+    public static final String CREDENTIALS_STRING_LABEL = "Credentials String: ";
+    public static final String CREDENTIALS_UPLOAD_LABEL = "Upload Credentials File";
+    public static final String SIGNUP_BUTTON_LABEL = "Sign up";
+    public static final String SWITCH_VIEW_LABEL = "Switch to Log in view";
     private SignUpState state = new SignUpState();
 
     public SignUpViewModel() { super("Sign up view"); }
