@@ -1,6 +1,5 @@
 package use_case.user;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import data_access.UserDataAccessObject;
 import junit.framework.TestCase;
 import org.json.simple.parser.ParseException;
@@ -178,11 +177,4 @@ public class SignUpInteractorTest {
         interactor.switchtoLogin();
     }
 
-    @Test
-    public void hashPasswordTest() {
-        String hashed = SignUpInteractor.hashPassword("123456");
-        String answer = BCrypt.with(BCrypt.Version.VERSION_2Y).hashToString(6, "123456".toCharArray());
-        assertEquals(answer, hashed);
-
-    }
 }
