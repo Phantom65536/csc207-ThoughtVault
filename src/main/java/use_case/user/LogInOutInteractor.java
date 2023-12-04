@@ -3,6 +3,7 @@ package use_case.user;
 import com.google.api.client.auth.oauth2.Credential;
 import data_access.GCalDataAccessObject;
 import entity.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ public class LogInOutInteractor implements LogInOutInputBoundary{
         User currUser = userDataAccessObject.getUserByUsername(inputData.getUsername());
         if (currUser == null) {
             logInOutPresenter.prepareFailView("This user does not exist.", LogInOutOutputBoundary.ErrorType.USERNAME);
-        } else if (!SignUpInteractor.hashPassword(inputData.getPassword()).equals(currUser.getHashedPassword())) {
+        } else if (!comparePw(inputData.getPassword(), currUser.getHashedPassword())) {
             logInOutPresenter.prepareFailView("Password incorrect.", LogInOutOutputBoundary.ErrorType.PASSWORD);
         } else {
             Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());
@@ -40,5 +41,9 @@ public class LogInOutInteractor implements LogInOutInputBoundary{
     @Override
     public void switchToSignup() {
         logInOutPresenter.switchToSignup();
+    }
+
+    private boolean comparePw(String enteredPw, String hashedPw) {
+        return BCrypt.checkpw(enteredPw, hashedPw);
     }
 }

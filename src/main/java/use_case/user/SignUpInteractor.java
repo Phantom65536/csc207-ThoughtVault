@@ -1,6 +1,6 @@
 package use_case.user;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 import data_access.GCalDataAccessObject;
 import entity.User;
 
@@ -34,7 +34,7 @@ public class SignUpInteractor implements SignUpInputBoundary{
         signUpPresenter.switchToLogin();
     }
 
-    public static String hashPassword(String password) {
-        return BCrypt.with(BCrypt.Version.VERSION_2Y).hashToString(6, password.toCharArray());
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 }
