@@ -21,11 +21,12 @@ public class SignUpInteractor implements SignUpInputBoundary{
             signUpPresenter.prepareFailView("The password you entered does not match your repeated password.", SignUpOutputBoundary.ErrorType.PASSWORD);
         } else if (GCalDataAccessObject.getCredentials(inputData.getAPIKEy()) == null) {
             signUpPresenter.prepareFailView("Invalid credentials.", SignUpOutputBoundary.ErrorType.CREDENTIALS);
+        } else {
+            String hashedPw = hashPassword(inputData.getPassword());
+            User newUser = new User(userDataAccessObject.getNewID(), inputData.getUsername(), hashedPw, inputData.getAPIKEy());
+            userDataAccessObject.save(newUser);
+            signUpPresenter.prepareSuccessView(newUser.getUsername());
         }
-        String hashedPw = hashPassword(inputData.getPassword());
-        User newUser = new User(userDataAccessObject.getNewID(), inputData.getUsername(), hashedPw, inputData.getAPIKEy());
-        userDataAccessObject.save(newUser);
-        signUpPresenter.prepareSuccessView(newUser.getUsername());
     }
 
     @Override

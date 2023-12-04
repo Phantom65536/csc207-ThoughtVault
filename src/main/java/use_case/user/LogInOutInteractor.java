@@ -24,10 +24,11 @@ public class LogInOutInteractor implements LogInOutInputBoundary{
             logInOutPresenter.prepareFailView("This user does not exist.", LogInOutOutputBoundary.ErrorType.USERNAME);
         } else if (!SignUpInteractor.hashPassword(inputData.getPassword()).equals(currUser.getHashedPassword())) {
             logInOutPresenter.prepareFailView("Password incorrect.", LogInOutOutputBoundary.ErrorType.PASSWORD);
+        } else {
+            Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());
+            gcalDAO.setUserCalendar(retrievedCred);
+            logInOutPresenter.logInSuccessView(currUser.getUserid());
         }
-        Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());
-        gcalDAO.setUserCalendar(retrievedCred);
-        logInOutPresenter.logInSuccessView(currUser.getUserid());
     }
 
     @Override
