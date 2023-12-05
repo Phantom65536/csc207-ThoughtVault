@@ -314,8 +314,7 @@ public class SignUpViewTest extends TestCase {
         jf.setVisible(true);
 
         // get a reference to the first password field
-        LabelTextPanel usernameInfoPanel = (LabelTextPanel) signupView.getComponent(4);
-        JTextField usernameField = (JTextField) usernameInfoPanel.getComponent(1);
+        JTextArea usernameField = (JTextArea) signupView.getComponent(5);
 
         // create and dispatch KeyEvents to the UI
         KeyEvent event = new KeyEvent(
@@ -326,7 +325,7 @@ public class SignUpViewTest extends TestCase {
                 KeyEvent.VK_UNDEFINED, // for KEY_TYPED, the KeyCode is undefined per documentation
                 'y'); // the character that is being typed
 
-        usernameInfoPanel.dispatchEvent(event);
+        usernameField.dispatchEvent(event);
 
 
         // pause execution for a second
@@ -350,7 +349,7 @@ public class SignUpViewTest extends TestCase {
                 KeyEvent.VK_RIGHT,
                 KeyEvent.CHAR_UNDEFINED
         );
-        usernameInfoPanel.dispatchEvent(eventRight);
+        usernameField.dispatchEvent(eventRight);
 
         // pause execution for a second
         try {
@@ -367,7 +366,7 @@ public class SignUpViewTest extends TestCase {
                 0,
                 KeyEvent.VK_UNDEFINED,
                 'z');
-        usernameInfoPanel.dispatchEvent(event2);
+        usernameField.dispatchEvent(event2);
 
 
         // pause execution for 3 seconds
@@ -403,7 +402,7 @@ public class SignUpViewTest extends TestCase {
         jf.setVisible(true);
 
         // get a reference to the first password field
-        JPanel buttonPanel = (JPanel) signupView.getComponent(5);
+        JPanel buttonPanel = (JPanel) signupView.getComponent(6);
         JButton switchToLoginButton = (JButton) buttonPanel.getComponent(1);
 
         switchToLoginButton.doClick();
@@ -506,8 +505,7 @@ public class SignUpViewTest extends TestCase {
         }
 
         // get a reference to the first password field
-        LabelTextPanel credentialPanel = (LabelTextPanel) signupView.getComponent(4);
-        JTextField credentialField = (JTextField) credentialPanel.getComponent(1);
+        JTextArea credentialField = (JTextArea) signupView.getComponent(5);
 
         // create and dispatch KeyEvents to the UI
         KeyEvent credentialEvent = new KeyEvent(
@@ -518,7 +516,7 @@ public class SignUpViewTest extends TestCase {
                 KeyEvent.VK_UNDEFINED, // for KEY_TYPED, the KeyCode is undefined per documentation
                 'y'); // the character that is being typed
 
-        credentialPanel.dispatchEvent(credentialEvent);
+        credentialField.dispatchEvent(credentialEvent);
 
 
         // pause execution for a second
@@ -529,7 +527,7 @@ public class SignUpViewTest extends TestCase {
         }
 
         // get a reference to the first password field
-        JPanel buttonPanel = (JPanel) signupView.getComponent(5);
+        JPanel buttonPanel = (JPanel) signupView.getComponent(6);
         JButton signUpButton = (JButton) buttonPanel.getComponent(0);
 
         signUpButton.doClick();
@@ -638,7 +636,7 @@ public class SignUpViewTest extends TestCase {
         }
 
         // get a reference to the first password field
-        JPanel buttonPanel = (JPanel) signupView.getComponent(5);
+        JPanel buttonPanel = (JPanel) signupView.getComponent(6);
         JButton signUpButton = (JButton) buttonPanel.getComponent(0);
 
         signUpButton.doClick();
@@ -688,7 +686,7 @@ public class SignUpViewTest extends TestCase {
         currentState.setCredentialsJSON(credential);
 
         // get a reference to the first password field
-        JPanel buttonPanel = (JPanel) signupView.getComponent(5);
+        JPanel buttonPanel = (JPanel) signupView.getComponent(6);
         JButton signUpButton = (JButton) buttonPanel.getComponent(0);
 
         signUpButton.doClick();
@@ -737,7 +735,7 @@ public class SignUpViewTest extends TestCase {
         currentState.setCredentialsJSON(credential);
 
         // get a reference to the first password field
-        JPanel buttonPanel = (JPanel) signupView.getComponent(5);
+        JPanel buttonPanel = (JPanel) signupView.getComponent(6);
         JButton signUpButton = (JButton) buttonPanel.getComponent(0);
 
         signUpButton.doClick();
@@ -786,7 +784,7 @@ public class SignUpViewTest extends TestCase {
         currentState.setCredentialsJSON("fgfhfghfghfghfghf");
 
         // get a reference to the first password field
-        JPanel buttonPanel = (JPanel) signupView.getComponent(5);
+        JPanel buttonPanel = (JPanel) signupView.getComponent(6);
         JButton signUpButton = (JButton) buttonPanel.getComponent(0);
 
         signUpButton.doClick();
@@ -807,6 +805,56 @@ public class SignUpViewTest extends TestCase {
         assertNotNull(signUpState.getCredentialsError());
 
     }
+
+    @org.junit.Test
+    public void testSignUpSuccess() throws IOException, ParseException {
+        String timeNow = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS").format(new java.util.Date());
+
+        UserDataAccessInterface userDataAccessObject = new UserDataAccessObject("src/test/resources/users"+timeNow+".json");
+
+        SignUpViewModel viewModel = new SignUpViewModel();
+        LogInViewModel loginviewModel = new LogInViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        SignUpOutputBoundary successPresenter = new SignUpPresenter(loginviewModel,viewModel,viewManagerModel);
+
+        // create the UI; note, we don't make a real SignupInputBoundary,
+        // since we don't need it for this test.
+        SignUpInputBoundary interactor = new SignUpInteractor(userDataAccessObject, successPresenter);
+
+        SignUpController controller = new SignUpController(interactor);
+
+
+        JPanel signupView = new SignUpView(viewModel, controller);
+
+        SignUpState currentState = viewModel.getState();
+        currentState.setUsername(username);
+        currentState.setPassword(password);
+        currentState.setRepeatedPassword(repeatPassword);
+        currentState.setCredentialsJSON(credential);
+
+        // get a reference to the first password field
+        JPanel buttonPanel = (JPanel) signupView.getComponent(6);
+        JButton signUpButton = (JButton) buttonPanel.getComponent(0);
+
+        signUpButton.doClick();
+
+        // pause execution for a second
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        SignUpState signUpState = viewModel.getState();
+        System.out.println("getUsername: " + signUpState.getUsername());
+        System.out.println("getPassword: " + signUpState.getPassword());
+        System.out.println("getCredentialsJSON: " + signUpState.getCredentialsJSON());
+        assertNull(signUpState.getUsernameError());
+        assertNull(signUpState.getPasswordError());
+        assertNull(signUpState.getCredentialsError());
+
+    }
+
 
 
 }
