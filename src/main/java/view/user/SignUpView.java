@@ -25,7 +25,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     private final JTextField usernameInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
-    private final JTextField credentialsStringInputField = new JTextField();
+    private final JTextArea credentialsStringInputField = new JTextArea(10, 45);
 //    private final JFileChooser credentialsFileInputField = new JFileChooser();
     private final SignUpController signUpController;
 
@@ -47,8 +47,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
                 new JLabel(SignUpViewModel.PASSWORD_LABEL), passwordInputField);
         LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
                 new JLabel(SignUpViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
-        LabelTextPanel credentialsInputInfo = new LabelTextPanel(
-                new JLabel(SignUpViewModel.CREDENTIALS_STRING_LABEL), credentialsStringInputField);
+        JLabel credentialsInputInfo = new JLabel(SignUpViewModel.CREDENTIALS_STRING_LABEL);
 
 //        credentialsFileInputField.setFileSelectionMode(JFileChooser.FILES_ONLY);
 //        credentialsFileInputField.setAcceptAllFileFilterUsed(false);
@@ -206,6 +205,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         this.add(passwordInfo);
         this.add(repeatPasswordInfo);
         this.add(credentialsInputInfo);
+        this.add(credentialsStringInputField);
         this.add(buttons);
     }
 
