@@ -387,26 +387,37 @@ public class SignUpViewTest extends TestCase {
     }
 
     @org.junit.Test
-    public void testSwitchToLoginView() {
+    public void testSwitchToLoginView() throws IOException, ParseException {
 
         // create the UI; note, we don't make a real SignupInputBoundary,
         // since we don't need it for this test.
-        SignUpInputBoundary sib = mock(SignUpInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        UserDataAccessInterface userDataAccessObject = new UserDataAccessObject("src/test/resources/users"+".json");
 
-        SignUpController controller = spy(new SignUpController(sib));
         SignUpViewModel viewModel = new SignUpViewModel();
+        LogInViewModel loginviewModel = new LogInViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+        SignUpOutputBoundary successPresenter = new SignUpPresenter(loginviewModel,viewModel,viewManagerModel);
+
+        // create the UI; note, we don't make a real SignupInputBoundary,
+        // since we don't need it for this test.
+        SignUpInputBoundary interactor = new SignUpInteractor(userDataAccessObject, successPresenter);
+
+        SignUpController controller = spy(new SignUpController(interactor));
+
+
         JPanel signupView = new SignUpView(viewModel, controller);
-        JFrame jf = new JFrame();
-        jf.setContentPane(signupView);
-        jf.pack();
-        jf.setVisible(true);
+
+        SignUpState currentState = viewModel.getState();
+        currentState.setUsername(username);
+        currentState.setPassword(password);
+        currentState.setRepeatedPassword(repeatPassword);
+        currentState.setCredentialsJSON(credential);
 
         // get a reference to the first password field
         JPanel buttonPanel = (JPanel) signupView.getComponent(6);
-        JButton switchToLoginButton = (JButton) buttonPanel.getComponent(1);
+        JButton signUpButton = (JButton) buttonPanel.getComponent(1);
 
-        switchToLoginButton.doClick();
-
+        signUpButton.doClick();
 
         // pause execution for a second
         try {
@@ -414,7 +425,6 @@ public class SignUpViewTest extends TestCase {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
 
         verify(controller, times(1)).switchToLoginView();
     }
