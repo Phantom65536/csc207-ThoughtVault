@@ -1,6 +1,7 @@
 package OutputData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NoteOutputData {
     private final int ID;
@@ -37,5 +38,45 @@ public class NoteOutputData {
         this.pinned = pinned;
 
         this.subEvents = subEvents;
+    }
+
+    public HashMap<String, Object> getNoteData() {
+        HashMap<String, Object> data = new HashMap<String, Object>();
+
+        data.put("title", getTitle());
+
+        data.put("isWork", getIsWork());
+
+        data.put("pinned", getPinned());
+
+        return data;
+    }
+
+    public boolean getPinned() {
+        return pinned;
+    }
+
+    public boolean getIsWork() {
+        return isWork;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public ArrayList<Integer> getSubEvents() {
+        return subEvents;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLocation() {
+        return location;
     }
 }

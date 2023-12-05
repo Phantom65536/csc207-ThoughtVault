@@ -22,70 +22,93 @@ public class NoteInteractor implements NoteInputBoundary {
         this.notesDataAccessObject = notesDataAccessObject;
     }
 
+    public void DisplayNoteCreationView() {
+        noteOutputBoundary.DisplayNoteCreationView();
+    }
+
     @Override
-    public void createNote(NoteInputData NoteInputData) {
+    public void DisplayNoteEditView(int noteID) {
+        Note note = notesDataAccessObject.getByID(noteID);
+
+        noteOutputBoundary.DisplayNoteEditView(new
+                NoteOutputData(note.getID(), note.getTitle(), note.getUserID(),
+                note.getLocation(), note.getDescription(), note.isWork(),
+                note.getPinned(), note.getDescendants()));
+    }
+
+    @Override
+    public void DisplayNoteDetailedView(int noteID) {
+        Note note = notesDataAccessObject.getByID(noteID);
+
+        noteOutputBoundary.DisplayNoteDetailedView(new
+                NoteOutputData(note.getID(), note.getTitle(), note.getUserID(),
+                note.getLocation(), note.getDescription(), note.isWork(),
+                note.getPinned(), note.getDescendants()));
+    }
+
+    @Override
+    public void CreateNote(NoteInputData noteInputData) {
         try {
-            Note note = new Note(NoteInputData.getID(), NoteInputData.getTitle(),
-                    NoteInputData.getUserID(), NoteInputData.getLocation(),
-                    NoteInputData.getDescription(),
-                    NoteInputData.getIsWork(), NoteInputData.getPinned(),
-                    NoteInputData.getSubEvents());
+            Note note = new Note(noteInputData.getID(), noteInputData.getTitle(),
+                    noteInputData.getUserID(), noteInputData.getLocation(),
+                    noteInputData.getDescription(),
+                    noteInputData.getIsWork(), noteInputData.getPinned(),
+                    noteInputData.getSubEvents());
 
             notesDataAccessObject.save(note);
 
-            noteOutputBoundary.CreateNoteSuccessView(NoteInputData.getTitle());
+            noteOutputBoundary.UpdateNotesList(new NoteOutputData(note.getID(),
+                    note.getTitle(), note.getUserID(), note.getLocation(),
+                    note.getDescription(), note.isWork(), note.getPinned(),
+                    note.getDescendants()));
         }
 
         catch (RuntimeException e) {
-            noteOutputBoundary.CreateNoteFailView(NoteInputData.getTitle());
+            noteOutputBoundary.NoteFailView(
+                    "Note creation failed.");
         }
     }
 
     @Override
-    public void editNote(NoteInputData NoteInputData) {
+    public void EditNote(NoteInputData noteInputData) {
         try {
-            Note note = new Note(NoteInputData.getID(), NoteInputData.getTitle(),
-                    NoteInputData.getUserID(), NoteInputData.getLocation(),
-                    NoteInputData.getDescription(), NoteInputData.getIsWork(),
-                    NoteInputData.getPinned(), NoteInputData.getSubEvents());
+            Note note = new Note(noteInputData.getID(), noteInputData.getTitle(),
+                    noteInputData.getUserID(), noteInputData.getLocation(),
+                    noteInputData.getDescription(), noteInputData.getIsWork(),
+                    noteInputData.getPinned(), noteInputData.getSubEvents());
 
             notesDataAccessObject.delete(note.getID());
 
             notesDataAccessObject.save(note);
 
-            noteOutputBoundary.EditNoteSuccessView(NoteInputData.getTitle());
+            noteOutputBoundary.UpdateNotesList(new NoteOutputData(note.getID(),
+                    note.getTitle(), note.getUserID(), note.getLocation(),
+                    note.getDescription(), note.isWork(), note.getPinned(),
+                    note.getDescendants()));
         }
 
         catch (RuntimeException e) {
-            noteOutputBoundary.EditNoteFailView(NoteInputData.getTitle());
+            noteOutputBoundary.NoteFailView(
+                    "Note editing failed.");
         }
     }
 
     @Override
-    public void deleteNote(int NoteID) {
+    public void DeleteNote(int noteID) {
         try {
-            notesDataAccessObject.delete(NoteID);
+            notesDataAccessObject.delete(noteID);
 
-            noteOutputBoundary.DeleteNoteSuccessView();
+            noteOutputBoundary.DeleteNoteSuccessView(noteID);
         }
 
         catch (RuntimeException e) {
-            noteOutputBoundary.DeleteNoteFailView();
+            noteOutputBoundary.NoteFailView(
+                    "Note deletion failed.");
         }
     }
 
     @Override
-    public void getNote(int NoteID) {
-        Note note = notesDataAccessObject.getByID(NoteID);
-
-        noteOutputBoundary.DisplayNote(new NoteOutputData(note.getID(),
-                note.getTitle(), note.getUserID(), note.getLocation(),
-                note.getDescription(), note.isWork(), note.getPinned(),
-                note.getDescendants()));
-    }
-
-    @Override
-    public void getAllNotes(int userID) {
+    public void GetAllNotes(int userID) {
         ArrayList<NoteOutputData> noteOutputDataArrayList = new ArrayList<>();
 
         for (Note note : notesDataAccessObject.getAllUserEntries(userID)) {

@@ -2,7 +2,7 @@ package use_case;
 
 import InputData.EventInputData;
 
-import OutputData.EventOutputData;
+import OutputData.LocalEventOutputData;
 
 import data_access.EventsDataAccessObject;
 
@@ -24,7 +24,34 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
     }
 
     @Override
-    public void createEvent(EventInputData eventInputData) {
+    public void DisplayEventCreationView() {
+        localEventOutputBoundary.DisplayEventCreationView();
+    }
+
+    @Override
+    public void DisplayEventEditView(int eventID) {
+        LocalEvent event = eventsDataAccessObject.getByID(eventID);
+
+        localEventOutputBoundary.DisplayEventEditView(new
+                LocalEventOutputData(event.getID(), event.getTitle(),
+                event.getUserID(), event.getDate(), event.getStartTime(),
+                event.getEndTime(), event.getLocation(), event.getDescription(),
+                event.isWork(), event.getPinned(), event.getDescendants()));
+    }
+
+    @Override
+    public void DisplayEventDetailedView(int eventID) {
+        LocalEvent event = eventsDataAccessObject.getByID(eventID);
+
+        localEventOutputBoundary.DisplayEventDetailedView(new
+                LocalEventOutputData(event.getID(), event.getTitle(),
+                event.getUserID(), event.getDate(), event.getStartTime(),
+                event.getEndTime(), event.getLocation(), event.getDescription(),
+                event.isWork(), event.getPinned(), event.getDescendants()));
+    }
+
+    @Override
+    public void CreateEvent(EventInputData eventInputData) {
         try {
             LocalEvent event = new LocalEvent(eventInputData.getID(),
                     eventInputData.getTitle(), eventInputData.getUserID(),
@@ -35,18 +62,23 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
 
             eventsDataAccessObject.save(event);
 
-            localEventOutputBoundary.CreateEventSuccessView(
-                    eventInputData.getTitle());
+            localEventOutputBoundary.UpdateEventsList(
+                    new LocalEventOutputData(event.getID(),
+                            event.getTitle(), event.getUserID(),
+                            event.getDate(), event.getStartTime(),
+                            event.getEndTime(), event.getLocation(),
+                            event.getDescription(), event.isWork(),
+                            event.getPinned(), event.getDescendants()));
         }
 
         catch (RuntimeException e) {
-            localEventOutputBoundary.CreateEventFailView(
-                    eventInputData.getTitle());
+            localEventOutputBoundary.EventFailView(
+                    "Event creation failed.");
         }
     }
 
     @Override
-    public void editEvent(EventInputData eventInputData) {
+    public void EditEvent(EventInputData eventInputData) {
         try {
             LocalEvent event = new LocalEvent(eventInputData.getID(),
                     eventInputData.getTitle(), eventInputData.getUserID(),
@@ -59,47 +91,42 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
 
             eventsDataAccessObject.save(event);
 
-            localEventOutputBoundary.EditEventSuccessView(
-                    eventInputData.getTitle());
+            localEventOutputBoundary.UpdateEventsList(
+                    new LocalEventOutputData(event.getID(),
+                            event.getTitle(), event.getUserID(),
+                            event.getDate(), event.getStartTime(),
+                            event.getEndTime(), event.getLocation(),
+                            event.getDescription(), event.isWork(),
+                            event.getPinned(), event.getDescendants()));
         }
 
         catch (RuntimeException e) {
-            localEventOutputBoundary.EditEventFailView(
-                    eventInputData.getTitle());
+            localEventOutputBoundary.EventFailView(
+                    "Event editing failed.");
         }
     }
 
     @Override
-    public void deleteEvent(EventInputData eventInputData) {
+    public void DeleteEvent(int eventID) {
         try {
-            eventsDataAccessObject.delete(eventInputData.getID());
+            eventsDataAccessObject.delete(eventID);
 
-            localEventOutputBoundary.DeleteEventSuccessView();
+            localEventOutputBoundary.DeleteEventSuccessView(eventID);
         }
 
         catch (RuntimeException e) {
-            localEventOutputBoundary.DeleteEventFailView();
+            localEventOutputBoundary.EventFailView(
+                    "Event deletion failed.");
         }
     }
 
     @Override
-    public void getEvent(int eventID) {
-        LocalEvent event = eventsDataAccessObject.getByID(eventID);
-
-        localEventOutputBoundary.DisplayEvent(new EventOutputData(event.getID(),
-                event.getTitle(), event.getUserID(), event.getDate(),
-                event.getStartTime(), event.getEndTime(), event.getLocation(),
-                event.getDescription(), event.isWork(), event.getPinned(),
-                event.getDescendants()));
-    }
-
-    @Override
-    public void getAllEvents(int userID) {
-        ArrayList<EventOutputData> eventOutputDataArrayList = new ArrayList<>();
+    public void GetAllEvents(int userID) {
+        ArrayList<LocalEventOutputData> eventOutputDataArrayList = new ArrayList<>();
 
         for (LocalEvent event :
                 eventsDataAccessObject.getAllUserEntries(userID)) {
-            eventOutputDataArrayList.add(new EventOutputData(event.getID(),
+            eventOutputDataArrayList.add(new LocalEventOutputData(event.getID(),
                     event.getTitle(), event.getUserID(), event.getDate(),
                     event.getStartTime(), event.getEndTime(),
                     event.getLocation(), event.getDescription(),

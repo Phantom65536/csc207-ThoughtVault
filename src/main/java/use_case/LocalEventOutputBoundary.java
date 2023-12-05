@@ -1,23 +1,22 @@
 package use_case;
 
-import OutputData.EventOutputData;
+import OutputData.LocalEventOutputData;
+import interface_adapter.LocalEventState;
 
 import java.util.ArrayList;
 
 public interface LocalEventOutputBoundary {
-    void CreateEventSuccessView(String title);
+    void UpdateEventsList(LocalEventOutputData localEventOutputData);
 
-    void CreateEventFailView(String title);
+    void DeleteEventSuccessView(int ID);
 
-    void EditEventSuccessView(String title);
+    void EventFailView(String errorMessage);
 
-    void EditEventFailView(String title);
+    void DisplayEventDetailedView(LocalEventOutputData eventOutputData);
 
-    void DeleteEventSuccessView();
+    void DisplayEventCreationView();
 
-    void DeleteEventFailView();
+    void DisplayEventEditView(LocalEventOutputData eventOutputData);
 
-    void DisplayEvent(EventOutputData eventOutputData);
-
-    void DisplayAllEvents(ArrayList<EventOutputData> eventOutputDataArrayList);
+    void DisplayAllEvents(ArrayList<LocalEventOutputData> eventOutputDataArrayList);
 }
