@@ -63,4 +63,5 @@ public class LocalEvent extends Note implements LocalEventInterface {
     public LocalTime getEndTime() {
         return endTime;
     }
+    public LocalTime[] getStartEndTIme() { return new LocalTime[] {startTime, endTime}; }
 }
