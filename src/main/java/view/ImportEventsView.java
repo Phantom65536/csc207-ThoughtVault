@@ -4,7 +4,7 @@ import interface_adapter.home.HomeViewModel;
 import interface_adapter.importevents.ImportEventsController;
 import interface_adapter.importevents.ImportEventsState;
 import interface_adapter.importevents.ImportEventsViewModel;
-import use_case.GCalEventInputData;
+import use_case.gcalevent.GCalEventInputData;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

@@ -2,8 +2,8 @@ package interface_adapter.exportevents;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home.HomeViewModel;
-import use_case.GCalEventOutputBoundary;
-import use_case.GCalEventOutputData;
+import use_case.gcalevent.GCalEventOutputBoundary;
+import use_case.gcalevent.GCalEventOutputData;
 
 public class ExportEventsPresenter implements GCalEventOutputBoundary {
     private final ExportEventsViewModel exportEventsViewModel;

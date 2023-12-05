@@ -1,5 +1,7 @@
 package use_case;
 
+import use_case.gcalevent.GCalEventInputData;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
