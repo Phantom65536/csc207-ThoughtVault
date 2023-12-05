@@ -162,7 +162,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignUpState currentState = signUpViewModel.getState();
-                        currentState.setRepeatedPassword(String.valueOf(passwordInputField.getPassword()) + e.getKeyChar());
+                        currentState.setRepeatedPassword(String.valueOf(repeatPasswordInputField.getPassword()) + e.getKeyChar());
                         signUpViewModel.setState(currentState);
                     }
 
