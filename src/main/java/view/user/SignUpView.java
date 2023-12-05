@@ -92,7 +92,8 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
                             SignUpState currentState = signUpViewModel.getState();
-                            if (currentState.getUsername() == null || currentState.getPassword() == null || currentState.getRepeatedPassword() == null || currentState.getCredentialsJSON() == null) {
+                            if (currentState.getUsername().isEmpty() || currentState.getPassword().isEmpty() ||
+                                    currentState.getRepeatedPassword().isEmpty() || currentState.getCredentialsJSON().isEmpty()) {
                                 JOptionPane.showMessageDialog(null, "Please fill in all fields.");
                             } else {
                                     signUpController.signUp(
