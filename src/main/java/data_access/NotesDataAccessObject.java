@@ -1,6 +1,6 @@
 package data_access;
 
-import entity.Note;
+import entity.note.Note;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -80,7 +80,7 @@ public class NotesDataAccessObject<T extends Note> implements EntriesDataAccessI
     ArrayList<Integer> parseSubEntries(JSONArray subEntriesJSON) {
         ArrayList<Integer> entriesList = new ArrayList<>();
         for (Long eventLongID : (ArrayList<Long>) subEntriesJSON)
-            entriesList.add(eventLongID.intValue()); 
+            entriesList.add(eventLongID.intValue());
         return entriesList;
     }
 
