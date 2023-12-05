@@ -4,14 +4,17 @@ package use_case;
 import InputData.EventInputData;
 
 public interface LocalEventInputBoundary {
-    void createEvent(EventInputData eventInputData);
+    void DisplayEventCreationView();
 
-    //create and save an event (make sure no sub-events are the same)
-    void editEvent(EventInputData eventInputData); //edit an existing event and save its changes (make sure no sub-events are the same)
+    void DisplayEventEditView(int eventID);
 
-    void deleteEvent(EventInputData eventInputData); //delete an existing event
+    void CreateEvent(EventInputData eventInputData);
 
-    void getEvent(int eventID); //check whether the event belongs to the user and return its corresponding Event instance when the user wants to view its details
+    void EditEvent(EventInputData eventInputData);
 
-    void getAllEvents(int userID);
+    void DeleteEvent(int eventID);
+
+    void DisplayEventDetailedView(int eventID);
+
+    void GetAllEvents(int userID);
 }

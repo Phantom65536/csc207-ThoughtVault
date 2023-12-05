@@ -3,13 +3,17 @@ package use_case;
 import InputData.NoteInputData;
 
 public interface NoteInputBoundary {
-    void createNote(NoteInputData noteInputData);
+    void DisplayNoteCreationView();
 
-    void editNote(NoteInputData noteInputData);
+    void DisplayNoteEditView(int noteID);
 
-    void deleteNote(int noteID);
+    void DisplayNoteDetailedView(int noteID);
 
-    void getNote(int noteID);
+    void CreateNote(NoteInputData noteInputData);
 
-    void getAllNotes(int userID);
+    void EditNote(NoteInputData noteInputData);
+
+    void DeleteNote(int noteID);
+
+    void GetAllNotes(int userID);
 }
