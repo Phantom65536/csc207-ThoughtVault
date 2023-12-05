@@ -4,7 +4,7 @@ import interface_adapter.home.HomeViewModel;
 import interface_adapter.importevents.ImportEventsController;
 import interface_adapter.importevents.ImportEventsState;
 import interface_adapter.importevents.ImportEventsViewModel;
-import use_case.GCalEventInputData;
+import use_case.gcalevent.GCalEventInputData;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -46,6 +46,7 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
             eventsListModel.addElement(event.getTitle());
         }
 
+        // Allows the user to select the event that they want to import
         eventsList = new JList<>(eventsListModel);
         eventsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         eventsList.addListSelectionListener(
@@ -59,6 +60,7 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
                 }
         );
 
+        // Imports the selected event upon clicking the Import Events button
         JPanel buttons = new JPanel();
         importEvents = new JButton(ImportEventsViewModel.IMPORT_EVENTS_BUTTON_LABEL);
         buttons.add(importEvents);
@@ -81,6 +83,7 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
                 }
         );
 
+        // Switches to Home View upon clicking the Home button
         home = new JButton(HomeViewModel.HOME_BUTTON_LABEL);
         buttons.add(home);
 

@@ -1,14 +1,16 @@
 package interface_adapter.exportevents;
 
-import com.google.api.services.calendar.model.Event;
+import output_data.LocalEventOutputData;
+import use_case.gcalevent.GCalEventInputData;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ExportEventsState {
     private int entryID;
     private int selectedEventIndex;
-    private Event selectedEvent;
-    private List<Event> listOfEvents;
+    private LocalEventOutputData selectedEvent;
+    private ArrayList<GCalEventInputData> listOfEvents;
+    private ArrayList<LocalEventOutputData> listOfLocalEvents;
     private String exportedEventSummary  = null;
     private String exportEventError = null;
     public ExportEventsState(ExportEventsState copy){
@@ -20,19 +22,20 @@ public class ExportEventsState {
     }
     public ExportEventsState(){}
     public int getEntryID(){return entryID;}
-    public Event getSelectedEvent(){
+    public LocalEventOutputData getSelectedEvent(){
         return selectedEvent;
     }
 
-    public List<Event> getListOfEvents() {
+    public ArrayList<GCalEventInputData> getListOfEvents() {
         return listOfEvents;
     }
+    public ArrayList<LocalEventOutputData> getListOfLocalEvents(){return listOfLocalEvents;}
 
-    public String getSelectedEventId(){
-        return selectedEvent.getId();
+    public int getSelectedEventId(){
+        return selectedEvent.getID();
     }
     public String getSelectedEventTitle(){
-        return selectedEvent.getSummary();
+        return selectedEvent.getTitle();
     }
     public int getSelectedEventIndex(){
         return selectedEventIndex;
@@ -50,12 +53,18 @@ public class ExportEventsState {
         this.selectedEventIndex = selectedEventIndex;
     }
     public void setSelectedEvent(int selectedEventIndex){
-        this.selectedEvent = listOfEvents.get(selectedEventIndex);
+        this.selectedEvent = listOfLocalEvents.get(selectedEventIndex);
     }
     public void setExportedEventSummary(String exportedEventSummary){
         this.exportedEventSummary = exportedEventSummary;
     }
     public void setExportEventError(String error){
         this.exportEventError = error;
+    }
+    public void setListOfEvents(ArrayList<GCalEventInputData> listOfEvents) {
+        this.listOfEvents = listOfEvents;
+    }
+    public void setListOfLocalEvents(ArrayList<LocalEventOutputData> listOfLocalEvents){
+        this.listOfLocalEvents = listOfLocalEvents;
     }
 }

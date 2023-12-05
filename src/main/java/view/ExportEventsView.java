@@ -1,10 +1,10 @@
 package view;
 
-import com.google.api.services.calendar.model.Event;
 import interface_adapter.exportevents.ExportEventsController;
 import interface_adapter.exportevents.ExportEventsState;
 import interface_adapter.exportevents.ExportEventsViewModel;
 import interface_adapter.home.HomeViewModel;
+import output_data.LocalEventOutputData;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -26,7 +26,7 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
     private final ExportEventsController exportEventsController;
     final JButton home;
 
-    public ExportEventsView(ExportEventsViewModel exportEventsViewModel, ExportEventsController exportEventsController) {
+    public ExportEventsView(ExportEventsViewModel exportEventsViewModel, ExportEventsController exportEventsController) throws IOException {
         this.exportEventsViewModel = exportEventsViewModel;
         this.exportEventsController = exportEventsController;
         this.exportEventsViewModel.addPropertyChangeListener(this);
@@ -40,8 +40,9 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
 
         eventsListModel = new DefaultListModel<>();
         ExportEventsState currentState = exportEventsViewModel.getState();
-        for (Event event : currentState.getListOfEvents()) {
-            eventsListModel.addElement(event.getSummary());
+        currentState.setListOfLocalEvents(exportEventsController.getAllLocalEvents());
+        for (LocalEventOutputData event : currentState.getListOfLocalEvents()) {
+            eventsListModel.addElement(event.getTitle());
         }
 
         eventsList = new JList<>(eventsListModel);
@@ -68,7 +69,8 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
                             ExportEventsState currentState = exportEventsViewModel.getState();
                             if (currentState.getSelectedEventIndex() != -1) {
                                 try {
-                                    exportEventsController.execute(currentState.getEntryID());
+                                    // exportEventsController.execute(currentState.getEntryID());
+                                    exportEventsController.execute(currentState.getSelectedEventId());
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }

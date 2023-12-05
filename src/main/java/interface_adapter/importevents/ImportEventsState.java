@@ -1,17 +1,14 @@
 package interface_adapter.importevents;
 
-import use_case.GCalEventInputData;
+import use_case.gcalevent.GCalEventInputData;
 
 import java.util.ArrayList;
 
 public class ImportEventsState {
     private int selectedEventIndex;
     private GCalEventInputData selectedEvent;
-
     private ArrayList<GCalEventInputData> listOfEvents;
-
     private String importedEventSummary = null;
-
     private String importEventError = null;
 
     public ImportEventsState(ImportEventsState copy) {
