@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class EventsDataAccessObject extends NotesDataAccessObject<LocalEvent> {
+public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> {
 
     public EventsDataAccessObject(String jsonPath) throws IOException, ParseException {
         super(jsonPath);
