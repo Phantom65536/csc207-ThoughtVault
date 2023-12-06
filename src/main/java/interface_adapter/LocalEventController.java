@@ -1,6 +1,6 @@
 package interface_adapter;
 
-import InputData.EventInputData;
+import use_case.local_event.EventInputData;
 
 import use_case.local_event.LocalEventInputBoundary;
 

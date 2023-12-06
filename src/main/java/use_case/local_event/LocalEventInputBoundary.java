@@ -1,8 +1,6 @@
 package use_case.local_event;
 
 
-import InputData.EventInputData;
-
 public interface LocalEventInputBoundary {
     void DisplayEventCreationView();
 

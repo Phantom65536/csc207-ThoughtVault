@@ -37,7 +37,8 @@ public class NotePresenter implements NoteOutputBoundary {
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
-                noteOutputData.getSubEvents());
+                noteOutputData.getSubEvents(),
+                noteOutputData.getUserId());
     }
 
     @Override
@@ -77,7 +78,8 @@ public class NotePresenter implements NoteOutputBoundary {
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
-                noteOutputData.getSubEvents());
+                noteOutputData.getSubEvents(),
+                noteOutputData.getUserId());
         detailedNoteViewModel.setState(noteState);
         detailedNoteViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(

@@ -1,14 +1,12 @@
 package view;
 import com.google.api.services.calendar.model.Event;
 import entity.Note;
-import interface_adapter.ListViewModel;
-import interface_adapter.ListViewState;
-import interface_adapter.ViewManagerModel;
+import interface_adapter.*;
 import interface_adapter.exportevents.ExportEventsViewModel;
 import interface_adapter.home.HomeState;
 import interface_adapter.home.HomeViewModel;
 import interface_adapter.importevents.ImportEventsViewModel;
-import interface_adapter.LocalEventViewModel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,13 +14,11 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.spi.LocaleNameProvider;
 
-import interface_adapter.LocalEventController;
-import interface_adapter.NoteController;
-
 public class ListView extends JPanel{
     public final String viewName = "home page";
     private final ListViewModel listViewModel;
     private final LocalEventViewModel localEventViewModel;
+    private final NoteViewModel noteViewModel;
     private final ImportEventsViewModel importEventsViewModel;
     private final ExportEventsViewModel exportEventsViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -36,13 +32,17 @@ public class ListView extends JPanel{
     //final JList<String> notesList;
     final JButton importEvents;
     final JButton exportEvents;
+    final JButton createEvent;
+    final JButton createNote;
     public ListView(ListViewModel listViewModel,
                     ImportEventsViewModel importEventsViewModel,
                     ExportEventsViewModel exportEventsViewModel,
                     ViewManagerModel viewManagerModel,
                     LocalEventViewModel localEventViewModel,
+                    NoteViewModel noteViewModel ,
                     LocalEventController localEventController, NoteController noteController){
         this.localEventViewModel = localEventViewModel;
+        this.noteViewModel = noteViewModel;
         this.listViewModel = listViewModel;
         this.importEventsViewModel = importEventsViewModel;
         this.exportEventsViewModel = exportEventsViewModel;
@@ -79,15 +79,42 @@ public class ListView extends JPanel{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(importEvents)){
-                            listViewModel.setState(new ListViewState());
-                            listViewModel.firePropertyChanged();
+                            //listViewModel.setState(new ListViewState());
+                            //listViewModel.firePropertyChanged();
                             ListView.this.viewManagerModel.setActiveView(ListView.this.importEventsViewModel.getViewName());
                             ListView.this.viewManagerModel.firePropertyChanged();
                         }
                     }
                 }
         );
-
+        createEvent = new JButton("Create Event");
+        buttons.add(createEvent);
+        createEvent.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(createEvent)){
+                            localEventViewModel.setUserId(listViewModel.getState().getUserId());
+                            ListView.this.viewManagerModel.setActiveView("create event");
+                            ListView.this.viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
+        createNote = new JButton("Create Note");
+        buttons.add(createNote);
+        createEvent.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(createNote)){
+                            noteViewModel.setUserId(listViewModel.getState().getUserId());
+                            ListView.this.viewManagerModel.setActiveView("create note");
+                            ListView.this.viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
         exportEvents = new JButton(ListViewModel.EXPORT_EVENTS_BUTTON_LABEL);
         buttons.add(exportEvents);
         exportEvents.addActionListener(
@@ -95,8 +122,8 @@ public class ListView extends JPanel{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(exportEvents)){
-                            listViewModel.setState(new ListViewState());
-                            listViewModel.firePropertyChanged();
+                            //listViewModel.setState(new ListViewState());
+                            //listViewModel.firePropertyChanged();
                             ListView.this.viewManagerModel.setActiveView(ListView.this.exportEventsViewModel.getViewName());
                             ListView.this.viewManagerModel.firePropertyChanged();
                         }

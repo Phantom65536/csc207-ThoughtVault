@@ -1,7 +1,5 @@
 package use_case.local_event;
 
-import InputData.EventInputData;
-
 import data_access.EventsDataAccessObject;
 
 import entity.LocalEvent;

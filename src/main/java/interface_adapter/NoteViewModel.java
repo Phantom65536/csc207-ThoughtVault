@@ -44,4 +44,8 @@ public class NoteViewModel extends ViewModel {
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         support.addPropertyChangeListener(listener);
     }
+
+    public void setUserId(int userId) {
+        this.state.setUserId(userId);
+    }
 }
