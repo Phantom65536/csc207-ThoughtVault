@@ -32,6 +32,8 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
     /**
      * Imports an event from a user's Google Calendar given the eventId.
      * @param eventId The eventId associated with the Google Calendar Event.
+     * @throws IOException if the event cannot be retrieved from the user's Google Calendar
+     * @return True if the event is successfully imported.
      * */
     @Override
     public boolean importEvent(String eventId) throws IOException {
@@ -56,6 +58,8 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
      * Exports a LocalEvent to the user's Google Calendar.
      * Assume that there is only one calendar associated with each user.
      * @param localEventId The localeventId associated with the local event that the user wants to export.
+     * @throws IOException If the exportedEvent instance cannot be inserted into the user's Google Calendar.
+     * @return True if the event is successfully exported.
      * */
     @Override
     public boolean exportEvent(int localEventId) throws IOException {
@@ -95,6 +99,8 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
      * Returns a list of GCalEventInputData and prints out the titles of the events.
      * This is for the controller to retrieve a list of all the events so that the
      * user can select which event they want to import.
+     * @throws IOException if the function cannot return a list of events from the user's calendar.
+     * @return An arraylist of GCalEventInputData (events)
      * */
     public ArrayList<GCalEventInputData> getAllEvents() throws IOException {
         ArrayList<GCalEventInputData> listOfEvents = new ArrayList<>();
@@ -110,6 +116,10 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
                 listOfEvents.add(inputData);
                 System.out.println(event.getSummary());
             }
+            // Cap the list's length at 10 to ensure that they can be fit inside the View
+            if (listOfEvents.size() >= 10) {
+                break;
+            }
             pageToken = events.getNextPageToken();
         } while (pageToken != null);
 
@@ -120,6 +130,7 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
      * Returns a list of LocalEventOutputData and prints out the titles of the events.
      * This is for the controller to retrieve a list of all the events so that the
      * user can select which event they want to export.
+     * @return An arraylist of LocalEventOutputData (events)
      * */
     public ArrayList<LocalEventOutputData> getAllLocalEvents() {
         ArrayList<LocalEventOutputData> listOfEvents = new ArrayList<>();
@@ -142,6 +153,7 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
                 listOfEvents.add(inputData);
                 System.out.println(inputData.getTitle());
             }
+            // Cap the list's length at 10 to ensure that they can be fit inside the View
             if (listOfEvents.size() >= 10) {
                 break;
             }

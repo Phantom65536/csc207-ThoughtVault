@@ -58,7 +58,7 @@ public class ImportEventsViewTest {
 
         // So that the app doesn't close automatically.
         try {
-            sleep(3000);
+            sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
