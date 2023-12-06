@@ -34,8 +34,8 @@ public class ListView extends JPanel{
     //final JList<String> eventsList;
     //final DefaultListModel<String> notesListModel;
     //final JList<String> notesList;
-    //final JButton importEvents;
-    //final JButton exportEvents;
+    final JButton importEvents;
+    final JButton exportEvents;
     public ListView(ListViewModel listViewModel,
                     ImportEventsViewModel importEventsViewModel,
                     ExportEventsViewModel exportEventsViewModel,
@@ -71,6 +71,42 @@ public class ListView extends JPanel{
             JButton button = createEventButton((Integer)noteId, noteDetails);
             eventPanel.add(button);
         }
+        JPanel buttons = new JPanel();
+        importEvents = new JButton(ListViewModel.IMPORT_EVENTS_BUTTON_LABEL);
+        buttons.add(importEvents);
+        importEvents.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(importEvents)){
+                            listViewModel.setState(new ListViewState());
+                            listViewModel.firePropertyChanged();
+                            ListView.this.viewManagerModel.setActiveView(ListView.this.importEventsViewModel.getViewName());
+                            ListView.this.viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
+
+        exportEvents = new JButton(ListViewModel.EXPORT_EVENTS_BUTTON_LABEL);
+        buttons.add(exportEvents);
+        exportEvents.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(exportEvents)){
+                            listViewModel.setState(new ListViewState());
+                            listViewModel.firePropertyChanged();
+                            ListView.this.viewManagerModel.setActiveView(ListView.this.exportEventsViewModel.getViewName());
+                            ListView.this.viewManagerModel.firePropertyChanged();
+                        }
+                    }
+                }
+        );
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(title);
+        this.add(buttons);
         this.add(eventPanel);
         this.add(notePanel);
     }
