@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CalendarQuickstart</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">&lt;empty package name&gt;</a>
+</div>
+
+<h1>Coverage Summary for Class: CalendarQuickstart (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CalendarQuickstart</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;import com.google.api.client.auth.oauth2.Credential;
+&nbsp;import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+&nbsp;import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+&nbsp;import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+&nbsp;import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+&nbsp;import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+&nbsp;import com.google.api.client.http.javanet.NetHttpTransport;
+&nbsp;import com.google.api.client.json.JsonFactory;
+&nbsp;import com.google.api.client.json.gson.GsonFactory;
+&nbsp;import com.google.api.client.util.DateTime;
+&nbsp;import com.google.api.client.util.Value;
+&nbsp;import com.google.api.client.util.store.FileDataStoreFactory;
+&nbsp;import com.google.api.services.calendar.Calendar;
+&nbsp;import com.google.api.services.calendar.CalendarScopes;
+&nbsp;import com.google.api.services.calendar.model.*;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.event.ListSelectionEvent;
+&nbsp;import javax.swing.event.ListSelectionListener;
+&nbsp;import java.io.*;
+&nbsp;import java.security.GeneralSecurityException;
+&nbsp;import java.util.Collections;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Properties;
+&nbsp;
+&nbsp;/* class to demonstrate use of Calendar events list API */
+<b class="nc">&nbsp;public class CalendarQuickstart {</b>
+&nbsp;    /**
+&nbsp;     * Application name.
+&nbsp;     */
+&nbsp;    private static final String APPLICATION_NAME = &quot;Google Calendar API Java Quickstart&quot;;
+&nbsp;    /**
+&nbsp;     * Global instance of the JSON factory.
+&nbsp;     */
+<b class="nc">&nbsp;    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();</b>
+&nbsp;    /**
+&nbsp;     * Directory to store authorization tokens for this application.
+&nbsp;     */
+&nbsp;    private static final String TOKENS_DIRECTORY_PATH = &quot;tokens&quot;;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Global instance of the scopes required by this quickstart.
+&nbsp;     * If modifying these scopes, delete your previously saved tokens/ folder.
+&nbsp;     */
+<b class="nc">&nbsp;    private static final List&lt;String&gt; SCOPES =</b>
+<b class="nc">&nbsp;            Collections.singletonList(CalendarScopes.CALENDAR_READONLY);</b>
+&nbsp;    private static final String CREDENTIALS_FILE_PATH = &quot;/credentials.json&quot;;
+&nbsp;
+&nbsp;    @Value(&quot;{\&quot;installed\&quot;:{\&quot;client_id\&quot;:\&quot;795633948902-lnv99a5r05977jor1cm9harbqhq4kcv2.apps.googleusercontent.com\&quot;,\&quot;project_id\&quot;:\&quot;thought-vault-400118\&quot;,\&quot;auth_uri\&quot;:\&quot;https://accounts.google.com/o/oauth2/auth\&quot;,\&quot;token_uri\&quot;:\&quot;https://oauth2.googleapis.com/token\&quot;,\&quot;auth_provider_x509_cert_url\&quot;:\&quot;https://www.googleapis.com/oauth2/v1/certs\&quot;,\&quot;client_secret\&quot;:\&quot;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\&quot;,\&quot;redirect_uris\&quot;:[\&quot;http://localhost\&quot;]}}&quot;)
+&nbsp;    private static String testApiKey;
+&nbsp;
+&nbsp;    static JList b;
+&nbsp;    static DefaultListModel&lt;String&gt; eventsListModel;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates an authorized Credential object.
+&nbsp;     *
+&nbsp;     * @param HTTP_TRANSPORT The network HTTP Transport.
+&nbsp;     * @return An authorized Credential object.
+&nbsp;     * @throws IOException If the credentials.json file cannot be found.
+&nbsp;     */
+&nbsp;//    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+&nbsp;//            throws IOException {
+&nbsp;//        // Load client secrets.
+&nbsp;//        InputStream in = CalendarQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+&nbsp;//        if (in == null) {
+&nbsp;//            throw new FileNotFoundException(&quot;Resource not found: &quot; + CREDENTIALS_FILE_PATH);
+&nbsp;//        }
+&nbsp;//        GoogleClientSecrets clientSecrets =
+&nbsp;//                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+&nbsp;//
+&nbsp;//        // Build flow and trigger user authorization request.
+&nbsp;//        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+&nbsp;//                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+&nbsp;//                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+&nbsp;//                .setAccessType(&quot;offline&quot;)
+&nbsp;//                .build();
+&nbsp;//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+&nbsp;//        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize(&quot;user&quot;);
+&nbsp;//        //returns an authorized Credential object.
+&nbsp;//        return credential;
+&nbsp;//    }
+&nbsp;    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, String jsonCredentials)
+&nbsp;            throws IOException {
+<b class="nc">&nbsp;        GoogleClientSecrets clientSecrets =</b>
+<b class="nc">&nbsp;                GoogleClientSecrets.load(JSON_FACTORY, new StringReader(jsonCredentials));</b>
+&nbsp;
+&nbsp;        // Build flow and trigger user authorization request.
+<b class="nc">&nbsp;        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(</b>
+&nbsp;                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+<b class="nc">&nbsp;                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))</b>
+<b class="nc">&nbsp;                .setAccessType(&quot;offline&quot;)</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();</b>
+<b class="nc">&nbsp;        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize(&quot;user&quot;);</b>
+&nbsp;        //returns an authorized Credential object.
+<b class="nc">&nbsp;        return credential;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String... args) throws IOException, GeneralSecurityException {
+&nbsp;        // Build a new authorized API client service.
+<b class="nc">&nbsp;        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();</b>
+&nbsp;//        System.out.println(testApiKey);
+&nbsp;        // String APIkey = &quot;{\&quot;installed\&quot;:{\&quot;client_id\&quot;:\&quot;676658923300-jefh7ko5cp9n7cf92vj427ltrd0rumo4.apps.googleusercontent.com\&quot;,\&quot;project_id\&quot;:\&quot;thought-vault-400423\&quot;,\&quot;auth_uri\&quot;:\&quot;https://accounts.google.com/o/oauth2/auth\&quot;,\&quot;token_uri\&quot;:\&quot;https://oauth2.googleapis.com/token\&quot;,\&quot;auth_provider_x509_cert_url\&quot;:\&quot;https://www.googleapis.com/oauth2/v1/certs\&quot;,\&quot;client_secret\&quot;:\&quot;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\&quot;,\&quot;redirect_uris\&quot;:[\&quot;http://localhost\&quot;]}}&quot;;
+&nbsp;//        String apiKey = System.getProperty(&quot;API_KEY&quot;);
+&nbsp;//        System.out.println(apiKey);
+<b class="nc">&nbsp;        Properties prop = new Properties();</b>
+<b class="nc">&nbsp;        InputStream input = null;</b>
+<b class="nc">&nbsp;        input = new FileInputStream(&quot;gradle.properties&quot;);</b>
+&nbsp;
+&nbsp;        // load a properties file
+<b class="nc">&nbsp;        prop.load(input);</b>
+&nbsp;
+&nbsp;        // get the property value and print it out
+<b class="nc">&nbsp;        System.out.println(prop.getProperty(&quot;apiKey&quot;));</b>
+<b class="nc">&nbsp;        Calendar service =</b>
+<b class="nc">&nbsp;                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, prop.getProperty(&quot;apiKey&quot;)))</b>
+<b class="nc">&nbsp;                        .setApplicationName(APPLICATION_NAME)</b>
+<b class="nc">&nbsp;                        .build();</b>
+&nbsp;
+&nbsp;//        String APIkey = &quot;{\&quot;installed\&quot;:{\&quot;client_id\&quot;:\&quot;676658923300-jefh7ko5cp9n7cf92vj427ltrd0rumo4.apps.googleusercontent.com\&quot;,\&quot;project_id\&quot;:\&quot;thought-vault-400423\&quot;,\&quot;auth_uri\&quot;:\&quot;https://accounts.google.com/o/oauth2/auth\&quot;,\&quot;token_uri\&quot;:\&quot;https://oauth2.googleapis.com/token\&quot;,\&quot;auth_provider_x509_cert_url\&quot;:\&quot;https://www.googleapis.com/oauth2/v1/certs\&quot;,\&quot;client_secret\&quot;:\&quot;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\&quot;,\&quot;redirect_uris\&quot;:[\&quot;http://localhost\&quot;]}}&quot;;
+&nbsp;//
+&nbsp;//        Calendar service =
+&nbsp;//                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, APIkey))
+&nbsp;//                        .setApplicationName(APPLICATION_NAME)
+&nbsp;//                        .build();
+&nbsp;
+&nbsp;//        CalendarList calendarList = service.calendarList().list().setPageToken(null).execute();
+&nbsp;//        List&lt;CalendarListEntry&gt; items = calendarList.getItems();
+&nbsp;//        System.out.println(items.get(0).getId());
+&nbsp;
+&nbsp;//        DateTime now = new DateTime(System.currentTimeMillis());
+&nbsp;//        Events events = service.events().list(&quot;primary&quot;)
+&nbsp;//                .setMaxResults(10)
+&nbsp;//                .setTimeMin(now)
+&nbsp;//                .setOrderBy(&quot;startTime&quot;)
+&nbsp;//                .setSingleEvents(true)
+&nbsp;//                .execute();
+&nbsp;//        List&lt;Event&gt; items = events.getItems();
+&nbsp;//
+&nbsp;//        // The main application window.
+&nbsp;//        JFrame application = new JFrame(&quot;ThoughtVault Example&quot;);
+&nbsp;//        application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+&nbsp;//        JPanel p =new JPanel();
+&nbsp;//
+&nbsp;//        eventsListModel = new DefaultListModel&lt;String&gt;();
+&nbsp;//        for (Event event : items) {
+&nbsp;//            eventsListModel.addElement(event.getSummary()); // Assuming &#39;getSummary()&#39; returns the event title
+&nbsp;//        }
+&nbsp;////        eventsListModel.addAll(items);
+&nbsp;//        b = new JList&lt;&gt;(eventsListModel);
+&nbsp;//        b.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+&nbsp;//
+&nbsp;////        CalendarQuickstart c = new CalendarQuickstart();
+&nbsp;//        b.addListSelectionListener(
+&nbsp;//                new ListSelectionListener() {
+&nbsp;//                    @Override
+&nbsp;//                    public void valueChanged(ListSelectionEvent e) {
+&nbsp;//                        int selectedIndex = b.getSelectedIndex();
+&nbsp;//                        System.out.println(selectedIndex);
+&nbsp;//                    }
+&nbsp;//                }
+&nbsp;//        );
+&nbsp;//
+&nbsp;//        p.add(b);
+&nbsp;//
+&nbsp;//        application.add(p);
+&nbsp;//
+&nbsp;//
+&nbsp;//        application.setSize(400,400);
+&nbsp;//        application.show();
+&nbsp;
+&nbsp;        // List the next 10 events from the primary calendar.
+<b class="nc">&nbsp;        DateTime now = new DateTime(System.currentTimeMillis());</b>
+<b class="nc">&nbsp;        Events events = service.events().list(&quot;primary&quot;)</b>
+<b class="nc">&nbsp;                .setMaxResults(10)</b>
+<b class="nc">&nbsp;                .setTimeMin(now)</b>
+<b class="nc">&nbsp;                .setOrderBy(&quot;startTime&quot;)</b>
+<b class="nc">&nbsp;                .setSingleEvents(true)</b>
+<b class="nc">&nbsp;                .execute();</b>
+<b class="nc">&nbsp;        List&lt;Event&gt; items = events.getItems();</b>
+<b class="nc">&nbsp;        if (items.isEmpty()) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;No upcoming events found.&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            System.out.println(&quot;Upcoming events&quot;);</b>
+<b class="nc">&nbsp;            for (Event event : items) {</b>
+<b class="nc">&nbsp;                DateTime start = event.getStart().getDateTime();</b>
+<b class="nc">&nbsp;                if (start == null) {</b>
+<b class="nc">&nbsp;                    start = event.getStart().getDate();</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.out.printf(&quot;%s (%s)\n&quot;, event.getSummary(), start);</b>
+<b class="nc">&nbsp;                System.out.println(event.getId());</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:42</div>
+</div>
+</body>
+</html>

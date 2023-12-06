@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > NotesDataAccessObject</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">data_access</a>
+</div>
+
+<h1>Coverage Summary for Class: NotesDataAccessObject (data_access)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NotesDataAccessObject</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+&nbsp;
+&nbsp;import entity.Note;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;public class NotesDataAccessObject extends EntriesDataAccessObject&lt;Note&gt; {
+&nbsp;    public NotesDataAccessObject(String jsonFile) throws IOException, ParseException {
+<b class="nc">&nbsp;        super(jsonFile);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void parseEntryObj(JSONObject entryJSON) {
+<b class="nc">&nbsp;        JSONArray notesJSONArr = (JSONArray) entryJSON.get(&quot;sub-notes&quot;);</b>
+<b class="nc">&nbsp;        ArrayList&lt;Integer&gt; notesList = parseSubEntries(notesJSONArr);</b>
+&nbsp;
+<b class="nc">&nbsp;        int noteID = parseEntryID(entryJSON);</b>
+<b class="nc">&nbsp;        entries.put(noteID, new Note(noteID, parseTitle(entryJSON), parseUserID(entryJSON), parseLocation(entryJSON),</b>
+<b class="nc">&nbsp;                parseDescription(entryJSON), parseLabel(entryJSON), parsePinned(entryJSON), notesList));</b>
+<b class="nc">&nbsp;        lastID = noteID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;    void save() {
+<b class="nc">&nbsp;        try (FileWriter writer = new FileWriter(jsonFile)) {</b>
+&nbsp;            // Write every entry in the entries map to jsonFile
+<b class="nc">&nbsp;            JSONArray allEntriesJSON = new JSONArray();</b>
+<b class="nc">&nbsp;            for (int id : entries.keySet()) {</b>
+<b class="nc">&nbsp;                JSONObject entryDetails = putEntryDetails(id);</b>
+&nbsp;
+<b class="nc">&nbsp;                JSONArray subNotesJSON = new JSONArray();</b>
+<b class="nc">&nbsp;                subNotesJSON.addAll(entries.get(id).getDescendants());</b>
+<b class="nc">&nbsp;                entryDetails.put(&quot;sub-notes&quot;, subNotesJSON);</b>
+&nbsp;
+<b class="nc">&nbsp;                allEntriesJSON.add(entryDetails);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            writer.write(allEntriesJSON.toJSONString());</b>
+<b class="nc">&nbsp;            writer.flush();</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException((e));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String[] args) throws IOException, ParseException {
+<b class="nc">&nbsp;        NotesDataAccessObject dao = new NotesDataAccessObject(&quot;./testNotes.json&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        Note firstNote = new Note(dao.getNewID(), &quot;first&quot;, 0,</b>
+&nbsp;                &quot;TA guy&#39;s crib&quot;, &quot;This is a description.&quot;, true, false, new ArrayList&lt;&gt;());
+<b class="nc">&nbsp;        dao.save(firstNote);</b>
+<b class="nc">&nbsp;        dao.save(new Note(dao.getNewID(), &quot;second&quot;, 0,</b>
+<b class="nc">&nbsp;                &quot;TA guy&#39;s toilet&quot;, &quot;There is no way this is not a description.&quot;, true, true, new ArrayList&lt;&gt;(Arrays.asList(firstNote.getID(), 1000))));</b>
+<b class="nc">&nbsp;        dao.save(new Note(dao.getNewID(), &quot;third&quot;, 0,</b>
+<b class="nc">&nbsp;                &quot;Garbage chute :)))&quot;, &quot;NO DESCRIPTION T_T&quot;, false, true, new ArrayList&lt;&gt;(Arrays.asList(0, firstNote.getID()))));</b>
+&nbsp;
+<b class="nc">&nbsp;        Note otherUserEvent = new Note(dao.getNewID(), &quot;another user&quot;, 1,</b>
+&nbsp;                &quot;Garbage chute :)))&quot;, &quot;NO DESCRIPTION T_T&quot;, false, true, new ArrayList&lt;&gt;());
+<b class="nc">&nbsp;        dao.save(otherUserEvent);</b>
+&nbsp;
+<b class="nc">&nbsp;        otherUserEvent.amendAllAttributes(&quot;another user edited&quot;,</b>
+&nbsp;                &quot;Garbage chute :(((&quot;, &quot;EDITED DESCRIPTION T_T&quot;, true, true, new ArrayList&lt;&gt;());
+<b class="nc">&nbsp;        dao.save(otherUserEvent);</b>
+&nbsp;
+<b class="nc">&nbsp;        ArrayList&lt;Note&gt; user0Events = dao.getAllUserEntries(0);</b>
+<b class="nc">&nbsp;        dao.delete(firstNote.getID());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:42</div>
+</div>
+</body>
+</html>

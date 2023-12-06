@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EventsDataAccessObject</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">data_access</a>
+</div>
+
+<h1>Coverage Summary for Class: EventsDataAccessObject (data_access)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EventsDataAccessObject</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62.8%
+  </span>
+  <span class="absValue">
+    (27/43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+&nbsp;
+&nbsp;import entity.LocalEvent;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.time.format.DateTimeFormatter;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;public class EventsDataAccessObject extends EntriesDataAccessObject&lt;LocalEvent&gt; {
+&nbsp;
+&nbsp;    public EventsDataAccessObject(String jsonPath) throws IOException, ParseException {
+<b class="fc">&nbsp;        super(jsonPath);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    void parseEntryObj(JSONObject entryJSON) {
+<b class="fc">&nbsp;        LocalDate date = LocalDate.parse((String) entryJSON.get(&quot;date&quot;));</b>
+<b class="fc">&nbsp;        LocalTime startTime = LocalTime.parse((String) entryJSON.get(&quot;starttime&quot;));</b>
+<b class="fc">&nbsp;        LocalTime endTime = LocalTime.parse((String) entryJSON.get(&quot;endtime&quot;));</b>
+&nbsp;
+<b class="fc">&nbsp;        JSONArray eventsJSONArr = (JSONArray) entryJSON.get(&quot;sub-events&quot;);</b>
+<b class="fc">&nbsp;        ArrayList&lt;Integer&gt; eventsList = parseSubEntries(eventsJSONArr);</b>
+&nbsp;
+<b class="fc">&nbsp;        int eventID = parseEntryID(entryJSON);</b>
+<b class="fc">&nbsp;        entries.put(eventID, new LocalEvent(eventID, parseTitle(entryJSON), parseUserID(entryJSON), date, startTime, endTime,</b>
+<b class="fc">&nbsp;                parseLocation(entryJSON), parseDescription(entryJSON), parseLabel(entryJSON), parsePinned(entryJSON), eventsList));</b>
+<b class="fc">&nbsp;        lastID = eventID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;    void save() {
+<b class="fc">&nbsp;        try (FileWriter writer = new FileWriter(jsonFile)) {</b>
+&nbsp;            // Write every event in the events map to jsonFile
+<b class="fc">&nbsp;            JSONArray allEventsJSON = new JSONArray();</b>
+<b class="fc">&nbsp;            for (int id : entries.keySet()) {</b>
+<b class="fc">&nbsp;                JSONObject eventDetails = putEntryDetails(id);</b>
+&nbsp;
+<b class="fc">&nbsp;                eventDetails.put(&quot;date&quot;, entries.get(id).getDate().format(DateTimeFormatter.ISO_LOCAL_DATE));</b>
+<b class="fc">&nbsp;                LocalTime[] startEndTimes = entries.get(id).getStartEndTIme();</b>
+<b class="fc">&nbsp;                eventDetails.put(&quot;starttime&quot;, startEndTimes[0].format(DateTimeFormatter.ISO_LOCAL_TIME));</b>
+<b class="fc">&nbsp;                eventDetails.put(&quot;endtime&quot;, startEndTimes[1].format(DateTimeFormatter.ISO_LOCAL_TIME));</b>
+&nbsp;
+<b class="fc">&nbsp;                JSONArray subEventsJSON = new JSONArray();</b>
+<b class="fc">&nbsp;                subEventsJSON.addAll(entries.get(id).getDescendants());</b>
+<b class="fc">&nbsp;                eventDetails.put(&quot;sub-events&quot;, subEventsJSON);</b>
+&nbsp;
+<b class="fc">&nbsp;                allEventsJSON.add(eventDetails);</b>
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            writer.write(allEventsJSON.toJSONString());</b>
+<b class="fc">&nbsp;            writer.flush();</b>
+<b class="fc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException((e));</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // for testing only
+&nbsp;    public static void main(String[] args) throws IOException, ParseException {
+<b class="nc">&nbsp;        EventsDataAccessObject dao = new EventsDataAccessObject(&quot;./testEvent.json&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        LocalEvent firstEvent = new LocalEvent(dao.getNewID(), &quot;first&quot;, 0, LocalDate.parse(&quot;2023-11-09&quot;), LocalTime.NOON, LocalTime.parse(&quot;20:00&quot;),</b>
+&nbsp;                &quot;TA guy&#39;s crib&quot;, &quot;This is a description.&quot;, true, false, new ArrayList&lt;&gt;());
+<b class="nc">&nbsp;        dao.save(firstEvent);</b>
+<b class="nc">&nbsp;        System.out.print(firstEvent.getID());</b>
+<b class="nc">&nbsp;        dao.save(new LocalEvent(dao.getNewID(), &quot;second&quot;, 0, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;11:00&quot;),</b>
+<b class="nc">&nbsp;                &quot;TA guy&#39;s toilet&quot;, &quot;There is no way this is not a description.&quot;, true, true, new ArrayList&lt;&gt;(Arrays.asList(firstEvent.getID(), 1000))));</b>
+<b class="nc">&nbsp;        dao.save(new LocalEvent(dao.getNewID(), &quot;third&quot;, 0, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;23:59&quot;),</b>
+<b class="nc">&nbsp;                &quot;Garbage chute :)))&quot;, &quot;NO DESCRIPTION T_T&quot;, false, true, new ArrayList&lt;&gt;(Arrays.asList(0, firstEvent.getID()))));</b>
+&nbsp;
+<b class="nc">&nbsp;        LocalEvent otherUserEvent = new LocalEvent(dao.getNewID(), &quot;another user&quot;, 1, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;23:59&quot;),</b>
+&nbsp;                &quot;Garbage chute :)))&quot;, &quot;NO DESCRIPTION T_T&quot;, false, true, new ArrayList&lt;&gt;());
+<b class="nc">&nbsp;        dao.save(otherUserEvent);</b>
+<b class="nc">&nbsp;        System.out.print(otherUserEvent.getID());</b>
+<b class="nc">&nbsp;        otherUserEvent.amendAllAttributes(&quot;another user editted&quot;, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;23:59&quot;),</b>
+&nbsp;                &quot;Garbage chute :(((&quot;, &quot;EDITED DESCRIPTION T_T&quot;, true, true, new ArrayList&lt;&gt;());
+<b class="nc">&nbsp;        dao.save(otherUserEvent);</b>
+&nbsp;
+<b class="nc">&nbsp;        ArrayList&lt;LocalEvent&gt; user0Events = dao.getAllUserEntries(0);</b>
+<b class="nc">&nbsp;        dao.delete(firstEvent.getID());</b>
+&nbsp;
+&nbsp;//        System.out.print(dao.getByID());
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:42</div>
+</div>
+</body>
+</html>
