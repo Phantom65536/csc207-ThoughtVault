@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > SignUpController</title>
+  <title>Coverage Report > GCalEventController</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,15 +19,18 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">interface_adapter.sign_up</a>
+    <a href="../index.html">interface_adapter.gcalevent</a>
 </div>
 
-<h1>Coverage Summary for Class: SignUpController (interface_adapter.sign_up)</h1>
+<h1>Coverage Summary for Class: GCalEventController (interface_adapter.gcalevent)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -38,58 +41,33 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">SignUpController</td>
+  <td class="name">GCalEventController</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (3/3)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (5/5)
-  </span>
-</td>
-</tr>
-  <tr>
-    <td class="name">SignUpController$MockitoMock$429696637</td>
-  </tr>
-  <tr>
-    <td class="name">SignUpController$MockitoMock$429696637$auxiliary$1nUW4tm0</td>
-  </tr>
-  <tr>
-    <td class="name">SignUpController$MockitoMock$429696637$auxiliary$9qdKQPJ4</td>
-  </tr>
-  <tr>
-    <td class="name">SignUpController$MockitoMock$429696637$auxiliary$H9cEewgH</td>
-  </tr>
-  <tr>
-    <td class="name">SignUpController$MockitoMock$429696637$auxiliary$rrxmQbLn</td>
-  </tr>
-<tr>
-  <td class="name"><strong>Total</strong></td>
-<td class="coverageStat">
-  <span class="percent">
-    100%
-  </span>
-  <span class="absValue">
-    (3/3)
+    (0/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (5/5)
+    (0/4)
   </span>
 </td>
 </tr>
+
 </table>
 
 <br/>
@@ -97,25 +75,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.sign_up;
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.gcalevent;
 &nbsp;
-&nbsp;import use_case.user.SignUpInputData;
-&nbsp;import use_case.user.SignUpInputBoundary;
+&nbsp;import use_case.gcalevent.GCalEventInputBoundary;
 &nbsp;
-&nbsp;public class SignUpController {
-&nbsp;    final SignUpInputBoundary signUpInteractor;
+&nbsp;import java.io.IOException;
 &nbsp;
-<b class="fc">&nbsp;    public SignUpController(SignUpInputBoundary signUpInteractor) {</b>
-<b class="fc">&nbsp;        this.signUpInteractor = signUpInteractor;</b>
+&nbsp;public class GCalEventController {
+&nbsp;    final GCalEventInputBoundary gcalEventUseCaseInteractor;
+<b class="nc">&nbsp;    public GCalEventController(GCalEventInputBoundary gcalEventUseCaseInteractor) {</b>
+<b class="nc">&nbsp;        this.gcalEventUseCaseInteractor = gcalEventUseCaseInteractor;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void signUp(String username, String password, String repeatedPw, String credentialsJSON) {
-<b class="fc">&nbsp;        SignUpInputData inputData = new SignUpInputData(username, password, repeatedPw, credentialsJSON);</b>
-<b class="fc">&nbsp;        signUpInteractor.createUser(inputData);</b>
+&nbsp;    public void importEvent(String eventId) throws IOException {
+<b class="nc">&nbsp;        gcalEventUseCaseInteractor.importEvent(eventId);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void switchToLoginView() {
-<b class="fc">&nbsp;        signUpInteractor.switchtoLogin();</b>
+&nbsp;    public void exportEvent(int localEventId) throws IOException {
+<b class="nc">&nbsp;        gcalEventUseCaseInteractor.exportEvent(localEventId);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -141,7 +118,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

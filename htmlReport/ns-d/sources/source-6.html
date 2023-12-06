@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > GCalEventInputBoundary</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GCalEventDataAccessInterface</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,14 +22,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">use_case.gcalevent</a>
 </div>
 
-<h1>Coverage Summary for Class: GCalEventInputBoundary (use_case.gcalevent)</h1>
+<h1>Coverage Summary for Class: GCalEventDataAccessInterface (use_case.gcalevent)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">GCalEventInputBoundary</td>
+  <td class="name">GCalEventDataAccessInterface</td>
 </tr>
 
 </table>
@@ -40,18 +41,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package use_case.gcalevent;
 &nbsp;
-&nbsp;import output_data.LocalEventOutputData;
-&nbsp;import use_case.gcalevent.GCalEventInputData;
+&nbsp;import com.google.api.client.auth.oauth2.Credential;
+&nbsp;import com.google.api.services.calendar.Calendar;
 &nbsp;
 &nbsp;import java.io.IOException;
-&nbsp;import java.util.ArrayList;
+&nbsp;import java.security.GeneralSecurityException;
 &nbsp;
-&nbsp;public interface GCalEventInputBoundary {
-&nbsp;    boolean importEvent(String eventId) throws IOException;
-&nbsp;    boolean exportEvent(int localEventId) throws IOException;
-&nbsp;    ArrayList&lt;GCalEventInputData&gt; getAllEvents() throws IOException;
-&nbsp;    boolean switchToHome();
-&nbsp;    ArrayList&lt;LocalEventOutputData&gt; getAllLocalEvents();
+&nbsp;public interface GCalEventDataAccessInterface {
+&nbsp;    public void resetUserCalendar();
+&nbsp;    public void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException;
+&nbsp;    Calendar getCalendar();
+&nbsp;    String getCalendarId();
+&nbsp;    boolean eventExists(String eventId) throws IOException;
 &nbsp;}
 </code>
 </pre>
@@ -76,7 +77,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:42</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

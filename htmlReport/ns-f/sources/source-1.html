@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
   <title>Coverage Report > ExportEventsView</title>
   <style type="text/css">
     @import "../../css/coverage.css";
@@ -178,6 +179,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                new JLabel(&quot;Events&quot;), eventsField
 &nbsp;        );
 &nbsp;
+&nbsp;        // Create a list to display events
 <b class="fc">&nbsp;        eventsListModel = new DefaultListModel&lt;&gt;();</b>
 <b class="fc">&nbsp;        ExportEventsState currentState = exportEventsViewModel.getState();</b>
 <b class="fc">&nbsp;        currentState.setListOfLocalEvents(exportEventsController.getAllLocalEvents());</b>
@@ -185,6 +187,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;            eventsListModel.addElement(event.getTitle());</b>
 <b class="fc">&nbsp;        }</b>
 &nbsp;
+&nbsp;        // Allows the user to select the event that they want to import
 <b class="fc">&nbsp;        eventsList = new JList&lt;&gt;(eventsListModel);</b>
 <b class="fc">&nbsp;        eventsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);</b>
 <b class="fc">&nbsp;        eventsList.addListSelectionListener(</b>
@@ -198,6 +201,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                }
 &nbsp;        );
 &nbsp;
+&nbsp;        // Exports the selected event upon clicking the Export Events button
 <b class="fc">&nbsp;        JPanel buttons = new JPanel();</b>
 <b class="fc">&nbsp;        exportEvents = new JButton(ExportEventsViewModel.EXPORT_EVENTS_BUTTON_LABEL);</b>
 <b class="fc">&nbsp;        buttons.add(exportEvents);</b>
@@ -221,6 +225,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;                }
 &nbsp;        );
 &nbsp;
+&nbsp;        // Switches to Home view upon clicking Home button
 <b class="fc">&nbsp;        home = new JButton(HomeViewModel.HOME_BUTTON_LABEL);</b>
 <b class="fc">&nbsp;        buttons.add(home);</b>
 &nbsp;
@@ -278,7 +283,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:42</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

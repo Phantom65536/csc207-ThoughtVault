@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > LogInOutInteractor</title>
+  <title>Coverage Report > LogInOutController</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,18 +19,15 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">use_case.user</a>
+    <a href="../index.html">interface_adapter.log_in_out</a>
 </div>
 
-<h1>Coverage Summary for Class: LogInOutInteractor (use_case.user)</h1>
+<h1>Coverage Summary for Class: LogInOutController (interface_adapter.log_in_out)</h1>
 
 <table class="coverageStats">
+
 <tr>
   <th class="name">Class</th>
-<th class="coverageStat 
-">
-  Class, %
-</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -41,33 +38,61 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">LogInOutInteractor</td>
+  <td class="name">LogInOutController</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    75%
   </span>
   <span class="absValue">
-    (1/1)
+    (3/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    83.3%
   </span>
   <span class="absValue">
-    (5/5)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    100%
-  </span>
-  <span class="absValue">
-    (16/16)
+    (5/6)
   </span>
 </td>
 </tr>
-
+  <tr>
+    <td class="name">LogInOutController$MockitoMock$677509152</td>
+  </tr>
+  <tr>
+    <td class="name">LogInOutController$MockitoMock$677509152$auxiliary$bNtlxL1z</td>
+  </tr>
+  <tr>
+    <td class="name">LogInOutController$MockitoMock$677509152$auxiliary$iAh8PHsE</td>
+  </tr>
+  <tr>
+    <td class="name">LogInOutController$MockitoMock$677509152$auxiliary$InXIBNIv</td>
+  </tr>
+  <tr>
+    <td class="name">LogInOutController$MockitoMock$677509152$auxiliary$NFn22RLz</td>
+  </tr>
+  <tr>
+    <td class="name">LogInOutController$MockitoMock$677509152$auxiliary$wTzFuKj0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+</tr>
 </table>
 
 <br/>
@@ -75,53 +100,32 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package use_case.user;
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.log_in_out;
 &nbsp;
-&nbsp;import com.google.api.client.auth.oauth2.Credential;
-&nbsp;import data_access.GCalDataAccessObject;
-&nbsp;import entity.User;
-&nbsp;import org.mindrot.jbcrypt.BCrypt;
+&nbsp;import use_case.user.LoginInputData;
+&nbsp;import use_case.user.LogInOutInputBoundary;
 &nbsp;
 &nbsp;import java.io.IOException;
+&nbsp;import java.security.GeneralSecurityException;
 &nbsp;
-&nbsp;public class LogInOutInteractor implements LogInOutInputBoundary{
-&nbsp;    final UserDataAccessInterface userDataAccessObject;
-&nbsp;    final GCalDataAccessObject gcalDAO;
-&nbsp;    final LogInOutOutputBoundary logInOutPresenter;
+&nbsp;public class LogInOutController {
+&nbsp;    final LogInOutInputBoundary logInOutInteractor;
 &nbsp;
-<b class="fc">&nbsp;    public LogInOutInteractor(UserDataAccessInterface userDataAccessObject, GCalDataAccessObject gcalDAO, LogInOutOutputBoundary logInOutPresenter) {</b>
-<b class="fc">&nbsp;        this.userDataAccessObject = userDataAccessObject;</b>
-<b class="fc">&nbsp;        this.gcalDAO = gcalDAO;</b>
-<b class="fc">&nbsp;        this.logInOutPresenter = logInOutPresenter;</b>
+<b class="fc">&nbsp;    public LogInOutController(LogInOutInputBoundary logInOutInteractor) {</b>
+<b class="fc">&nbsp;        this.logInOutInteractor = logInOutInteractor;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public void logIn(LoginInputData inputData) throws java.security.GeneralSecurityException, IOException {
-<b class="fc">&nbsp;        User currUser = userDataAccessObject.getUserByUsername(inputData.getUsername());</b>
-<b class="fc">&nbsp;        if (currUser == null) {</b>
-<b class="fc">&nbsp;            logInOutPresenter.prepareFailView(&quot;This user does not exist.&quot;, LogInOutOutputBoundary.ErrorType.USERNAME);</b>
-<b class="fc">&nbsp;        } else if (!comparePw(inputData.getPassword(), currUser.getHashedPassword())) {</b>
-<b class="fc">&nbsp;            logInOutPresenter.prepareFailView(&quot;Password incorrect.&quot;, LogInOutOutputBoundary.ErrorType.PASSWORD);</b>
-&nbsp;        } else {
-<b class="fc">&nbsp;            Credential retrievedCred = GCalDataAccessObject.getCredentials(currUser.getCredential());</b>
-<b class="fc">&nbsp;            gcalDAO.setUserCalendar(retrievedCred);</b>
-<b class="fc">&nbsp;            logInOutPresenter.logInSuccessView(currUser.getUserid());</b>
-&nbsp;        }
+&nbsp;    public void logIn(String username, String password) throws GeneralSecurityException, IOException {
+<b class="fc">&nbsp;        LoginInputData inputData = new LoginInputData(username, password);</b>
+<b class="fc">&nbsp;        logInOutInteractor.logIn(inputData);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @Override
 &nbsp;    public void logOut() {
-<b class="fc">&nbsp;        gcalDAO.resetUserCalendar();</b>
-<b class="fc">&nbsp;        logInOutPresenter.logOutSuccessView();</b>
+<b class="nc">&nbsp;        logInOutInteractor.logOut();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public void switchToSignup() {
-<b class="fc">&nbsp;        logInOutPresenter.switchToSignup();</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    private boolean comparePw(String enteredPw, String hashedPw) {
-<b class="fc">&nbsp;        return BCrypt.checkpw(enteredPw, hashedPw);</b>
+&nbsp;    public void switchToSignupView() {
+<b class="fc">&nbsp;        logInOutInteractor.switchToSignup();</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -147,7 +151,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

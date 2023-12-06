@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > LogInViewModel</title>
+  <title>Coverage Report > ExportEventsViewModel</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">interface_adapter.log_in_out</a>
+    <a href="../index.html">interface_adapter.exportevents</a>
 </div>
 
-<h1>Coverage Summary for Class: LogInViewModel (interface_adapter.log_in_out)</h1>
+<h1>Coverage Summary for Class: ExportEventsViewModel (interface_adapter.exportevents)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">LogInViewModel</td>
+  <td class="name">ExportEventsViewModel</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -63,7 +63,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (7/7)
+    (8/8)
   </span>
 </td>
 </tr>
@@ -75,29 +75,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.log_in_out;
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.exportevents;
 &nbsp;
 &nbsp;import interface_adapter.ViewModel;
+&nbsp;import interface_adapter.exportevents.ExportEventsState;
 &nbsp;
 &nbsp;import java.beans.PropertyChangeListener;
 &nbsp;import java.beans.PropertyChangeSupport;
 &nbsp;
-&nbsp;public class LogInViewModel extends ViewModel {
-&nbsp;    public static final String TITLE_VIEW = &quot;Log in view&quot;;
-&nbsp;    public static final String USERNAME_LABEL = &quot;Username: &quot;;
-&nbsp;    public static final String PASSWORD_LABEL = &quot;Password: &quot;;
-&nbsp;    public static final String LOGIN_BUTTON_LABEL = &quot;Log in&quot;;
-&nbsp;    public static final String SWITCH_VIEW_LABEL = &quot;Switch to Sign up view&quot;;
-<b class="fc">&nbsp;    private LogInState state = new LogInState();</b>
+&nbsp;public class ExportEventsViewModel extends ViewModel {
+<b class="fc">&nbsp;    public final String TITLE_LABEL = &quot;Export Events View&quot;;</b>
+&nbsp;    public static final String EXPORT_EVENTS_BUTTON_LABEL = &quot;Export Events&quot;;
+<b class="fc">&nbsp;    private ExportEventsState state = new ExportEventsState();</b>
 &nbsp;
-<b class="fc">&nbsp;    public LogInViewModel() { super(&quot;Log in&quot;); }</b>
-&nbsp;
-&nbsp;    public void setState(LogInState state) {
-<b class="fc">&nbsp;        this.state = state;</b>
+&nbsp;    public ExportEventsViewModel() {
+<b class="fc">&nbsp;        super(&quot;export events&quot;);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public LogInState getState() {
-<b class="fc">&nbsp;        return state;</b>
+&nbsp;    public void setState(ExportEventsState state) {
+<b class="fc">&nbsp;        this.state = state;</b>
 &nbsp;    }
 &nbsp;
 <b class="fc">&nbsp;    private final PropertyChangeSupport support = new PropertyChangeSupport(this);</b>
@@ -110,6 +106,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc">&nbsp;        support.addPropertyChangeListener(listener);</b>
 &nbsp;    }
 &nbsp;
+&nbsp;    public ExportEventsState getState() {
+<b class="fc">&nbsp;        return state;</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -134,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

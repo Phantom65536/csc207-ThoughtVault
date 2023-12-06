@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > LogInOutOutputBoundary</title>
+  <title>Coverage Report > LogInOutPresenter</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,15 +19,18 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">use_case.user</a>
+    <a href="../index.html">interface_adapter.log_in_out</a>
 </div>
 
-<h1>Coverage Summary for Class: LogInOutOutputBoundary (use_case.user)</h1>
+<h1>Coverage Summary for Class: LogInOutPresenter (interface_adapter.log_in_out)</h1>
 
 <table class="coverageStats">
-
 <tr>
   <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
 <th class="coverageStat 
 ">
   Method, %
@@ -37,27 +40,8 @@ Current scope:     <a href="../../index.html">all classes</a>
   Line, %
 </th>
 </tr>
-  <tr>
-    <td class="name">LogInOutOutputBoundary$ErrorType</td>
-<td class="coverageStat">
-  <span class="percent">
-    100%
-  </span>
-  <span class="absValue">
-    (1/1)
-  </span>
-</td>
-<td class="coverageStat">
-  <span class="percent">
-    100%
-  </span>
-  <span class="absValue">
-    (1/1)
-  </span>
-</td>
-  </tr>
 <tr>
-  <td class="name"><strong>Total</strong></td>
+  <td class="name">LogInOutPresenter</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -68,13 +52,22 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    80%
   </span>
   <span class="absValue">
-    (1/1)
+    (4/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.2%
+  </span>
+  <span class="absValue">
+    (15/17)
   </span>
 </td>
 </tr>
+
 </table>
 
 <br/>
@@ -82,14 +75,54 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package use_case.user;
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.log_in_out;
 &nbsp;
-&nbsp;public interface LogInOutOutputBoundary {
-<b class="fc">&nbsp;    enum ErrorType {USERNAME, PASSWORD};</b>
-&nbsp;    void logInSuccessView(int userid);
-&nbsp;    void prepareFailView(String errMsg, ErrorType errorType);
-&nbsp;    void logOutSuccessView();           // set userid in event listed ViewModel state to be null
-&nbsp;    void switchToSignup();
+&nbsp;import interface_adapter.sign_up.SignUpViewModel;
+&nbsp;import interface_adapter.ViewManagerModel;
+&nbsp;import use_case.user.LogInOutOutputBoundary;
+&nbsp;
+&nbsp;public class LogInOutPresenter implements LogInOutOutputBoundary {
+&nbsp;    private final LogInViewModel logInViewModel;
+&nbsp;    private final SignUpViewModel signUpViewModel;
+&nbsp;    private final ViewManagerModel viewManagerModel;
+&nbsp;
+<b class="fc">&nbsp;    public LogInOutPresenter(LogInViewModel logInViewModel, SignUpViewModel signUpViewModel, ViewManagerModel viewManagerModel) {</b>
+<b class="fc">&nbsp;        this.logInViewModel = logInViewModel;</b>
+<b class="fc">&nbsp;        this.signUpViewModel = signUpViewModel;</b>
+<b class="fc">&nbsp;        this.viewManagerModel = viewManagerModel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void logInSuccessView(int userid) {
+<b class="fc">&nbsp;        logInViewModel.setState(new LogInState());</b>
+&nbsp;        // switch to events listed view
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void prepareFailView(String errMsg, ErrorType errorType) {
+<b class="fc">&nbsp;        LogInState logInState = logInViewModel.getState();</b>
+<b class="fc">&nbsp;        if (errorType == ErrorType.USERNAME) {</b>
+<b class="fc">&nbsp;            logInState.setUsernameError(errMsg);</b>
+<b class="fc">&nbsp;        } else if (errorType == ErrorType.PASSWORD) {</b>
+<b class="fc">&nbsp;            logInState.setPasswordError(errMsg);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        logInViewModel.firePropertyChanged();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void logOutSuccessView() {
+&nbsp;        // reset userid in events listed state to null (event listed view model reset state)
+<b class="nc">&nbsp;        viewManagerModel.setActiveView(logInViewModel.getViewName());</b>
+<b class="nc">&nbsp;        viewManagerModel.firePropertyChanged();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void switchToSignup() {
+<b class="fc">&nbsp;        logInViewModel.setState(new LogInState());</b>
+<b class="fc">&nbsp;        logInViewModel.firePropertyChanged();</b>
+<b class="fc">&nbsp;        viewManagerModel.setActiveView(signUpViewModel.getViewName());</b>
+<b class="fc">&nbsp;        viewManagerModel.firePropertyChanged();</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -114,7 +147,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

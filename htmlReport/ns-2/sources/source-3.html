@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > GCalDataAccessObject</title>
+  <title>Coverage Report > UsersUseCaseFactory</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">data_access</a>
+    <a href="../index.html">app</a>
 </div>
 
-<h1>Coverage Summary for Class: GCalDataAccessObject (data_access)</h1>
+<h1>Coverage Summary for Class: UsersUseCaseFactory (app)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">GCalDataAccessObject</td>
+  <td class="name">UsersUseCaseFactory</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    87.5%
+    0%
   </span>
   <span class="absValue">
-    (7/8)
+    (0/3)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    90.9%
+    0%
   </span>
   <span class="absValue">
-    (30/33)
+    (0/9)
   </span>
 </td>
 </tr>
@@ -75,117 +75,49 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+<code class="sourceCode" id="sourceCode">&nbsp;package app;
 &nbsp;
-&nbsp;import com.google.api.client.auth.oauth2.Credential;
-&nbsp;import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-&nbsp;import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-&nbsp;import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-&nbsp;import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-&nbsp;import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-&nbsp;import com.google.api.client.http.javanet.NetHttpTransport;
-&nbsp;import com.google.api.client.json.JsonFactory;
-&nbsp;import com.google.api.client.json.gson.GsonFactory;
-&nbsp;import com.google.api.client.util.store.FileDataStoreFactory;
-&nbsp;import com.google.api.services.calendar.Calendar;
-&nbsp;import com.google.api.services.calendar.CalendarScopes;
-&nbsp;import com.google.api.services.calendar.model.CalendarList;
-&nbsp;import com.google.api.services.calendar.model.CalendarListEntry;
+&nbsp;import interface_adapter.ViewManagerModel;
+&nbsp;import interface_adapter.log_in_out.LogInOutController;
+&nbsp;import interface_adapter.log_in_out.LogInOutPresenter;
+&nbsp;import interface_adapter.log_in_out.LogInViewModel;
+&nbsp;import interface_adapter.sign_up.SignUpController;
+&nbsp;import interface_adapter.sign_up.SignUpPresenter;
+&nbsp;import interface_adapter.sign_up.SignUpViewModel;
 &nbsp;import use_case.gcalevent.GCalEventDataAccessInterface;
+&nbsp;import use_case.user.*;
+&nbsp;import view.user.LogInView;
+&nbsp;import view.user.SignUpView;
 &nbsp;
-&nbsp;import java.io.*;
-&nbsp;import java.security.GeneralSecurityException;
-&nbsp;import java.util.Collections;
-&nbsp;import java.util.List;
+&nbsp;import java.beans.PropertyChangeListener;
 &nbsp;
-&nbsp;public class GCalDataAccessObject implements GCalEventDataAccessInterface {
-<b class="fc">&nbsp;    private Calendar calendar = null;</b>
-<b class="fc">&nbsp;    private String calendarId = null;</b>
-&nbsp;    private static final String APPLICATION_NAME = &quot;Thought Vault&quot;;
-<b class="fc">&nbsp;    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();</b>
-&nbsp;    private static final String TOKENS_DIRECTORY_PATH = &quot;tokens&quot;;
-<b class="fc">&nbsp;    private static final List&lt;String&gt; SCOPES =</b>
-<b class="fc">&nbsp;            Collections.singletonList(CalendarScopes.CALENDAR_READONLY);</b>
-&nbsp;    private static final String CREDENTIALS_FILE_PATH = &quot;/credentials.json&quot;;
+&nbsp;public class UsersUseCaseFactory {
+&nbsp;    private UsersUseCaseFactory() {}
 &nbsp;
-<b class="fc">&nbsp;    public GCalDataAccessObject() {}</b>
+&nbsp;    public static PropertyChangeListener[] create(
+&nbsp;            ViewManagerModel viewManagerModel, LogInViewModel logInViewModel, SignUpViewModel signUpViewModel,
+&nbsp;            UserDataAccessInterface userDataAccessInterface, GCalEventDataAccessInterface gcalDataAccessInterface
+&nbsp;    ) {
+<b class="nc">&nbsp;        SignUpController signUpController = createUserSignupUseCase(viewManagerModel, signUpViewModel, logInViewModel, userDataAccessInterface);</b>
+<b class="nc">&nbsp;        LogInOutController logInOutController = createUserLoginoutCase(viewManagerModel, signUpViewModel, logInViewModel, userDataAccessInterface, gcalDataAccessInterface);</b>
 &nbsp;
-&nbsp;    /**
-&nbsp;     Assume that there is only ONE calendar.
-&nbsp;     **/
-&nbsp;    public void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException {
-<b class="fc">&nbsp;        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();</b>
-&nbsp;
-<b class="fc">&nbsp;        Calendar service =</b>
-&nbsp;                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
-<b class="fc">&nbsp;                        .setApplicationName(APPLICATION_NAME)</b>
-<b class="fc">&nbsp;                        .build();</b>
-&nbsp;
-<b class="fc">&nbsp;        this.calendar = service;</b>
-&nbsp;
-<b class="fc">&nbsp;        CalendarList calendarList = service.calendarList().list().setPageToken(null).execute();</b>
-<b class="fc">&nbsp;        List&lt;CalendarListEntry&gt; items = calendarList.getItems();</b>
-<b class="fc">&nbsp;        this.calendarId = items.get(0).getId();</b>
-&nbsp;
+<b class="nc">&nbsp;        return new PropertyChangeListener[]{new SignUpView(signUpViewModel, signUpController), new LogInView(logInViewModel, logInOutController)};</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void resetUserCalendar() {
-<b class="fc">&nbsp;        calendar = null;</b>
-<b class="fc">&nbsp;        calendarId = null;</b>
+&nbsp;    private static SignUpController createUserSignupUseCase(ViewManagerModel viewManagerModel, SignUpViewModel signUpViewModel,
+&nbsp;                                                            LogInViewModel logInViewModel, UserDataAccessInterface userDataAccessObject) {
+<b class="nc">&nbsp;        SignUpOutputBoundary signUpOutputBoundary = new SignUpPresenter(logInViewModel, signUpViewModel, viewManagerModel);</b>
+<b class="nc">&nbsp;        SignUpInputBoundary signUpInteractor = new SignUpInteractor(userDataAccessObject, signUpOutputBoundary);</b>
+<b class="nc">&nbsp;        return new SignUpController(signUpInteractor);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public Calendar getCalendar() {
-<b class="fc">&nbsp;        return calendar;</b>
+&nbsp;    private static LogInOutController createUserLoginoutCase(ViewManagerModel viewManagerModel, SignUpViewModel signUpViewModel,
+&nbsp;                                                             LogInViewModel logInViewModel, UserDataAccessInterface userDataAccessObject,
+&nbsp;                                                             GCalEventDataAccessInterface gcalDataAccessInterface) {
+<b class="nc">&nbsp;        LogInOutOutputBoundary logInOutOutputBoundary = new LogInOutPresenter(logInViewModel, signUpViewModel, viewManagerModel);</b>
+<b class="nc">&nbsp;        LogInOutInputBoundary logInOutInteractor = new LogInOutInteractor(userDataAccessObject, gcalDataAccessInterface, logInOutOutputBoundary);</b>
+<b class="nc">&nbsp;        return new LogInOutController(logInOutInteractor);</b>
 &nbsp;    }
-&nbsp;
-&nbsp;    public String getCalendarId() {
-<b class="fc">&nbsp;        return calendarId;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public boolean eventExists(String eventId) throws IOException {
-<b class="nc">&nbsp;        if (calendar == null)</b>
-<b class="nc">&nbsp;            return false;</b>
-<b class="nc">&nbsp;        return calendar.events().get(calendarId, eventId).execute().getId() != null;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    public static Credential getCredentials(String jsonCredentials) {
-&nbsp;        try {
-<b class="fc">&nbsp;            GoogleClientSecrets clientSecrets =</b>
-<b class="fc">&nbsp;                    GoogleClientSecrets.load(JSON_FACTORY, new StringReader(jsonCredentials));</b>
-<b class="fc">&nbsp;            final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();</b>
-&nbsp;
-&nbsp;            // Build flow and trigger user authorization request.
-<b class="fc">&nbsp;            GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(</b>
-&nbsp;                    HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-<b class="fc">&nbsp;                    .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))</b>
-<b class="fc">&nbsp;                    .setAccessType(&quot;offline&quot;)</b>
-<b class="fc">&nbsp;                    .build();</b>
-&nbsp;
-<b class="fc">&nbsp;            LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();</b>
-<b class="fc">&nbsp;            Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize(&quot;user&quot;);</b>
-<b class="fc">&nbsp;            return credential;</b>
-<b class="fc">&nbsp;        } catch (IOException | GeneralSecurityException e) {</b>
-<b class="fc">&nbsp;            return null;</b>
-&nbsp;        }
-&nbsp;    }
-&nbsp;
-&nbsp;//    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, String jsonCredentials)
-&nbsp;//            throws IOException {
-&nbsp;//        GoogleClientSecrets clientSecrets =
-&nbsp;//                GoogleClientSecrets.load(JSON_FACTORY, new StringReader(jsonCredentials));
-&nbsp;//
-&nbsp;//        // Build flow and trigger user authorization request.
-&nbsp;//        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-&nbsp;//                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-&nbsp;//                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-&nbsp;//                .setAccessType(&quot;offline&quot;)
-&nbsp;//                .build();
-&nbsp;//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-&nbsp;//        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize(&quot;user&quot;);
-&nbsp;//        //returns an authorized Credential object.
-&nbsp;//        return credential;
-&nbsp;//    }
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -210,7 +142,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

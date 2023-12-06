@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > EntriesDataAccessObject</title>
+  <title>Coverage Report > ExportEventsUseCaseFactory</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">data_access</a>
+    <a href="../index.html">app</a>
 </div>
 
-<h1>Coverage Summary for Class: EntriesDataAccessObject (data_access)</h1>
+<h1>Coverage Summary for Class: ExportEventsUseCaseFactory (app)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">EntriesDataAccessObject</td>
+  <td class="name">ExportEventsUseCaseFactory</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    93.3%
+    0%
   </span>
   <span class="absValue">
-    (14/15)
+    (0/2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    98.1%
+    0%
   </span>
   <span class="absValue">
-    (52/53)
+    (0/8)
   </span>
 </td>
 </tr>
@@ -75,139 +75,61 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+<code class="sourceCode" id="sourceCode">&nbsp;package app;
 &nbsp;
-&nbsp;import entity.Note;
-&nbsp;import org.json.simple.JSONArray;
-&nbsp;import org.json.simple.JSONObject;
-&nbsp;import org.json.simple.parser.JSONParser;
-&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;import interface_adapter.ViewManagerModel;
+&nbsp;import interface_adapter.exportevents.ExportEventsController;
+&nbsp;import interface_adapter.exportevents.ExportEventsPresenter;
+&nbsp;import interface_adapter.exportevents.ExportEventsViewModel;
+&nbsp;import interface_adapter.home.HomeViewModel;
+&nbsp;import use_case.gcalevent.GCalEventDataAccessInterface;
+&nbsp;import use_case.gcalevent.GCalEventInputBoundary;
+&nbsp;import use_case.gcalevent.GCalEventInteractor;
+&nbsp;import use_case.gcalevent.GCalEventOutputBoundary;
 &nbsp;import use_case.local_event.EntriesDataAccessInterface;
+&nbsp;import view.ExportEventsView;
+&nbsp;import view.ImportEventsView;
 &nbsp;
-&nbsp;import java.io.File;
-&nbsp;import java.io.FileReader;
+&nbsp;import javax.swing.*;
 &nbsp;import java.io.IOException;
-&nbsp;import java.util.ArrayList;
-&nbsp;import java.util.HashMap;
-&nbsp;import java.util.Map;
 &nbsp;
-&nbsp;@SuppressWarnings(&quot;unchecked&quot;)
-&nbsp;abstract public class EntriesDataAccessObject&lt;T extends Note&gt; implements EntriesDataAccessInterface&lt;T&gt; {
-<b class="fc">&nbsp;    final Map&lt;Integer, T&gt; entries = new HashMap&lt;&gt;();</b>
-&nbsp;    final File jsonFile;
-<b class="fc">&nbsp;    int lastID = 0;</b>
+&nbsp;public class ExportEventsUseCaseFactory {
 &nbsp;
-<b class="fc">&nbsp;    public EntriesDataAccessObject(String jsonPath) throws IOException, ParseException {</b>
-<b class="fc">&nbsp;        jsonFile = new File(jsonPath);</b>
+&nbsp;    /** Prevent instantiation. */
+&nbsp;    private ExportEventsUseCaseFactory(){}
 &nbsp;
-<b class="fc">&nbsp;        if (jsonFile.length() == 0) {</b>
-&nbsp;            // Create new file with jsonPath if it doesn&#39;t exist
-<b class="fc">&nbsp;            save();</b>
-&nbsp;        } else {
-&nbsp;            // Read existing notes/Notes JSON file and map each event/note JSON object to a key-value pair in entries
-<b class="fc">&nbsp;            JSONParser jsonParser = new JSONParser();</b>
-<b class="fc">&nbsp;            try (FileReader reader = new FileReader(jsonFile)) {</b>
-<b class="fc">&nbsp;                Object obj = jsonParser.parse(reader);</b>
-<b class="fc">&nbsp;                JSONArray entriesList = (JSONArray) obj;</b>
-<b class="fc">&nbsp;                entriesList.forEach(ent -&gt; parseEntryObj((JSONObject) ent));</b>
-<b class="fc">&nbsp;            }</b>
+&nbsp;    public static ExportEventsView create(
+&nbsp;            ViewManagerModel viewManagerModel,
+&nbsp;            ExportEventsViewModel exportEventsViewModel,
+&nbsp;            HomeViewModel homeViewModel,
+&nbsp;            GCalEventDataAccessInterface gcalDataAccessObject,
+&nbsp;            EntriesDataAccessInterface entriesDataAccessObject) {
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            ExportEventsController exportEventsController = createExportEventsUseCase(viewManagerModel,</b>
+&nbsp;                    exportEventsViewModel, homeViewModel, gcalDataAccessObject, entriesDataAccessObject);
+<b class="nc">&nbsp;            return new ExportEventsView(exportEventsViewModel, exportEventsController);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            JOptionPane.showMessageDialog(null, &quot;Could not instantiate Export Events View.&quot;);</b>
 &nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return null;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    abstract void parseEntryObj(JSONObject entryJSON);
+&nbsp;    private static ExportEventsController createExportEventsUseCase(
+&nbsp;            ViewManagerModel viewManagerModel,
+&nbsp;            ExportEventsViewModel exportEventsViewModel,
+&nbsp;            HomeViewModel homeViewModel,
+&nbsp;            GCalEventDataAccessInterface gcalDataAccessObject,
+&nbsp;            EntriesDataAccessInterface entriesDataAccessObject) throws IOException {
 &nbsp;
-&nbsp;    int parseEntryID(JSONObject entryJSON) {
-<b class="fc">&nbsp;        return ((Long) entryJSON.get(&quot;id&quot;)).intValue();</b>
-&nbsp;    }
+&nbsp;        // Pass GCalEventOutputBoundary to the Presenter.
+<b class="nc">&nbsp;        GCalEventOutputBoundary gCalEventOutputBoundary = new ExportEventsPresenter(exportEventsViewModel, homeViewModel, viewManagerModel);</b>
 &nbsp;
-&nbsp;    String parseTitle(JSONObject entryJSON) {
-<b class="fc">&nbsp;        return (String) entryJSON.get(&quot;title&quot;);</b>
-&nbsp;    }
+<b class="nc">&nbsp;        GCalEventInputBoundary exportEventsInteractor = new GCalEventInteractor(</b>
+&nbsp;                gcalDataAccessObject, gCalEventOutputBoundary, entriesDataAccessObject);
 &nbsp;
-&nbsp;    int parseUserID(JSONObject entryJSON) {
-<b class="fc">&nbsp;        return ((Long) entryJSON.get(&quot;userid&quot;)).intValue();</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    String parseLocation(JSONObject entryJSON) {
-<b class="fc">&nbsp;        return (String) entryJSON.get(&quot;location&quot;);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    String parseDescription(JSONObject entryJSON) {
-<b class="fc">&nbsp;        return (String) entryJSON.get(&quot;description&quot;);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    boolean parseLabel(JSONObject entryJSON) {
-<b class="fc">&nbsp;        return (entryJSON.get(&quot;label&quot;)).equals(&quot;WORK&quot;);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    boolean parsePinned(JSONObject entryJSON) {
-<b class="fc">&nbsp;        return (Boolean) entryJSON.get(&quot;pinned&quot;);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    ArrayList&lt;Integer&gt; parseSubEntries(JSONArray subEntriesJSON) {
-<b class="fc">&nbsp;        ArrayList&lt;Integer&gt; entriesList = new ArrayList&lt;&gt;();</b>
-<b class="fc">&nbsp;        for (Long eventLongID : (ArrayList&lt;Long&gt;) subEntriesJSON)</b>
-<b class="fc">&nbsp;            entriesList.add(eventLongID.intValue()); </b>
-<b class="fc">&nbsp;        return entriesList;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public T getByID(int entryID) {
-<b class="nc">&nbsp;        return entries.get(entryID);</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public ArrayList&lt;T&gt; getAllUserEntries(int userID) {
-<b class="fc">&nbsp;        ArrayList&lt;T&gt; userEntriesID = new ArrayList&lt;&gt;();</b>
-<b class="fc">&nbsp;        for (int id : entries.keySet())</b>
-<b class="fc">&nbsp;            if (entries.get(id).getUserID() == userID)</b>
-<b class="fc">&nbsp;                userEntriesID.add(entries.get(id));</b>
-<b class="fc">&nbsp;        return userEntriesID;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public void save(T entry) {
-<b class="fc">&nbsp;        entries.put(entry.getID(), entry);</b>
-<b class="fc">&nbsp;        save();</b>
-&nbsp;    }
-&nbsp;
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public void delete(int entryID) {
-<b class="fc">&nbsp;        T rmEntry = entries.remove(entryID);</b>
-<b class="fc">&nbsp;        if (rmEntry == null)</b>
-&nbsp;            return;
-&nbsp;        // If this entry is a child of any other entries, remove this entry&#39;s id in its parent&#39;s sub-events
-<b class="fc">&nbsp;        for (int id : entries.keySet()) {</b>
-<b class="fc">&nbsp;            int count = 0;</b>
-<b class="fc">&nbsp;            for (int subEntryID : entries.get(id).getDescendants()) {</b>
-<b class="fc">&nbsp;                if (subEntryID == entryID) {</b>
-<b class="fc">&nbsp;                    entries.get(id).removeDescendants(count);</b>
-<b class="fc">&nbsp;                    break;</b>
-&nbsp;                }
-<b class="fc">&nbsp;                count++;</b>
-<b class="fc">&nbsp;            }</b>
-<b class="fc">&nbsp;        }</b>
-<b class="fc">&nbsp;        save();</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @Override
-&nbsp;    public int getNewID() {
-<b class="fc">&nbsp;        return ++lastID;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    abstract void save();
-&nbsp;
-&nbsp;    JSONObject putEntryDetails(int entryID) {
-<b class="fc">&nbsp;        JSONObject entryDetails = new JSONObject();</b>
-<b class="fc">&nbsp;        entryDetails.put(&quot;id&quot;, entries.get(entryID).getID());</b>
-<b class="fc">&nbsp;        entryDetails.put(&quot;title&quot;, entries.get(entryID).getTitle());</b>
-<b class="fc">&nbsp;        entryDetails.put(&quot;userid&quot;, entries.get(entryID).getUserID());</b>
-<b class="fc">&nbsp;        entryDetails.put(&quot;location&quot;, entries.get(entryID).getLocation());</b>
-<b class="fc">&nbsp;        entryDetails.put(&quot;description&quot;, entries.get(entryID).getDescription());</b>
-<b class="fc">&nbsp;        entryDetails.put(&quot;label&quot;, entries.get(entryID).isWork() ? &quot;WORK&quot; : &quot;PERSONAL&quot;);</b>
-<b class="fc">&nbsp;        entryDetails.put(&quot;pinned&quot;, entries.get(entryID).getPinned());</b>
-<b class="fc">&nbsp;        return entryDetails;</b>
+<b class="nc">&nbsp;        return new ExportEventsController(exportEventsInteractor);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -233,7 +155,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

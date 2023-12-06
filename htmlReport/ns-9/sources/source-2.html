@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > GCalEventInteractor</title>
+  <title>Coverage Report > ImportEventsPresenter</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">use_case.gcalevent</a>
+    <a href="../index.html">interface_adapter.importevents</a>
 </div>
 
-<h1>Coverage Summary for Class: GCalEventInteractor (use_case.gcalevent)</h1>
+<h1>Coverage Summary for Class: ImportEventsPresenter (interface_adapter.importevents)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">GCalEventInteractor</td>
+  <td class="name">ImportEventsPresenter</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    50%
   </span>
   <span class="absValue">
-    (0/4)
+    (2/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    58.8%
   </span>
   <span class="absValue">
-    (0/34)
+    (10/17)
   </span>
 </td>
 </tr>
@@ -75,77 +75,48 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package use_case.gcalevent;
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.importevents;
 &nbsp;
-&nbsp;import com.google.api.services.calendar.Calendar;
-&nbsp;import com.google.api.services.calendar.model.Event;
-&nbsp;import com.google.api.services.calendar.model.Events;
+&nbsp;import interface_adapter.ViewManagerModel;
+&nbsp;import interface_adapter.home.HomeViewModel;
+&nbsp;import use_case.gcalevent.GCalEventOutputBoundary;
+&nbsp;import use_case.gcalevent.GCalEventOutputData;
 &nbsp;
-&nbsp;import java.io.IOException;
-&nbsp;import java.util.ArrayList;
-&nbsp;import java.util.List;
+&nbsp;public class ImportEventsPresenter implements GCalEventOutputBoundary {
+&nbsp;    private final ImportEventsViewModel importEventsViewModel;
+&nbsp;    private final HomeViewModel homeViewModel;
+&nbsp;    private ViewManagerModel viewManagerModel;
 &nbsp;
-&nbsp;public class GCalEventInteractor implements ExternalEventInputBoundary {
-&nbsp;    final GCalEventDataAccessInterface userDataAccessObject;
-&nbsp;    final GCalEventOutputBoundary gCalEventPresenter;
-&nbsp;
-&nbsp;    public GCalEventInteractor(GCalEventDataAccessInterface userDataAccessObject,
-<b class="nc">&nbsp;                               GCalEventOutputBoundary gCalEventPresenter) {</b>
-<b class="nc">&nbsp;        this.userDataAccessObject = userDataAccessObject;</b>
-<b class="nc">&nbsp;        this.gCalEventPresenter = gCalEventPresenter;</b>
+<b class="fc">&nbsp;    public ImportEventsPresenter(ImportEventsViewModel importEventsViewModel, HomeViewModel homeViewModel, ViewManagerModel viewManagerModel) {</b>
+<b class="fc">&nbsp;        this.importEventsViewModel = importEventsViewModel;</b>
+<b class="fc">&nbsp;        this.homeViewModel = homeViewModel;</b>
+<b class="fc">&nbsp;        this.viewManagerModel = viewManagerModel;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public boolean importEvent(String eventId) throws IOException {
-<b class="nc">&nbsp;        Calendar calendar = userDataAccessObject.getCalendar();</b>
-<b class="nc">&nbsp;        String calendarId = userDataAccessObject.getCalendarId();</b>
+&nbsp;    public void prepareSuccessView(GCalEventOutputData response) {
+<b class="fc">&nbsp;        ImportEventsState importEventsState = importEventsViewModel.getState();</b>
+<b class="fc">&nbsp;        importEventsState.setImportedEventSummary(response.getTitle());</b>
+<b class="fc">&nbsp;        importEventsViewModel.setState(importEventsState);</b>
+<b class="fc">&nbsp;        importEventsViewModel.firePropertyChanged();</b>
 &nbsp;
-<b class="nc">&nbsp;        if (!userDataAccessObject.eventExists(eventId)) {</b>
-<b class="nc">&nbsp;            gCalEventPresenter.prepareFailView(eventId + &quot; :Event does not exist in your calendar.&quot;);</b>
-<b class="nc">&nbsp;            return false;</b>
-&nbsp;        } else {
-<b class="nc">&nbsp;            Event event = calendar.events().get(calendarId, eventId).execute();</b>
-<b class="nc">&nbsp;            System.out.println(event.getSummary());</b>
-&nbsp;
-<b class="nc">&nbsp;            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar);</b>
-<b class="nc">&nbsp;            gCalEventPresenter.prepareSuccessView(gCalEventOutputData);</b>
-&nbsp;
-<b class="nc">&nbsp;            return true;</b>
-&nbsp;        }
+<b class="fc">&nbsp;        viewManagerModel.setActiveView(importEventsViewModel.getViewName());</b>
+<b class="fc">&nbsp;        viewManagerModel.firePropertyChanged();</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Override
-&nbsp;    public boolean exportEvent(String localEventId) throws IOException {
-<b class="nc">&nbsp;        Calendar calendar = userDataAccessObject.getCalendar();</b>
-<b class="nc">&nbsp;        String calendarId = userDataAccessObject.getCalendarId();</b>
-&nbsp;
-<b class="nc">&nbsp;        Event event = calendar.events().get(calendarId, localEventId).execute();</b>
-<b class="nc">&nbsp;        Event importedEvent = calendar.events().calendarImport(calendarId, event).execute();</b>
-<b class="nc">&nbsp;        System.out.println(importedEvent.getId());</b>
-&nbsp;
-<b class="nc">&nbsp;        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(localEventId, calendar);</b>
-<b class="nc">&nbsp;        gCalEventPresenter.prepareSuccessView(gCalEventOutputData);</b>
-&nbsp;
-<b class="nc">&nbsp;        return true;</b>
+&nbsp;    public void prepareFailView(String error){
+<b class="nc">&nbsp;        ImportEventsState importEventsState = importEventsViewModel.getState();</b>
+<b class="nc">&nbsp;        importEventsState.setImportEventError(error);</b>
+<b class="nc">&nbsp;        importEventsViewModel.firePropertyChanged();</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public ArrayList&lt;Event&gt; getAllEvents() throws IOException {
-<b class="nc">&nbsp;        ArrayList&lt;Event&gt; listOfEvents = new ArrayList&lt;&gt;();</b>
-<b class="nc">&nbsp;        Calendar calendar = userDataAccessObject.getCalendar();</b>
-<b class="nc">&nbsp;        String calendarId = userDataAccessObject.getCalendarId();</b>
-<b class="nc">&nbsp;        String pageToken = null;</b>
-&nbsp;
-&nbsp;        do {
-<b class="nc">&nbsp;            Events events = calendar.events().list(calendarId).setPageToken(pageToken).execute();</b>
-<b class="nc">&nbsp;            List&lt;Event&gt; items = events.getItems();</b>
-<b class="nc">&nbsp;            for (Event event : items) {</b>
-<b class="nc">&nbsp;                listOfEvents.add(event);</b>
-<b class="nc">&nbsp;                System.out.println(event.getSummary());</b>
-<b class="nc">&nbsp;            }</b>
-<b class="nc">&nbsp;            pageToken = events.getNextPageToken();</b>
-<b class="nc">&nbsp;        } while (pageToken != null);</b>
-&nbsp;
-<b class="nc">&nbsp;        return listOfEvents;</b>
+&nbsp;    @Override
+&nbsp;    public void switchToHome() {
+<b class="nc">&nbsp;        importEventsViewModel.setState(new ImportEventsState());</b>
+<b class="nc">&nbsp;        importEventsViewModel.firePropertyChanged();</b>
+<b class="nc">&nbsp;        viewManagerModel.setActiveView(homeViewModel.getViewName());</b>
+<b class="nc">&nbsp;        viewManagerModel.firePropertyChanged();</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -171,7 +142,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

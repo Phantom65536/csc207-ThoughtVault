@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > EventsDataAccessObject</title>
+  <title>Coverage Report > ImportEventsUseCaseFactory</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">data_access</a>
+    <a href="../index.html">app</a>
 </div>
 
-<h1>Coverage Summary for Class: EventsDataAccessObject (data_access)</h1>
+<h1>Coverage Summary for Class: ImportEventsUseCaseFactory (app)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">EventsDataAccessObject</td>
+  <td class="name">ImportEventsUseCaseFactory</td>
 <td class="coverageStat">
   <span class="percent">
     0%
@@ -55,7 +55,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/4)
+    (0/2)
   </span>
 </td>
 <td class="coverageStat">
@@ -63,7 +63,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/41)
+    (0/8)
   </span>
 </td>
 </tr>
@@ -75,89 +75,60 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+<code class="sourceCode" id="sourceCode">&nbsp;package app;
 &nbsp;
-&nbsp;import entity.LocalEvent;
-&nbsp;import org.json.simple.JSONArray;
-&nbsp;import org.json.simple.JSONObject;
-&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;import interface_adapter.ViewManagerModel;
+&nbsp;import interface_adapter.home.HomeViewModel;
+&nbsp;import interface_adapter.importevents.ImportEventsController;
+&nbsp;import interface_adapter.importevents.ImportEventsPresenter;
+&nbsp;import interface_adapter.importevents.ImportEventsViewModel;
+&nbsp;import use_case.gcalevent.GCalEventDataAccessInterface;
+&nbsp;import use_case.gcalevent.GCalEventInputBoundary;
+&nbsp;import use_case.gcalevent.GCalEventInteractor;
+&nbsp;import use_case.gcalevent.GCalEventOutputBoundary;
+&nbsp;import use_case.local_event.EntriesDataAccessInterface;
+&nbsp;import view.ImportEventsView;
 &nbsp;
-&nbsp;import java.io.FileWriter;
+&nbsp;import javax.swing.*;
 &nbsp;import java.io.IOException;
-&nbsp;import java.time.LocalDate;
-&nbsp;import java.time.LocalTime;
-&nbsp;import java.time.format.DateTimeFormatter;
-&nbsp;import java.util.ArrayList;
-&nbsp;import java.util.Arrays;
 &nbsp;
-&nbsp;public class EventsDataAccessObject extends EntriesDataAccessObject&lt;LocalEvent&gt; {
+&nbsp;public class ImportEventsUseCaseFactory {
 &nbsp;
-&nbsp;    public EventsDataAccessObject(String jsonPath) throws IOException, ParseException {
-<b class="nc">&nbsp;        super(jsonPath);</b>
-&nbsp;    }
+&nbsp;    /** Prevent instantiation. */
+&nbsp;    private ImportEventsUseCaseFactory(){}
 &nbsp;
-&nbsp;    void parseEntryObj(JSONObject entryJSON) {
-<b class="nc">&nbsp;        LocalDate date = LocalDate.parse((String) entryJSON.get(&quot;date&quot;));</b>
-<b class="nc">&nbsp;        LocalTime startTime = LocalTime.parse((String) entryJSON.get(&quot;starttime&quot;));</b>
-<b class="nc">&nbsp;        LocalTime endTime = LocalTime.parse((String) entryJSON.get(&quot;endtime&quot;));</b>
+&nbsp;    public static ImportEventsView create(
+&nbsp;            ViewManagerModel viewManagerModel,
+&nbsp;            ImportEventsViewModel importEventsViewModel,
+&nbsp;            HomeViewModel homeViewModel,
+&nbsp;            GCalEventDataAccessInterface gcalDataAccessObject,
+&nbsp;            EntriesDataAccessInterface entriesDataAccessObject) {
 &nbsp;
-<b class="nc">&nbsp;        JSONArray eventsJSONArr = (JSONArray) entryJSON.get(&quot;sub-events&quot;);</b>
-<b class="nc">&nbsp;        ArrayList&lt;Integer&gt; eventsList = parseSubEntries(eventsJSONArr);</b>
-&nbsp;
-<b class="nc">&nbsp;        int eventID = parseEntryID(entryJSON);</b>
-<b class="nc">&nbsp;        entries.put(eventID, new LocalEvent(eventID, parseTitle(entryJSON), parseUserID(entryJSON), date, startTime, endTime,</b>
-<b class="nc">&nbsp;                parseLocation(entryJSON), parseDescription(entryJSON), parseLabel(entryJSON), parsePinned(entryJSON), eventsList));</b>
-<b class="nc">&nbsp;        lastID = eventID;</b>
-&nbsp;    }
-&nbsp;
-&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
-&nbsp;    void save() {
-<b class="nc">&nbsp;        try (FileWriter writer = new FileWriter(jsonFile)) {</b>
-&nbsp;            // Write every event in the events map to jsonFile
-<b class="nc">&nbsp;            JSONArray allEventsJSON = new JSONArray();</b>
-<b class="nc">&nbsp;            for (int id : entries.keySet()) {</b>
-<b class="nc">&nbsp;                JSONObject eventDetails = putEntryDetails(id);</b>
-&nbsp;
-<b class="nc">&nbsp;                eventDetails.put(&quot;date&quot;, entries.get(id).getDate().format(DateTimeFormatter.ISO_LOCAL_DATE));</b>
-<b class="nc">&nbsp;                LocalTime[] startEndTimes = entries.get(id).getStartEndTIme();</b>
-<b class="nc">&nbsp;                eventDetails.put(&quot;starttime&quot;, startEndTimes[0].format(DateTimeFormatter.ISO_LOCAL_TIME));</b>
-<b class="nc">&nbsp;                eventDetails.put(&quot;endtime&quot;, startEndTimes[1].format(DateTimeFormatter.ISO_LOCAL_TIME));</b>
-&nbsp;
-<b class="nc">&nbsp;                JSONArray subEventsJSON = new JSONArray();</b>
-<b class="nc">&nbsp;                subEventsJSON.addAll(entries.get(id).getDescendants());</b>
-<b class="nc">&nbsp;                eventDetails.put(&quot;sub-events&quot;, subEventsJSON);</b>
-&nbsp;
-<b class="nc">&nbsp;                allEventsJSON.add(eventDetails);</b>
-<b class="nc">&nbsp;            }</b>
-<b class="nc">&nbsp;            writer.write(allEventsJSON.toJSONString());</b>
-<b class="nc">&nbsp;            writer.flush();</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            ImportEventsController importEventsController = createImportEventsUseCase(viewManagerModel,</b>
+&nbsp;                    importEventsViewModel, homeViewModel, gcalDataAccessObject, entriesDataAccessObject);
+<b class="nc">&nbsp;            return new ImportEventsView(importEventsViewModel, importEventsController);</b>
 <b class="nc">&nbsp;        } catch (IOException e) {</b>
-<b class="nc">&nbsp;            throw new RuntimeException((e));</b>
-<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;            JOptionPane.showMessageDialog(null, &quot;Could not instantiate Import Events View.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return null;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    // for testing only
-&nbsp;    public static void main(String[] args) throws IOException, ParseException {
-<b class="nc">&nbsp;        EventsDataAccessObject dao = new EventsDataAccessObject(&quot;./testEvent.json&quot;);</b>
+&nbsp;    private static ImportEventsController createImportEventsUseCase(
+&nbsp;            ViewManagerModel viewManagerModel,
+&nbsp;            ImportEventsViewModel importEventsViewModel,
+&nbsp;            HomeViewModel homeViewModel,
+&nbsp;            GCalEventDataAccessInterface gcalDataAccessObject,
+&nbsp;            EntriesDataAccessInterface entriesDataAccessObject) throws IOException {
 &nbsp;
-<b class="nc">&nbsp;        LocalEvent firstEvent = new LocalEvent(dao.getNewID(), &quot;first&quot;, 0, LocalDate.parse(&quot;2023-11-09&quot;), LocalTime.NOON, LocalTime.parse(&quot;20:00&quot;),</b>
-&nbsp;                &quot;TA guy&#39;s crib&quot;, &quot;This is a description.&quot;, true, false, new ArrayList&lt;&gt;());
-<b class="nc">&nbsp;        dao.save(firstEvent);</b>
-<b class="nc">&nbsp;        dao.save(new LocalEvent(dao.getNewID(), &quot;second&quot;, 0, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;11:00&quot;),</b>
-<b class="nc">&nbsp;                &quot;TA guy&#39;s toilet&quot;, &quot;There is no way this is not a description.&quot;, true, true, new ArrayList&lt;&gt;(Arrays.asList(firstEvent.getID(), 1000))));</b>
-<b class="nc">&nbsp;        dao.save(new LocalEvent(dao.getNewID(), &quot;third&quot;, 0, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;23:59&quot;),</b>
-<b class="nc">&nbsp;                &quot;Garbage chute :)))&quot;, &quot;NO DESCRIPTION T_T&quot;, false, true, new ArrayList&lt;&gt;(Arrays.asList(0, firstEvent.getID()))));</b>
+&nbsp;        // Pass GCalEventOutputBoundary to the Presenter.
+<b class="nc">&nbsp;        GCalEventOutputBoundary gCalEventOutputBoundary = new ImportEventsPresenter(importEventsViewModel, homeViewModel, viewManagerModel);</b>
 &nbsp;
-<b class="nc">&nbsp;        LocalEvent otherUserEvent = new LocalEvent(dao.getNewID(), &quot;another user&quot;, 1, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;23:59&quot;),</b>
-&nbsp;                &quot;Garbage chute :)))&quot;, &quot;NO DESCRIPTION T_T&quot;, false, true, new ArrayList&lt;&gt;());
-<b class="nc">&nbsp;        dao.save(otherUserEvent);</b>
+<b class="nc">&nbsp;        GCalEventInputBoundary importEventsInteractor = new GCalEventInteractor(</b>
+&nbsp;                gcalDataAccessObject, gCalEventOutputBoundary, entriesDataAccessObject);
 &nbsp;
-<b class="nc">&nbsp;        otherUserEvent.amendAllAttributes(&quot;another user editted&quot;, LocalDate.parse(&quot;2022-01-02&quot;), LocalTime.MIDNIGHT, LocalTime.parse(&quot;23:59&quot;),</b>
-&nbsp;                &quot;Garbage chute :(((&quot;, &quot;EDITED DESCRIPTION T_T&quot;, true, true, new ArrayList&lt;&gt;());
-<b class="nc">&nbsp;        dao.save(otherUserEvent);</b>
-&nbsp;
-<b class="nc">&nbsp;        ArrayList&lt;LocalEvent&gt; user0Events = dao.getAllUserEntries(0);</b>
-<b class="nc">&nbsp;        dao.delete(firstEvent.getID());</b>
+<b class="nc">&nbsp;        return new ImportEventsController(importEventsInteractor);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -183,7 +154,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

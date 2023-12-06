@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ExternalEventInputBoundary</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GCalEventOutputBoundary</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,14 +22,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">use_case.gcalevent</a>
 </div>
 
-<h1>Coverage Summary for Class: ExternalEventInputBoundary (use_case.gcalevent)</h1>
+<h1>Coverage Summary for Class: GCalEventOutputBoundary (use_case.gcalevent)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">ExternalEventInputBoundary</td>
+  <td class="name">GCalEventOutputBoundary</td>
 </tr>
 
 </table>
@@ -40,11 +41,10 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package use_case.gcalevent;
 &nbsp;
-&nbsp;import java.io.IOException;
-&nbsp;
-&nbsp;public interface ExternalEventInputBoundary {
-&nbsp;    boolean importEvent(String eventId) throws IOException;
-&nbsp;    boolean exportEvent(String eventId) throws IOException;
+&nbsp;public interface GCalEventOutputBoundary {
+&nbsp;    void prepareSuccessView(GCalEventOutputData gCalEventOutputData);
+&nbsp;    void prepareFailView(String error);
+&nbsp;    void switchToHome();
 &nbsp;}
 </code>
 </pre>
@@ -69,7 +69,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:42</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

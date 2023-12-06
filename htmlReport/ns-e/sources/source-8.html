@@ -4,7 +4,8 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > LogInOutInputBoundary</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserDataAccessInterface</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -21,14 +22,14 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">use_case.user</a>
 </div>
 
-<h1>Coverage Summary for Class: LogInOutInputBoundary (use_case.user)</h1>
+<h1>Coverage Summary for Class: UserDataAccessInterface (use_case.user)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
 </tr>
 <tr>
-  <td class="name">LogInOutInputBoundary</td>
+  <td class="name">UserDataAccessInterface</td>
 </tr>
 
 </table>
@@ -40,12 +41,12 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package use_case.user;
 &nbsp;
-&nbsp;import java.io.IOException;
+&nbsp;import entity.User;
 &nbsp;
-&nbsp;public interface LogInOutInputBoundary {
-&nbsp;    void logIn(LoginInputData inputData) throws java.security.GeneralSecurityException, IOException;
-&nbsp;    void logOut();
-&nbsp;    void switchToSignup();
+&nbsp;public interface UserDataAccessInterface {
+&nbsp;    User getUserByUsername(String username);
+&nbsp;    void save(User user);
+&nbsp;    int getNewID();
 &nbsp;}
 </code>
 </pre>
@@ -70,7 +71,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:42</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

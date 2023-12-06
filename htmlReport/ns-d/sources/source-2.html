@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > EntriesDataAccessInterface</title>
+  <title>Coverage Report > GCalEventInteractor</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,17 +19,53 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">use_case.local_event</a>
+    <a href="../index.html">use_case.gcalevent</a>
 </div>
 
-<h1>Coverage Summary for Class: EntriesDataAccessInterface (use_case.local_event)</h1>
+<h1>Coverage Summary for Class: GCalEventInteractor (use_case.gcalevent)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
 </tr>
 <tr>
-  <td class="name">EntriesDataAccessInterface</td>
+  <td class="name">GCalEventInteractor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94.7%
+  </span>
+  <span class="absValue">
+    (71/75)
+  </span>
+</td>
 </tr>
 
 </table>
@@ -39,18 +75,174 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package use_case.local_event;
+<code class="sourceCode" id="sourceCode">&nbsp;package use_case.gcalevent;
 &nbsp;
-&nbsp;import entity.Note;
+&nbsp;import com.google.api.client.util.DateTime;
+&nbsp;import com.google.api.services.calendar.Calendar;
+&nbsp;import com.google.api.services.calendar.model.Event;
+&nbsp;import com.google.api.services.calendar.model.EventDateTime;
+&nbsp;import com.google.api.services.calendar.model.Events;
+&nbsp;import entity.LocalEvent;
+&nbsp;import output_data.LocalEventOutputData;
+&nbsp;import use_case.local_event.EntriesDataAccessInterface;
 &nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.time.LocalDateTime;
 &nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.TimeZone;
+&nbsp;import java.util.Date;
 &nbsp;
-&nbsp;public interface EntriesDataAccessInterface&lt;T extends Note&gt; {
-&nbsp;    T getByID(int entryID);
-&nbsp;    ArrayList&lt;T&gt; getAllUserEntries(int userID);
-&nbsp;    void save(T entry);
-&nbsp;    void delete(int entryID);
-&nbsp;    int getNewID();
+&nbsp;public class GCalEventInteractor implements GCalEventInputBoundary {
+&nbsp;    final GCalEventDataAccessInterface userDataAccessObject;
+&nbsp;    final GCalEventOutputBoundary gCalEventPresenter;
+&nbsp;    final EntriesDataAccessInterface entriesDataAccessObject;
+&nbsp;
+&nbsp;    public GCalEventInteractor(GCalEventDataAccessInterface userDataAccessObject,
+&nbsp;                               GCalEventOutputBoundary gCalEventPresenter,
+<b class="fc">&nbsp;                               EntriesDataAccessInterface entriesDataAccessObject) {</b>
+<b class="fc">&nbsp;        this.userDataAccessObject = userDataAccessObject;</b>
+<b class="fc">&nbsp;        this.gCalEventPresenter = gCalEventPresenter;</b>
+<b class="fc">&nbsp;        this.entriesDataAccessObject = entriesDataAccessObject;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Imports an event from a user&#39;s Google Calendar given the eventId.
+&nbsp;     * @param eventId The eventId associated with the Google Calendar Event.
+&nbsp;     * @throws IOException if the event cannot be retrieved from the user&#39;s Google Calendar
+&nbsp;     * @return True if the event is successfully imported.
+&nbsp;     * */
+&nbsp;    @Override
+&nbsp;    public boolean importEvent(String eventId) throws IOException {
+<b class="fc">&nbsp;        Calendar calendar = userDataAccessObject.getCalendar();</b>
+<b class="fc">&nbsp;        String calendarId = userDataAccessObject.getCalendarId();</b>
+&nbsp;
+<b class="fc">&nbsp;        if (!userDataAccessObject.eventExists(eventId)) {</b>
+<b class="nc">&nbsp;            gCalEventPresenter.prepareFailView(eventId + &quot; :Event does not exist in your calendar.&quot;);</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            Event event = calendar.events().get(calendarId, eventId).execute();</b>
+<b class="fc">&nbsp;            System.out.println(event.getSummary());</b>
+&nbsp;
+<b class="fc">&nbsp;            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar, calendarId);</b>
+<b class="fc">&nbsp;            gCalEventPresenter.prepareSuccessView(gCalEventOutputData);</b>
+&nbsp;
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Exports a LocalEvent to the user&#39;s Google Calendar.
+&nbsp;     * Assume that there is only one calendar associated with each user.
+&nbsp;     * @param localEventId The localeventId associated with the local event that the user wants to export.
+&nbsp;     * @throws IOException If the exportedEvent instance cannot be inserted into the user&#39;s Google Calendar.
+&nbsp;     * @return True if the event is successfully exported.
+&nbsp;     * */
+&nbsp;    @Override
+&nbsp;    public boolean exportEvent(int localEventId) throws IOException {
+<b class="fc">&nbsp;        Calendar calendar = userDataAccessObject.getCalendar();</b>
+<b class="fc">&nbsp;        String calendarId = userDataAccessObject.getCalendarId();</b>
+<b class="fc">&nbsp;        LocalEvent localEvent = (LocalEvent) entriesDataAccessObject.getByID(localEventId);</b>
+&nbsp;
+<b class="fc">&nbsp;        Event exportedEvent = new Event();</b>
+&nbsp;        // exportedEvent.setICalUID(calendarId);
+&nbsp;
+<b class="fc">&nbsp;        LocalDateTime startDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getStartEndTIme()[0]);</b>
+<b class="fc">&nbsp;        Date startDate = Date.from(startDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());</b>
+&nbsp;
+<b class="fc">&nbsp;        DateTime start = new DateTime(startDate, TimeZone.getTimeZone(&quot;UTC&quot;));</b>
+<b class="fc">&nbsp;        exportedEvent.setStart(new EventDateTime().setDateTime(start));</b>
+&nbsp;
+<b class="fc">&nbsp;        LocalDateTime endDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getStartEndTIme()[1]);</b>
+<b class="fc">&nbsp;        Date endDate = Date.from(endDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());</b>
+&nbsp;
+<b class="fc">&nbsp;        DateTime end = new DateTime(endDate, TimeZone.getTimeZone(&quot;UTC&quot;));</b>
+<b class="fc">&nbsp;        exportedEvent.setEnd(new EventDateTime().setDateTime(end));</b>
+&nbsp;
+<b class="fc">&nbsp;        exportedEvent.setDescription(localEvent.getDescription());</b>
+<b class="fc">&nbsp;        exportedEvent.setSummary(localEvent.getTitle());</b>
+<b class="fc">&nbsp;        exportedEvent.setLocation(localEvent.getLocation());</b>
+&nbsp;
+<b class="fc">&nbsp;        exportedEvent = calendar.events().insert(&quot;primary&quot;, exportedEvent).execute();</b>
+<b class="fc">&nbsp;        System.out.println(exportedEvent.getId());</b>
+&nbsp;
+<b class="fc">&nbsp;        GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(exportedEvent.getId(), calendar, calendarId);</b>
+<b class="fc">&nbsp;        gCalEventPresenter.prepareSuccessView(gCalEventOutputData);</b>
+&nbsp;
+<b class="fc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of GCalEventInputData and prints out the titles of the events.
+&nbsp;     * This is for the controller to retrieve a list of all the events so that the
+&nbsp;     * user can select which event they want to import.
+&nbsp;     * @throws IOException if the function cannot return a list of events from the user&#39;s calendar.
+&nbsp;     * @return An arraylist of GCalEventInputData (events)
+&nbsp;     * */
+&nbsp;    public ArrayList&lt;GCalEventInputData&gt; getAllEvents() throws IOException {
+<b class="fc">&nbsp;        ArrayList&lt;GCalEventInputData&gt; listOfEvents = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        Calendar calendar = userDataAccessObject.getCalendar();</b>
+<b class="fc">&nbsp;        String calendarId = userDataAccessObject.getCalendarId();</b>
+<b class="fc">&nbsp;        String pageToken = null;</b>
+&nbsp;
+&nbsp;        do {
+<b class="fc">&nbsp;            Events events = calendar.events().list(calendarId).setMaxResults(10).setPageToken(pageToken).execute();</b>
+<b class="fc">&nbsp;            List&lt;Event&gt; items = events.getItems();</b>
+<b class="fc">&nbsp;            for (Event event : items) {</b>
+<b class="fc">&nbsp;                GCalEventInputData inputData = new GCalEventInputData(event.getId(), calendar);</b>
+<b class="fc">&nbsp;                listOfEvents.add(inputData);</b>
+<b class="fc">&nbsp;                System.out.println(event.getSummary());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;            // Cap the list&#39;s length at 10 to ensure that they can be fit inside the View
+<b class="fc">&nbsp;            if (listOfEvents.size() &gt;= 10) {</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            pageToken = events.getNextPageToken();</b>
+<b class="fc">&nbsp;        } while (pageToken != null);</b>
+&nbsp;
+<b class="fc">&nbsp;        return listOfEvents;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a list of LocalEventOutputData and prints out the titles of the events.
+&nbsp;     * This is for the controller to retrieve a list of all the events so that the
+&nbsp;     * user can select which event they want to export.
+&nbsp;     * @return An arraylist of LocalEventOutputData (events)
+&nbsp;     * */
+&nbsp;    public ArrayList&lt;LocalEventOutputData&gt; getAllLocalEvents() {
+<b class="fc">&nbsp;        ArrayList&lt;LocalEventOutputData&gt; listOfEvents = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        ArrayList items = entriesDataAccessObject.getAllUserEntries(0);</b>
+<b class="fc">&nbsp;        for (Object item: items){</b>
+<b class="fc">&nbsp;            if (item instanceof LocalEvent) {</b>
+<b class="fc">&nbsp;                LocalEvent event = (LocalEvent) item;</b>
+<b class="fc">&nbsp;                LocalEventOutputData inputData = new LocalEventOutputData(</b>
+<b class="fc">&nbsp;                        event.getID(),</b>
+<b class="fc">&nbsp;                        event.getTitle(),</b>
+<b class="fc">&nbsp;                        event.getUserID(),</b>
+<b class="fc">&nbsp;                        event.getDate(),</b>
+<b class="fc">&nbsp;                        event.getStartEndTIme()[0],</b>
+<b class="fc">&nbsp;                        event.getStartEndTIme()[1],</b>
+<b class="fc">&nbsp;                        event.getLocation(),</b>
+<b class="fc">&nbsp;                        event.getDescription(),</b>
+<b class="fc">&nbsp;                        event.isWork(),</b>
+<b class="fc">&nbsp;                        event.getPinned(),</b>
+<b class="fc">&nbsp;                        event.getDescendants());</b>
+<b class="fc">&nbsp;                listOfEvents.add(inputData);</b>
+<b class="fc">&nbsp;                System.out.println(inputData.getTitle());</b>
+&nbsp;            }
+&nbsp;            // Cap the list&#39;s length at 10 to ensure that they can be fit inside the View
+<b class="fc">&nbsp;            if (listOfEvents.size() &gt;= 10) {</b>
+<b class="fc">&nbsp;                break;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return listOfEvents;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean switchToHome(){
+<b class="nc">&nbsp;        gCalEventPresenter.switchToHome();</b>
+<b class="nc">&nbsp;        return true;</b>
+&nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -75,7 +267,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

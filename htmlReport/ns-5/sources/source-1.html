@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > GCalEventController</title>
+  <title>Coverage Report > ViewManagerModel</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">interface_adapter.gcalevent</a>
+    <a href="../index.html">interface_adapter</a>
 </div>
 
-<h1>Coverage Summary for Class: GCalEventController (interface_adapter.gcalevent)</h1>
+<h1>Coverage Summary for Class: ViewManagerModel (interface_adapter)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">GCalEventController</td>
+  <td class="name">ViewManagerModel</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    60%
   </span>
   <span class="absValue">
-    (0/3)
+    (3/5)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    66.7%
   </span>
   <span class="absValue">
-    (0/4)
+    (4/6)
   </span>
 </td>
 </tr>
@@ -75,24 +75,31 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.gcalevent;
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter;
 &nbsp;
-&nbsp;import use_case.gcalevent.ExternalEventInputBoundary;
+&nbsp;import java.beans.PropertyChangeListener;
+&nbsp;import java.beans.PropertyChangeSupport;
 &nbsp;
-&nbsp;import java.io.IOException;
+<b class="fc">&nbsp;public class ViewManagerModel {</b>
 &nbsp;
-&nbsp;public class GCalEventController {
-&nbsp;    final ExternalEventInputBoundary externalEventUseCaseInteractor;
-<b class="nc">&nbsp;    public GCalEventController(ExternalEventInputBoundary externalEventUseCaseInteractor) {</b>
-<b class="nc">&nbsp;        this.externalEventUseCaseInteractor = externalEventUseCaseInteractor;</b>
+&nbsp;    private String activeViewName;
+&nbsp;
+<b class="fc">&nbsp;    private final PropertyChangeSupport support = new PropertyChangeSupport(this);</b>
+&nbsp;
+&nbsp;    public String getActiveView() {
+<b class="nc">&nbsp;        return activeViewName;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void importEvent(String eventId) throws IOException {
-<b class="nc">&nbsp;        externalEventUseCaseInteractor.importEvent(eventId);</b>
+&nbsp;    public void setActiveView(String activeView) {
+<b class="fc">&nbsp;        this.activeViewName = activeView;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void exportEvent(String eventId) throws IOException {
-<b class="nc">&nbsp;        externalEventUseCaseInteractor.exportEvent(eventId);</b>
+&nbsp;    public void firePropertyChanged() {
+<b class="fc">&nbsp;        support.firePropertyChange(&quot;view&quot;, null, this.activeViewName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void addPropertyChangeListener(PropertyChangeListener listener) {
+<b class="nc">&nbsp;        support.addPropertyChangeListener(listener);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -118,7 +125,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>

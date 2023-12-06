@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > SignUpInputData</title>
+  <title>Coverage Report > LogInViewModel</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">use_case.user</a>
+    <a href="../index.html">interface_adapter.log_in_out</a>
 </div>
 
-<h1>Coverage Summary for Class: SignUpInputData (use_case.user)</h1>
+<h1>Coverage Summary for Class: LogInViewModel (interface_adapter.log_in_out)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">SignUpInputData</td>
+  <td class="name">LogInViewModel</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -63,7 +63,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (9/9)
+    (7/7)
   </span>
 </td>
 </tr>
@@ -75,28 +75,41 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package use_case.user;
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.log_in_out;
 &nbsp;
-&nbsp;public class SignUpInputData {
-&nbsp;    private final String userName;
-&nbsp;    private final String password;
-&nbsp;    private final String repeatPassword;
-&nbsp;    private final String APIKey;
+&nbsp;import interface_adapter.ViewModel;
 &nbsp;
-<b class="fc">&nbsp;    public SignUpInputData(String userName, String password, String repeatPassword, String APIKey) {</b>
-<b class="fc">&nbsp;        this.userName = userName;</b>
-<b class="fc">&nbsp;        this.password = password;</b>
-<b class="fc">&nbsp;        this.repeatPassword = repeatPassword;</b>
-<b class="fc">&nbsp;        this.APIKey = APIKey;</b>
+&nbsp;import java.beans.PropertyChangeListener;
+&nbsp;import java.beans.PropertyChangeSupport;
+&nbsp;
+&nbsp;public class LogInViewModel extends ViewModel {
+&nbsp;    public static final String TITLE_VIEW = &quot;Log in view&quot;;
+&nbsp;    public static final String USERNAME_LABEL = &quot;Username: &quot;;
+&nbsp;    public static final String PASSWORD_LABEL = &quot;Password: &quot;;
+&nbsp;    public static final String LOGIN_BUTTON_LABEL = &quot;Log in&quot;;
+&nbsp;    public static final String SWITCH_VIEW_LABEL = &quot;Switch to Sign up view&quot;;
+<b class="fc">&nbsp;    private LogInState state = new LogInState();</b>
+&nbsp;
+<b class="fc">&nbsp;    public LogInViewModel() { super(&quot;Log in&quot;); }</b>
+&nbsp;
+&nbsp;    public void setState(LogInState state) {
+<b class="fc">&nbsp;        this.state = state;</b>
 &nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    public String getUsername() { return userName; }</b>
+&nbsp;    public LogInState getState() {
+<b class="fc">&nbsp;        return state;</b>
+&nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    public String getPassword() { return password; }</b>
+<b class="fc">&nbsp;    private final PropertyChangeSupport support = new PropertyChangeSupport(this);</b>
 &nbsp;
-<b class="fc">&nbsp;    public String getRepeatPassword() { return repeatPassword; }</b>
+&nbsp;    public void firePropertyChanged() {
+<b class="fc">&nbsp;        support.firePropertyChange(&quot;state&quot;, null, this.state);</b>
+&nbsp;    }
 &nbsp;
-<b class="fc">&nbsp;    public String getAPIKEy() { return APIKey; }</b>
+&nbsp;    public void addPropertyChangeListener(PropertyChangeListener listener) {
+<b class="fc">&nbsp;        support.addPropertyChangeListener(listener);</b>
+&nbsp;    }
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -121,7 +134,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-12-05 19:32</div>
+    <div style="float:right;">generated on 2023-12-05 23:01</div>
 </div>
 </body>
 </html>
