@@ -1,5 +1,7 @@
 package InputData;
 
+import use_case.local_event.NoteInputData;
+
 import java.time.LocalDate;
 
 import java.time.LocalTime;

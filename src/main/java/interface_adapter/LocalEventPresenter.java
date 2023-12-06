@@ -1,8 +1,8 @@
 package interface_adapter;
 
-import output_data.LocalEventOutputData;
+import use_case.local_event.LocalEventOutputData;
 
-import use_case.LocalEventOutputBoundary;
+import use_case.local_event.LocalEventOutputBoundary;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package interface_adapter;
 
 import InputData.EventInputData;
 
-import use_case.LocalEventInputBoundary;
+import use_case.local_event.LocalEventInputBoundary;
 
 import java.time.LocalDate;
 

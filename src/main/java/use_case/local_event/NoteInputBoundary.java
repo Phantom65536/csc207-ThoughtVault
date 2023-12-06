@@ -1,6 +1,6 @@
-package use_case;
+package use_case.local_event;
 
-import InputData.NoteInputData;
+import use_case.local_event.NoteInputData;
 
 public interface NoteInputBoundary {
     void DisplayNoteCreationView();

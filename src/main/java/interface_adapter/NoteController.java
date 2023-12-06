@@ -1,7 +1,7 @@
 package interface_adapter;
 
-import InputData.NoteInputData;
-import use_case.NoteInputBoundary;
+import use_case.local_event.NoteInputData;
+import use_case.local_event.NoteInputBoundary;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,6 @@
-package use_case;
+package use_case.local_event;
 
 import InputData.EventInputData;
-
-import output_data.LocalEventOutputData;
 
 import data_access.EventsDataAccessObject;
 

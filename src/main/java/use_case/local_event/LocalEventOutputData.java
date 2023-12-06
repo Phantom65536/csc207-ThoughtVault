@@ -1,4 +1,4 @@
-package output_data;
+package use_case.local_event;
 
 import java.time.LocalDate;
 
@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LocalEventOutputData extends OutputData.NoteOutputData {
+public class LocalEventOutputData extends NoteOutputData {
     private final LocalDate date;
     // default startTime when user specifies whole-day event
 

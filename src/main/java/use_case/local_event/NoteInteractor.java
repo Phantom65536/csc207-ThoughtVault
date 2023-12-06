@@ -1,8 +1,4 @@
-package use_case;
-
-import InputData.NoteInputData;
-
-import OutputData.NoteOutputData;
+package use_case.local_event;
 
 import data_access.NotesDataAccessObject;
 
@@ -13,10 +9,10 @@ import java.util.ArrayList;
 public class NoteInteractor implements NoteInputBoundary {
     private final NoteOutputBoundary noteOutputBoundary;
 
-    private final NotesDataAccessObject<Note> notesDataAccessObject;
+    private final NotesDataAccessObject notesDataAccessObject;
 
     public NoteInteractor(NoteOutputBoundary noteOutputBoundary,
-                          NotesDataAccessObject<Note> notesDataAccessObject){
+                          NotesDataAccessObject notesDataAccessObject){
         this.noteOutputBoundary = noteOutputBoundary;
 
         this.notesDataAccessObject = notesDataAccessObject;

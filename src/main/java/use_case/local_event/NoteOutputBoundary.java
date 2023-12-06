@@ -1,7 +1,6 @@
-package use_case;
+package use_case.local_event;
 
-import output_data.LocalEventOutputData;
-import OutputData.NoteOutputData;
+import use_case.local_event.NoteOutputData;
 
 import java.util.ArrayList;
 

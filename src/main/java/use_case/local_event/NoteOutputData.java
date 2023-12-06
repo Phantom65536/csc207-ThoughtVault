@@ -1,4 +1,4 @@
-package OutputData;
+package use_case.local_event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
