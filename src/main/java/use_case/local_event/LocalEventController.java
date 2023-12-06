@@ -1,4 +1,4 @@
-package interface_adapter;
+package use_case.local_event;
 
 import use_case.local_event.EventInputData;
 

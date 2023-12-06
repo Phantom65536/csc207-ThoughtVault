@@ -1,18 +1,15 @@
 package view;
-import com.google.api.services.calendar.model.Event;
-import entity.Note;
 import interface_adapter.*;
 import interface_adapter.exportevents.ExportEventsViewModel;
-import interface_adapter.home.HomeState;
-import interface_adapter.home.HomeViewModel;
 import interface_adapter.importevents.ImportEventsViewModel;
+import use_case.local_event.LocalEventController;
+import use_case.local_event.NoteController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.spi.LocaleNameProvider;
 
 public class ListView extends JPanel{
     public final String viewName = "home page";

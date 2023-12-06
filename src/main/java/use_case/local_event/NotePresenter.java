@@ -1,5 +1,6 @@
-package interface_adapter;
+package use_case.local_event;
 
+import interface_adapter.*;
 import use_case.local_event.NoteOutputData;
 
 import use_case.local_event.NoteOutputBoundary;
@@ -32,7 +33,8 @@ public class NotePresenter implements NoteOutputBoundary {
     }
 
     public NoteState CreateState(NoteOutputData noteOutputData) {
-        return new NoteState(noteOutputData.getTitle(),
+        return new NoteState(noteOutputData.getID(),
+                noteOutputData.getTitle(),
                 noteOutputData.getLocation(),
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
@@ -73,6 +75,7 @@ public class NotePresenter implements NoteOutputBoundary {
     @Override
     public void DisplayNoteDetailedView(NoteOutputData noteOutputData) {
         NoteState noteState = new NoteState(
+                noteOutputData.getID(),
                 noteOutputData.getTitle(),
                 noteOutputData.getLocation(),
                 noteOutputData.getDescription(),

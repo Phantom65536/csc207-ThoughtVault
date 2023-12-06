@@ -14,15 +14,16 @@ public class NoteState {
 
     private boolean pinned;
 
+    private int id;
     private ArrayList<Integer> subEvents;
 
     public NoteState() {
     }
 
-    public NoteState(String title, String location, String description, boolean
+    public NoteState(int id, String title, String location, String description, boolean
             isWork, boolean pinned, ArrayList<Integer> subEvents, int userId) {
         this.title = title;
-
+        this.id = id;
         this.location = location;
 
         this.description = description;
@@ -56,6 +57,7 @@ public class NoteState {
         return this.pinned;
     }
     public int getUserId(){return this.userId;}
+    public int getId(){return this.id;}
     public void setUserId(int userId){this.userId = userId;}
     public ArrayList<Integer> getSubEvents() {
         return subEvents;

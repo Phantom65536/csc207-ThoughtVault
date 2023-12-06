@@ -16,11 +16,11 @@ public class LocalEventState extends NoteState {
     public LocalEventState() {
     }
 
-    public LocalEventState(String title, String location, String description,
+    public LocalEventState(int id, String title, String location, String description,
                            boolean isWork, boolean pinned,
                            ArrayList<Integer> subEvents, LocalDate date,
                            LocalTime startTime, LocalTime endTime, int userId) {
-        super(title, location, description, isWork, pinned, subEvents, userId);
+        super(id, title, location, description, isWork, pinned, subEvents, userId);
 
         this.date = date;
 

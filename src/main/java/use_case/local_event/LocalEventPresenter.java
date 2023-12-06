@@ -1,5 +1,6 @@
-package interface_adapter;
+package use_case.local_event;
 
+import interface_adapter.*;
 import use_case.local_event.LocalEventOutputData;
 
 import use_case.local_event.LocalEventOutputBoundary;
@@ -32,7 +33,9 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
     }
 
     public LocalEventState CreateState(LocalEventOutputData localEventOutputData) {
-        return new LocalEventState(localEventOutputData.getTitle(),
+        return new LocalEventState(
+                localEventOutputData.getID(),
+                localEventOutputData.getTitle(),
                 localEventOutputData.getLocation(),
                 localEventOutputData.getDescription(),
                 localEventOutputData.getIsWork(),

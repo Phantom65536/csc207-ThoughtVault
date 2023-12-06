@@ -1,20 +1,11 @@
 package view;
-import interface_adapter.NoteController;
+import use_case.local_event.NoteController;
 import interface_adapter.NoteViewModel;
-import use_case.local_event.EventInputData;
-import use_case.local_event.NoteInputData;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class CreateNoteView extends JPanel{
