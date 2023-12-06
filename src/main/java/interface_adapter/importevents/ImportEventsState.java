@@ -1,6 +1,7 @@
 package interface_adapter.importevents;
 
-import use_case.GCalEventInputData;
+import use_case.gcalevent.GCalEventInputData;
+import use_case.gcalevent.GCalEventInputData;
 
 import java.util.ArrayList;
 
