@@ -2,26 +2,48 @@ package use_case.note;
 
 import data_access.NotesDataAccessObject;
 
+import entity.NoteFactoryInterface;
 import entity.note.Note;
+import entity.note.NoteFactory;
 
 import java.util.ArrayList;
 
+/**
+ * The interactor for the Note entity
+ */
 public class NoteInteractor implements NoteInputBoundary {
     private final NoteOutputBoundary noteOutputBoundary;
 
     private final NotesDataAccessObject notesDataAccessObject;
 
+    private final NoteFactoryInterface noteFactory;
+
+    /**
+     * Constructor for NoteInteractor
+     * @param noteOutputBoundary The presenter for the NoteInteractor
+     * @param notesDataAccessObject The data access object for the NoteInteractor
+     */
     public NoteInteractor(NoteOutputBoundary noteOutputBoundary,
                           NotesDataAccessObject notesDataAccessObject){
         this.noteOutputBoundary = noteOutputBoundary;
 
         this.notesDataAccessObject = notesDataAccessObject;
+
+        this.noteFactory = new NoteFactory();
     }
 
+    /**
+     * Displays the note creation view
+     */
+    @Override
     public void DisplayNoteCreationView() {
         noteOutputBoundary.DisplayNoteCreationView();
     }
 
+    /**
+     * Displays the note edit view
+     * @param noteID The ID of the note to be edited
+     */
     @Override
     public void DisplayNoteEditView(int noteID) {
         Note note = notesDataAccessObject.getByID(noteID);
@@ -32,6 +54,10 @@ public class NoteInteractor implements NoteInputBoundary {
                 note.getPinned(), note.getDescendants()));
     }
 
+    /**
+     * Displays the note detailed view
+     * @param noteID The ID of the note to be displayed
+     */
     @Override
     public void DisplayNoteDetailedView(int noteID) {
         Note note = notesDataAccessObject.getByID(noteID);
@@ -42,12 +68,16 @@ public class NoteInteractor implements NoteInputBoundary {
                 note.getPinned(), note.getDescendants()));
     }
 
+    /**
+     * Creates a note and saves it to the database
+     * @param noteInputData The input data for the note to be created
+     */
     @Override
     public void CreateNote(NoteInputData noteInputData) {
         try {
-            Note note = new Note(notesDataAccessObject.getNewID(), noteInputData.getTitle(),
-                    noteInputData.getUserID(), noteInputData.getLocation(),
-                    noteInputData.getDescription(),
+            Note note = noteFactory.createNote(notesDataAccessObject.getNewID(),
+                    noteInputData.getTitle(), noteInputData.getUserID(),
+                    noteInputData.getLocation(), noteInputData.getDescription(),
                     noteInputData.getIsWork(), noteInputData.getPinned(),
                     noteInputData.getSubEvents());
 
@@ -65,13 +95,18 @@ public class NoteInteractor implements NoteInputBoundary {
         }
     }
 
+    /**
+     * Edits a note and saves it to the database
+     * @param noteInputData The input data for the note to be edited
+     */
     @Override
     public void EditNote(NoteInputData noteInputData) {
         try {
-            Note note = new Note(noteInputData.getID(), noteInputData.getTitle(),
-                    noteInputData.getUserID(), noteInputData.getLocation(),
-                    noteInputData.getDescription(), noteInputData.getIsWork(),
-                    noteInputData.getPinned(), noteInputData.getSubEvents());
+            Note note = noteFactory.createNote(noteInputData.getID(),
+                    noteInputData.getTitle(), noteInputData.getUserID(),
+                    noteInputData.getLocation(), noteInputData.getDescription(),
+                    noteInputData.getIsWork(), noteInputData.getPinned(),
+                    noteInputData.getSubEvents());
 
             notesDataAccessObject.delete(note.getID());
 
@@ -89,6 +124,10 @@ public class NoteInteractor implements NoteInputBoundary {
         }
     }
 
+    /**
+     * Deletes a note from the database
+     * @param noteID The ID of the note to be deleted
+     */
     @Override
     public void DeleteNote(int noteID) {
         try {
@@ -103,6 +142,10 @@ public class NoteInteractor implements NoteInputBoundary {
         }
     }
 
+    /**
+     * Displays all notes in the database
+     * @param userID The ID of the user whose notes are to be displayed
+     */
     @Override
     public void GetAllNotes(int userID) {
         ArrayList<NoteOutputData> noteOutputDataArrayList = new ArrayList<>();

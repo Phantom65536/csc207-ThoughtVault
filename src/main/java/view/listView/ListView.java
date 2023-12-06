@@ -1,5 +1,5 @@
 package view;
-import interface_adapter.*;
+
 import interface_adapter.exportevents.ExportEventsViewModel;
 import interface_adapter.importevents.ImportEventsViewModel;
 import interface_adapter.listView.ListViewModel;

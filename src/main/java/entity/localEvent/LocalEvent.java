@@ -16,6 +16,20 @@ public class LocalEvent extends Note implements LocalEventInterface {
     private LocalTime endTime = LocalTime.of(23, 59);    // default starttime when user specifies whole-day
 
 
+    /**
+     * Constructor for LocalEvent
+     * @param ID the ID of the LocalEvent
+     * @param title the title of the LocalEvent
+     * @param userID the ID of the user who owns the LocalEvent
+     * @param date the date of the LocalEvent
+     * @param startTime the start time of the LocalEvent
+     * @param endTime the end time of the LocalEvent
+     * @param location the location of the LocalEvent
+     * @param description the description of the LocalEvent
+     * @param isWork whether the LocalEvent is a work event
+     * @param pinned whether the LocalEvent is pinned
+     * @param subEvents the IDs of the subEvents of the LocalEvent
+     */
     public LocalEvent(int ID, String title, int userID, LocalDate date,
                       LocalTime startTime, LocalTime endTime,String location,
                       String description, boolean isWork, boolean pinned,
@@ -29,20 +43,18 @@ public class LocalEvent extends Note implements LocalEventInterface {
         this.date = date;
     }
 
-//    public void editTitle(String title) { this.title = title; }
-//
-//    public void editDate(LocalDate date) { this.date = date; }
-//
-//    public void editStartTime(LocalTime startTime) { this.startTime = startTime; }
-//
-//    public void editEndTime(LocalTime endTime) { this.endTime = endTime; }
-//
-//    public void editLocation(String location) { this.location = location; }
-//
-//    public void editDescription(String description) { this.description = description; }
-//
-//    public void editLabel(boolean isWork) { label = isWork ? labelCat.WORK : labelCat.PERSONAL; }
-
+    /**
+     * Amend all attributes of the LocalEvent
+     * @param title the title of the LocalEvent
+     * @param date the date of the LocalEvent
+     * @param startTime the start time of the LocalEvent
+     * @param endTime the end time of the LocalEvent
+     * @param location the location of the LocalEvent
+     * @param description the description of the LocalEvent
+     * @param isWork whether the LocalEvent is a work event
+     * @param pinned whether the LocalEvent is pinned
+     * @param subEvents the IDs of the subEvents of the LocalEvent
+     */
     public void amendAllAttributes(String title, LocalDate date, LocalTime startTime, LocalTime endTime,
                                    String location, String description, boolean isWork, boolean pinned, ArrayList<Integer> subEvents) {
         super.amendAllAttributes(title, location, description, isWork, pinned, subEvents);
@@ -54,16 +66,27 @@ public class LocalEvent extends Note implements LocalEventInterface {
         this.date = date;
     }
 
+    /**
+     * Get the date of the LocalEvent
+     * @return the date of the LocalEvent
+     */
     public LocalDate getDate() {
         return date;
     }
 
+    /**
+     * Get the start time of the LocalEvent
+     * @return the start time of the LocalEvent
+     */
     public LocalTime getStartTime() {
         return startTime;
     }
 
+    /**
+     * Get the end time of the LocalEvent
+     * @return the end time of the LocalEvent
+     */
     public LocalTime getEndTime() {
         return endTime;
     }
-    public LocalTime[] getStartEndTIme() { return new LocalTime[] {startTime, endTime}; }
 }
