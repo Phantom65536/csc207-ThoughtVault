@@ -3,7 +3,7 @@ package use_case;
 import InputData.LoginInputData;
 import com.google.api.client.auth.oauth2.Credential;
 import data_access.GCalDataAccessObject;
-import entity.User;
+import entity.user.User;
 
 import java.io.IOException;
 

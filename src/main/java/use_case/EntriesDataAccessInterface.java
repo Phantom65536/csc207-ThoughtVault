@@ -1,6 +1,6 @@
 package use_case;
 
-import entity.Note;
+import entity.note.Note;
 
 import java.util.ArrayList;
 
