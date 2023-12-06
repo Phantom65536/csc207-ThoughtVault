@@ -59,6 +59,4 @@ public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> 
         }
     }
 
-    // for testing only
-
 }

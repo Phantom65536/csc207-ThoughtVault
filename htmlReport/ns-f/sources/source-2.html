@@ -1,0 +1,242 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > HomeView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">view</a>
+</div>
+
+<h1>Coverage Summary for Class: HomeView (view)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HomeView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">HomeView$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">HomeView$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package view;
+&nbsp;
+&nbsp;import com.google.api.services.calendar.model.Event;
+&nbsp;import entity.Note;
+&nbsp;import interface_adapter.ViewManagerModel;
+&nbsp;import interface_adapter.exportevents.ExportEventsViewModel;
+&nbsp;import interface_adapter.home.HomeState;
+&nbsp;import interface_adapter.home.HomeViewModel;
+&nbsp;import interface_adapter.importevents.ImportEventsViewModel;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;
+&nbsp;public class HomeView extends JPanel {
+<b class="nc">&nbsp;    public final String viewName = &quot;home page&quot;;</b>
+&nbsp;    private final HomeViewModel homeViewModel;
+&nbsp;    private final ImportEventsViewModel importEventsViewModel;
+&nbsp;    private final ExportEventsViewModel exportEventsViewModel;
+&nbsp;    private final ViewManagerModel viewManagerModel;
+&nbsp;    final DefaultListModel&lt;String&gt; eventsListModel;
+&nbsp;    final JList&lt;String&gt; eventsList;
+&nbsp;    final DefaultListModel&lt;String&gt; notesListModel;
+&nbsp;    final JList&lt;String&gt; notesList;
+&nbsp;    final JButton importEvents;
+&nbsp;    final JButton exportEvents;
+&nbsp;
+&nbsp;    public HomeView(HomeViewModel homeViewModel,
+&nbsp;                    ImportEventsViewModel importEventsViewModel,
+&nbsp;                    ExportEventsViewModel exportEventsViewModel,
+<b class="nc">&nbsp;                    ViewManagerModel viewManagerModel){</b>
+<b class="nc">&nbsp;        this.homeViewModel = homeViewModel;</b>
+<b class="nc">&nbsp;        this.importEventsViewModel = importEventsViewModel;</b>
+<b class="nc">&nbsp;        this.exportEventsViewModel = exportEventsViewModel;</b>
+<b class="nc">&nbsp;        this.viewManagerModel = viewManagerModel;</b>
+&nbsp;
+<b class="nc">&nbsp;        JLabel title = new JLabel(&quot;Home Page&quot;);</b>
+<b class="nc">&nbsp;        title.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+&nbsp;
+<b class="nc">&nbsp;        eventsListModel = new DefaultListModel&lt;&gt;();</b>
+<b class="nc">&nbsp;        HomeState currentState = homeViewModel.getState();</b>
+<b class="nc">&nbsp;        for (Event event : currentState.getListOfEvents()) {</b>
+<b class="nc">&nbsp;            eventsListModel.addElement(event.getSummary());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        eventsList = new JList&lt;&gt;(eventsListModel);</b>
+&nbsp;
+<b class="nc">&nbsp;        notesListModel = new DefaultListModel&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (Note note : currentState.getListOfNotes()) {</b>
+<b class="nc">&nbsp;            notesListModel.addElement(note.getTitle());</b>
+<b class="nc">&nbsp;            notesListModel.addElement(note.getDescription());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        notesList = new JList&lt;&gt;(notesListModel);</b>
+&nbsp;
+<b class="nc">&nbsp;        JPanel buttons = new JPanel();</b>
+<b class="nc">&nbsp;        importEvents = new JButton(homeViewModel.IMPORT_EVENTS_BUTTON_LABEL);</b>
+<b class="nc">&nbsp;        buttons.add(importEvents);</b>
+<b class="nc">&nbsp;        importEvents.addActionListener(</b>
+<b class="nc">&nbsp;                new ActionListener() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                        if (e.getSource().equals(importEvents)){</b>
+<b class="nc">&nbsp;                            homeViewModel.setState(new HomeState());</b>
+<b class="nc">&nbsp;                            homeViewModel.firePropertyChanged();</b>
+<b class="nc">&nbsp;                            HomeView.this.viewManagerModel.setActiveView(HomeView.this.importEventsViewModel.getViewName());</b>
+<b class="nc">&nbsp;                            HomeView.this.viewManagerModel.firePropertyChanged();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;        );
+&nbsp;
+<b class="nc">&nbsp;        exportEvents = new JButton(homeViewModel.EXPORT_EVENTS_BUTTON_LABEL);</b>
+<b class="nc">&nbsp;        buttons.add(exportEvents);</b>
+<b class="nc">&nbsp;        exportEvents.addActionListener(</b>
+<b class="nc">&nbsp;                new ActionListener() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void actionPerformed(ActionEvent e) {
+<b class="nc">&nbsp;                        if (e.getSource().equals(exportEvents)){</b>
+<b class="nc">&nbsp;                            homeViewModel.setState(new HomeState());</b>
+<b class="nc">&nbsp;                            homeViewModel.firePropertyChanged();</b>
+<b class="nc">&nbsp;                            HomeView.this.viewManagerModel.setActiveView(HomeView.this.exportEventsViewModel.getViewName());</b>
+<b class="nc">&nbsp;                            HomeView.this.viewManagerModel.firePropertyChanged();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;        );
+&nbsp;
+<b class="nc">&nbsp;        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));</b>
+<b class="nc">&nbsp;        this.add(title);</b>
+<b class="nc">&nbsp;        this.add(eventsList);</b>
+<b class="nc">&nbsp;        this.add(notesList);</b>
+<b class="nc">&nbsp;        this.add(buttons);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:42</div>
+</div>
+</body>
+</html>

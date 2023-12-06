@@ -5,5 +5,6 @@ import java.time.LocalTime;
 
 public interface LocalEventInterface extends NoteInterface {
     LocalDate getDate();
+
     LocalTime[] getStartEndTIme();
 }

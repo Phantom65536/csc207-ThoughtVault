@@ -1,20 +1,20 @@
 package interface_adapter.gcalevent;
 
-import use_case.gcalevent.ExternalEventInputBoundary;
+import use_case.gcalevent.GCalEventInputBoundary;
 
 import java.io.IOException;
 
 public class GCalEventController {
-    final ExternalEventInputBoundary externalEventUseCaseInteractor;
-    public GCalEventController(ExternalEventInputBoundary externalEventUseCaseInteractor) {
-        this.externalEventUseCaseInteractor = externalEventUseCaseInteractor;
+    final GCalEventInputBoundary gcalEventUseCaseInteractor;
+    public GCalEventController(GCalEventInputBoundary gcalEventUseCaseInteractor) {
+        this.gcalEventUseCaseInteractor = gcalEventUseCaseInteractor;
     }
 
     public void importEvent(String eventId) throws IOException {
-        externalEventUseCaseInteractor.importEvent(eventId);
+        gcalEventUseCaseInteractor.importEvent(eventId);
     }
 
-    public void exportEvent(String eventId) throws IOException {
-        externalEventUseCaseInteractor.exportEvent(eventId);
+    public void exportEvent(int localEventId) throws IOException {
+        gcalEventUseCaseInteractor.exportEvent(localEventId);
     }
 }
