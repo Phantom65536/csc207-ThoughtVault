@@ -1,6 +1,6 @@
 package interface_adapter.localEvent;
 
-import InputData.EventInputData;
+import use_case.localEvent.LocalEventInputData;
 
 import use_case.localEvent.LocalEventInputBoundary;
 
@@ -21,7 +21,7 @@ public class LocalEventController {
                             LocalTime startTime, LocalTime endTime,
                             String location, String description, boolean isWork,
                             boolean pinned, ArrayList<Integer> subEvents) {
-        EventInputData eventInputData = new EventInputData(id, title, userID,
+        LocalEventInputData eventInputData = new LocalEventInputData(id, title, userID,
                 date, startTime, endTime, location, description, isWork, pinned,
                 subEvents);
 
@@ -32,7 +32,7 @@ public class LocalEventController {
                           LocalTime startTime, LocalTime endTime,
                           String location, String description, boolean isWork,
                           boolean pinned, ArrayList<Integer> subEvents) {
-        EventInputData eventInputData = new EventInputData(id, title, userID,
+        LocalEventInputData eventInputData = new LocalEventInputData(id, title, userID,
                 date, startTime, endTime, location, description, isWork, pinned,
                 subEvents);
 

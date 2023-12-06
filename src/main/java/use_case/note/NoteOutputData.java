@@ -1,4 +1,4 @@
-package OutputData;
+package use_case.note;
 
 import java.util.ArrayList;
 import java.util.HashMap;

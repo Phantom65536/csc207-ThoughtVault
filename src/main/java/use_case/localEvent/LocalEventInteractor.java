@@ -1,9 +1,5 @@
 package use_case.localEvent;
 
-import InputData.EventInputData;
-
-import OutputData.LocalEventOutputData;
-
 import data_access.EventsDataAccessObject;
 
 import entity.localEvent.LocalEvent;
@@ -51,7 +47,7 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
     }
 
     @Override
-    public void CreateEvent(EventInputData eventInputData) {
+    public void CreateEvent(LocalEventInputData eventInputData) {
         try {
             LocalEvent event = new LocalEvent(eventInputData.getID(),
                     eventInputData.getTitle(), eventInputData.getUserID(),
@@ -78,7 +74,7 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
     }
 
     @Override
-    public void EditEvent(EventInputData eventInputData) {
+    public void EditEvent(LocalEventInputData eventInputData) {
         try {
             LocalEvent event = new LocalEvent(eventInputData.getID(),
                     eventInputData.getTitle(), eventInputData.getUserID(),

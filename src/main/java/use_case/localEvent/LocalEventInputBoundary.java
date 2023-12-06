@@ -1,16 +1,14 @@
 package use_case.localEvent;
 
 
-import InputData.EventInputData;
-
 public interface LocalEventInputBoundary {
     void DisplayEventCreationView();
 
     void DisplayEventEditView(int eventID);
 
-    void CreateEvent(EventInputData eventInputData);
+    void CreateEvent(LocalEventInputData eventInputData);
 
-    void EditEvent(EventInputData eventInputData);
+    void EditEvent(LocalEventInputData eventInputData);
 
     void DeleteEvent(int eventID);
 

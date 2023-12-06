@@ -1,7 +1,5 @@
 package use_case.localEvent;
 
-import OutputData.LocalEventOutputData;
-
 import java.util.ArrayList;
 
 public interface LocalEventOutputBoundary {

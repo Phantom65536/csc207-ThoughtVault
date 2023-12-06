@@ -1,6 +1,6 @@
 package use_case;
 
-import InputData.LoginInputData;
+import use_case.note.LoginInputData;
 import com.google.api.client.auth.oauth2.Credential;
 import data_access.GCalDataAccessObject;
 import entity.user.User;

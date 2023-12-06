@@ -1,4 +1,4 @@
-package InputData;
+package use_case.note;
 
 public class LoginInputData {
     private final String userName;

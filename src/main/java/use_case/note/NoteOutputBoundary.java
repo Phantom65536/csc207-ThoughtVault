@@ -1,7 +1,5 @@
 package use_case.note;
 
-import OutputData.NoteOutputData;
-
 import java.util.ArrayList;
 
 public interface NoteOutputBoundary {

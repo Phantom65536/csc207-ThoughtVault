@@ -2,8 +2,6 @@ package use_case.note;
 
 import InputData.NoteInputData;
 
-import OutputData.NoteOutputData;
-
 import data_access.NotesDataAccessObject;
 
 import entity.note.Note;

@@ -1,6 +1,6 @@
 package use_case;
 
-import InputData.LoginInputData;
+import use_case.note.LoginInputData;
 
 import java.io.IOException;
 

@@ -1,6 +1,6 @@
 package interface_adapter.note;
 
-import OutputData.NoteOutputData;
+import use_case.note.NoteOutputData;
 
 import interface_adapter.listView.ListViewModel;
 import interface_adapter.listView.ListViewState;

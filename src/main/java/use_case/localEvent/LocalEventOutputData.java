@@ -1,4 +1,6 @@
-package OutputData;
+package use_case.localEvent;
+
+import use_case.note.NoteOutputData;
 
 import java.time.LocalDate;
 

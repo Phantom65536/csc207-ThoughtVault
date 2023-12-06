@@ -1,4 +1,6 @@
-package InputData;
+package use_case.localEvent;
+
+import InputData.NoteInputData;
 
 import java.time.LocalDate;
 
@@ -6,7 +8,7 @@ import java.time.LocalTime;
 
 import java.util.ArrayList;
 
-public class EventInputData extends NoteInputData {
+public class LocalEventInputData extends NoteInputData {
     private final LocalDate date;
     // default startTime when user specifies whole-day event
 
@@ -14,10 +16,10 @@ public class EventInputData extends NoteInputData {
 
     private LocalTime endTime = LocalTime.of(23, 59);
 
-    public EventInputData (int ID, String title, int userID, LocalDate date,
-                           LocalTime startTime, LocalTime endTime,
-                           String location, String description, boolean isWork,
-                           boolean pinned, ArrayList<Integer> subEvents) {
+    public LocalEventInputData(int ID, String title, int userID, LocalDate date,
+                               LocalTime startTime, LocalTime endTime,
+                               String location, String description, boolean isWork,
+                               boolean pinned, ArrayList<Integer> subEvents) {
         super(ID, title, userID, location, description, isWork, pinned,
                 subEvents);
 

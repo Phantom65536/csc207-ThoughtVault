@@ -1,6 +1,6 @@
 package interface_adapter.localEvent;
 
-import OutputData.LocalEventOutputData;
+import use_case.localEvent.LocalEventOutputData;
 
 import interface_adapter.listView.ListViewModel;
 import interface_adapter.listView.ListViewState;
