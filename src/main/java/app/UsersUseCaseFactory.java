@@ -1,6 +1,5 @@
 package app;
 
-import data_access.GCalDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.log_in_out.LogInOutController;
 import interface_adapter.log_in_out.LogInOutPresenter;
@@ -8,7 +7,6 @@ import interface_adapter.log_in_out.LogInViewModel;
 import interface_adapter.sign_up.SignUpController;
 import interface_adapter.sign_up.SignUpPresenter;
 import interface_adapter.sign_up.SignUpViewModel;
-import org.apache.commons.logging.Log;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.user.*;
 import view.user.LogInView;
