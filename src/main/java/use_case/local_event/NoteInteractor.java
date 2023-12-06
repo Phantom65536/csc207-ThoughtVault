@@ -45,7 +45,7 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void CreateNote(NoteInputData noteInputData) {
         try {
-            Note note = new Note(noteInputData.getID(), noteInputData.getTitle(),
+            Note note = new Note(notesDataAccessObject.getNewID(), noteInputData.getTitle(),
                     noteInputData.getUserID(), noteInputData.getLocation(),
                     noteInputData.getDescription(),
                     noteInputData.getIsWork(), noteInputData.getPinned(),
