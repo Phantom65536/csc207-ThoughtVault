@@ -45,27 +45,4 @@ public class NotesDataAccessObject extends EntriesDataAccessObject<Note> {
             throw new RuntimeException((e));
         }
     }
-
-    public static void main(String[] args) throws IOException, ParseException {
-        NotesDataAccessObject dao = new NotesDataAccessObject("./testNotes.json");
-
-        Note firstNote = new Note(dao.getNewID(), "first", 0,
-                "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
-        dao.save(firstNote);
-        dao.save(new Note(dao.getNewID(), "second", 0,
-                "TA guy's toilet", "There is no way this is not a description.", true, true, new ArrayList<>(Arrays.asList(firstNote.getID(), 1000))));
-        dao.save(new Note(dao.getNewID(), "third", 0,
-                "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>(Arrays.asList(0, firstNote.getID()))));
-
-        Note otherUserEvent = new Note(dao.getNewID(), "another user", 1,
-                "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>());
-        dao.save(otherUserEvent);
-
-        otherUserEvent.amendAllAttributes("another user edited",
-                "Garbage chute :(((", "EDITED DESCRIPTION T_T", true, true, new ArrayList<>());
-        dao.save(otherUserEvent);
-
-        ArrayList<Note> user0Events = dao.getAllUserEntries(0);
-        dao.delete(firstNote.getID());
-    }
 }
