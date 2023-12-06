@@ -4,7 +4,9 @@ import InputData.NoteInputData;
 
 import data_access.NotesDataAccessObject;
 
+import entity.NoteFactoryInterface;
 import entity.note.Note;
+import entity.note.NoteFactory;
 
 import java.util.ArrayList;
 
@@ -13,11 +15,15 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NotesDataAccessObject<Note> notesDataAccessObject;
 
+    private final NoteFactoryInterface noteFactory;
+
     public NoteInteractor(NoteOutputBoundary noteOutputBoundary,
                           NotesDataAccessObject<Note> notesDataAccessObject){
         this.noteOutputBoundary = noteOutputBoundary;
 
         this.notesDataAccessObject = notesDataAccessObject;
+
+        this.noteFactory = new NoteFactory();
     }
 
     public void DisplayNoteCreationView() {
@@ -47,9 +53,9 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void CreateNote(NoteInputData noteInputData) {
         try {
-            Note note = new Note(noteInputData.getID(), noteInputData.getTitle(),
-                    noteInputData.getUserID(), noteInputData.getLocation(),
-                    noteInputData.getDescription(),
+            Note note = noteFactory.createNote(noteInputData.getID(),
+                    noteInputData.getTitle(), noteInputData.getUserID(),
+                    noteInputData.getLocation(), noteInputData.getDescription(),
                     noteInputData.getIsWork(), noteInputData.getPinned(),
                     noteInputData.getSubEvents());
 
@@ -70,10 +76,11 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void EditNote(NoteInputData noteInputData) {
         try {
-            Note note = new Note(noteInputData.getID(), noteInputData.getTitle(),
-                    noteInputData.getUserID(), noteInputData.getLocation(),
-                    noteInputData.getDescription(), noteInputData.getIsWork(),
-                    noteInputData.getPinned(), noteInputData.getSubEvents());
+            Note note = noteFactory.createNote(noteInputData.getID(),
+                    noteInputData.getTitle(), noteInputData.getUserID(),
+                    noteInputData.getLocation(), noteInputData.getDescription(),
+                    noteInputData.getIsWork(), noteInputData.getPinned(),
+                    noteInputData.getSubEvents());
 
             notesDataAccessObject.delete(note.getID());
 
