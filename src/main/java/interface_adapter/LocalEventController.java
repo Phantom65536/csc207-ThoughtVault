@@ -42,4 +42,7 @@ public class LocalEventController {
     public void deleteEvent(int eventID) {
         localEventInteractor.DeleteEvent(eventID);
     }
+    public void displayEventDetailedView(int eventID){localEventInteractor.DisplayEventDetailedView(eventID);}
+
+
 }

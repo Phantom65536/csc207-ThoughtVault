@@ -1,6 +1,6 @@
 package interface_adapter;
 
-import OutputData.LocalEventOutputData;
+import output_data.LocalEventOutputData;
 
 import use_case.LocalEventOutputBoundary;
 

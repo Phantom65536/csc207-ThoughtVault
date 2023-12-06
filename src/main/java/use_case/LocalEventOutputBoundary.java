@@ -1,6 +1,6 @@
 package use_case;
 
-import OutputData.LocalEventOutputData;
+import output_data.LocalEventOutputData;
 import interface_adapter.LocalEventState;
 
 import java.util.ArrayList;

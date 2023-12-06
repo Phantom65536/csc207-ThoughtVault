@@ -2,7 +2,7 @@ package use_case;
 
 import InputData.EventInputData;
 
-import OutputData.LocalEventOutputData;
+import output_data.LocalEventOutputData;
 
 import data_access.EventsDataAccessObject;
 
