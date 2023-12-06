@@ -13,6 +13,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.*;
+import data_access.GCalDataAccessObject;
+import use_case.gcalevent.GCalEventDataAccessInterface;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -113,6 +115,10 @@ public class CalendarQuickstart {
 
         // get the property value and print it out
         System.out.println(prop.getProperty("apiKey"));
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        String APIkey = prop.getProperty("apiKey");
+        // Credential credential = getCredentials(APIkey);
+//        System.out.println(credential);
         Calendar service =
                 new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, prop.getProperty("apiKey")))
                         .setApplicationName(APPLICATION_NAME)

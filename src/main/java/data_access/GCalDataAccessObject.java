@@ -30,21 +30,7 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR);
 
-    public GCalDataAccessObject(String jsonCredentials) throws GeneralSecurityException, IOException {
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
-        Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(jsonCredentials))
-                        .setApplicationName(APPLICATION_NAME)
-                        .build();
-
-        this.calendar = service;
-
-        CalendarList calendarList = service.calendarList().list().setPageToken(null).execute();
-        List<CalendarListEntry> items = calendarList.getItems();
-        this.calendarId = items.get(0).getId();
-
-    }
+    public GCalDataAccessObject() {}
 
     /**
      Assume that there is only ONE calendar.

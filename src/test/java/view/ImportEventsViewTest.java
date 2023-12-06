@@ -1,5 +1,6 @@
 package view;
 
+import com.google.api.client.auth.oauth2.Credential;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
 import interface_adapter.ViewManagerModel;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
+import static data_access.GCalDataAccessObject.getCredentials;
 import static java.lang.Thread.sleep;
 
 public class ImportEventsViewTest {
@@ -39,7 +41,9 @@ public class ImportEventsViewTest {
         HomeViewModel homeViewModel = new HomeViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
-        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject(APIkey);
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
         EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
         ImportEventsPresenter presenter = new ImportEventsPresenter(importEventsViewModel, homeViewModel, viewManagerModel);
 
@@ -53,7 +57,7 @@ public class ImportEventsViewTest {
         jf.pack();
         jf.setVisible(true);
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        jf.setSize(400,400);
+        jf.setSize(400,600);
         jf.show();
 
         // So that the app doesn't close automatically.

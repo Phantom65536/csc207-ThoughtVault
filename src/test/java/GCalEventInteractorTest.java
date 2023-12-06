@@ -1,4 +1,5 @@
 
+import com.google.api.client.auth.oauth2.Credential;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
 import entity.LocalEvent;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
+import static data_access.GCalDataAccessObject.getCredentials;
+
 public class GCalEventInteractorTest {
 
 
@@ -30,7 +33,9 @@ public class GCalEventInteractorTest {
         prop.load(input);
         String APIkey = prop.getProperty("apiKey");
 
-        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject(APIkey);
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
         EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
         String eventId = "3ddfaspndfpa8qn96drjds2r92";
 
@@ -66,7 +71,9 @@ public class GCalEventInteractorTest {
         prop.load(input);
         String APIkey = prop.getProperty("apiKey");
 
-        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject(APIkey);
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
         // EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
         EventsDataAccessObject dao = new EventsDataAccessObject("./testEvent.json");
         LocalEvent firstEvent = new LocalEvent(dao.getNewID(), "first", 0, LocalDate.parse("2023-11-09"), LocalTime.NOON, LocalTime.parse("20:00"),
@@ -105,7 +112,9 @@ public class GCalEventInteractorTest {
         prop.load(input);
         String APIkey = prop.getProperty("apiKey");
 
-        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject(APIkey);
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
         EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
         GCalEventOutputBoundary successPresenter = new GCalEventOutputBoundary() {
             @Override

@@ -1,3 +1,4 @@
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.calendar.Calendar;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
+import static data_access.GCalDataAccessObject.getCredentials;
 import static org.junit.Assert.*;
 
 public class GCalEventOutputDataTest {
@@ -27,7 +29,9 @@ public class GCalEventOutputDataTest {
         prop.load(input);
         String APIkey = prop.getProperty("apiKey");
 
-        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject(APIkey);
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
         String eventId = "3ddfaspndfpa8qn96drjds2r92";

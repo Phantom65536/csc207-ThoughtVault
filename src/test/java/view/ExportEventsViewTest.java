@@ -1,5 +1,6 @@
 package view;
 
+import com.google.api.client.auth.oauth2.Credential;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
 import interface_adapter.ViewManagerModel;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
+import static data_access.GCalDataAccessObject.getCredentials;
 import static java.lang.Thread.sleep;
 import static org.junit.Assert.*;
 
@@ -39,7 +41,9 @@ public class ExportEventsViewTest {
         HomeViewModel homeViewModel = new HomeViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
-        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject(APIkey);
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
         EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
         ExportEventsPresenter presenter = new ExportEventsPresenter(exportEventsViewModel, homeViewModel, viewManagerModel);
 
