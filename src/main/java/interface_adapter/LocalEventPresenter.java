@@ -40,7 +40,8 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
                 localEventOutputData.getSubEvents(),
                 localEventOutputData.getDate(),
                 localEventOutputData.getStartTime(),
-                localEventOutputData.getEndTime());
+                localEventOutputData.getEndTime(),
+                localEventOutputData.getUserId());
     }
 
     @Override

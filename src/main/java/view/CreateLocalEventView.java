@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.LocalEventController;
 import interface_adapter.LocalEventViewModel;
 import use_case.local_event.EventInputData;
 
@@ -37,7 +38,10 @@ public class CreateLocalEventView extends JPanel{
     private JCheckBox pinnedCheckBox;
     private LocalEventViewModel localEventViewModel;
 
-    public CreateLocalEventView(LocalEventViewModel localEventViewModel) {
+    private LocalEventController localEventController;
+
+    public CreateLocalEventView(LocalEventViewModel localEventViewModel, LocalEventController localEventController) {
+        this.localEventController = localEventController;
         this.localEventViewModel = localEventViewModel;
         setLayout(new GridLayout(0, 2));
 
@@ -95,7 +99,7 @@ public class CreateLocalEventView extends JPanel{
         boolean isWork = workCheckBox.isSelected();
         boolean pinned = pinnedCheckBox.isSelected();
 
-        EventInputData eventInputData = new EventInputData(0, title, localEventViewModel.getState().getUserId(),
+        localEventController.createEvent(0, title, localEventViewModel.getState().getUserId(),
                 date, startTime, endTime, location, description, isWork,pinned, new ArrayList<Integer>());
 
     }
