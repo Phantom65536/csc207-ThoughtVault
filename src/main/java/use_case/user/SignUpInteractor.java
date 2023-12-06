@@ -4,15 +4,27 @@ import org.mindrot.jbcrypt.BCrypt;
 import data_access.GCalDataAccessObject;
 import entity.User;
 
+/**
+ * Interactor class for signing up.
+ */
 public class SignUpInteractor implements SignUpInputBoundary{
     final UserDataAccessInterface userDataAccessObject;
     final SignUpOutputBoundary signUpPresenter;
 
+    /**
+     * Instantiate a SignUpInteractor with the following DAO and presenter.
+     * @param userDataAccessObject
+     * @param signUpPresenter
+     */
     public SignUpInteractor(UserDataAccessInterface userDataAccessObject, SignUpOutputBoundary signUpPresenter) {
         this.userDataAccessObject = userDataAccessObject;
         this.signUpPresenter = signUpPresenter;
     }
 
+    /**
+     * Create a new user and save it to UsersDAO but also check for any error in user input data
+     * @param inputData
+     */
     @Override
     public void createUser(SignUpInputData inputData) {
         if (userDataAccessObject.getUserByUsername(inputData.getUsername()) != null) {
@@ -29,6 +41,9 @@ public class SignUpInteractor implements SignUpInputBoundary{
         }
     }
 
+    /**
+     * Switch to log in view
+     */
     @Override
     public void switchtoLogin() {
         signUpPresenter.switchToLogin();

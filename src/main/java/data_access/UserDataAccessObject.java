@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A concrete class implementing UsersDAO by saving users as JSON entries
+ */
 public class UserDataAccessObject implements UserDataAccessInterface {
     private final Map<String, User> users = new HashMap<>();
     private final File jsonFile;

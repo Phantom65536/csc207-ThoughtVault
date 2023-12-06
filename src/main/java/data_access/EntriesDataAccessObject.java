@@ -14,12 +14,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An abstract class for EventsDAO and NotesDAO
+ * @param <T>
+ */
 @SuppressWarnings("unchecked")
 abstract public class EntriesDataAccessObject<T extends Note> implements EntriesDataAccessInterface<T> {
     final Map<Integer, T> entries = new HashMap<>();
     final File jsonFile;
     int lastID = 0;
 
+    /**
+     * This constructor reads from the json txt file and extracts all json entries into the entries map.
+     * @param jsonPath
+     * @throws IOException
+     * @throws ParseException
+     */
     public EntriesDataAccessObject(String jsonPath) throws IOException, ParseException {
         jsonFile = new File(jsonPath);
 
@@ -74,11 +84,21 @@ abstract public class EntriesDataAccessObject<T extends Note> implements Entries
         return entriesList;
     }
 
+    /**
+     * Return the entry found in the entries map with the given unique entryID
+     * @param entryID
+     * @return An entry entity
+     */
     @Override
     public T getByID(int entryID) {
         return entries.get(entryID);
     }
 
+    /**
+     * Return an ArrayList of entries that belongs to the user with the given userID
+     * @param userID
+     * @return ArrayList of entry entities
+     */
     @Override
     public ArrayList<T> getAllUserEntries(int userID) {
         ArrayList<T> userEntriesID = new ArrayList<>();
@@ -88,13 +108,20 @@ abstract public class EntriesDataAccessObject<T extends Note> implements Entries
         return userEntriesID;
     }
 
+    /**
+     * Save a new entry entity in the entries map
+     * @param entry
+     */
     @Override
     public void save(T entry) {
         entries.put(entry.getID(), entry);
         save();
     }
 
-
+    /**
+     * Delete an existing entry in the entries map. Do nothing if no entry corresponding to the given entryID exists in the map
+     * @param entryID
+     */
     @Override
     public void delete(int entryID) {
         T rmEntry = entries.remove(entryID);
@@ -114,6 +141,10 @@ abstract public class EntriesDataAccessObject<T extends Note> implements Entries
         save();
     }
 
+    /**
+     * Return a new ID for the interactor to create and save a new entry to the file in this DAO
+     * @return newID
+     */
     @Override
     public int getNewID() {
         return ++lastID;
