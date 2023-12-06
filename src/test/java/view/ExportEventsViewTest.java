@@ -78,4 +78,101 @@ public class ExportEventsViewTest {
         System.out.println("Exported Event: " + exportEventsViewModel.getState().getExportedEventSummary());
 
     }
+
+    @Test
+    public void testNoSelectedEvent() throws IOException, GeneralSecurityException, ParseException {
+        // Read the apiKey environment variable
+        Properties prop = new Properties();
+        InputStream input = null;
+        input = new FileInputStream("gradle.properties");
+        prop.load(input);
+        String APIkey = prop.getProperty("apiKey");
+
+        ExportEventsViewModel exportEventsViewModel = new ExportEventsViewModel();
+        HomeViewModel homeViewModel = new HomeViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
+        EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
+        ExportEventsPresenter presenter = new ExportEventsPresenter(exportEventsViewModel, homeViewModel, viewManagerModel);
+
+        GCalEventInteractor inputBoundary = new GCalEventInteractor(userDataAccessObject, presenter, entriesDataAccessObject);
+        ExportEventsController exportEventsController = new ExportEventsController(inputBoundary);
+
+
+        JPanel exportEventsView = new ExportEventsView(exportEventsViewModel, exportEventsController);
+        JFrame jf = new JFrame();
+        jf.setContentPane(exportEventsView);
+        jf.pack();
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        jf.setSize(400,400);
+        jf.show();
+
+        // So that the app doesn't close automatically.
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Check that the selected event and the exported event are the same
+        Assert.assertNull(
+                exportEventsViewModel.getState().getSelectedEvent()
+        );
+        Assert.assertNull(
+                exportEventsViewModel.getState().getExportedEventSummary()
+        );
+
+    }
+
+    @Test
+    public void testSwitchToHome() throws IOException, GeneralSecurityException, ParseException {
+        // Read the apiKey environment variable
+        Properties prop = new Properties();
+        InputStream input = null;
+        input = new FileInputStream("gradle.properties");
+        prop.load(input);
+        String APIkey = prop.getProperty("apiKey");
+
+        ExportEventsViewModel exportEventsViewModel = new ExportEventsViewModel();
+        HomeViewModel homeViewModel = new HomeViewModel();
+        ViewManagerModel viewManagerModel = new ViewManagerModel();
+
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        userDataAccessObject.setUserCalendar(credential);
+        EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
+        ExportEventsPresenter presenter = new ExportEventsPresenter(exportEventsViewModel, homeViewModel, viewManagerModel);
+
+        GCalEventInteractor inputBoundary = new GCalEventInteractor(userDataAccessObject, presenter, entriesDataAccessObject);
+        ExportEventsController exportEventsController = new ExportEventsController(inputBoundary);
+
+
+        JPanel exportEventsView = new ExportEventsView(exportEventsViewModel, exportEventsController);
+        JFrame jf = new JFrame();
+        jf.setContentPane(exportEventsView);
+        jf.pack();
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        jf.setSize(400,400);
+        jf.show();
+
+        // So that the app doesn't close automatically.
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Check that the selected event and the exported event are the same
+        Assert.assertEquals(
+                viewManagerModel.getActiveView(),
+                homeViewModel.getViewName()
+        );
+    }
+
+
 }
