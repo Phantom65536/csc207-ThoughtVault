@@ -8,6 +8,9 @@ import entity.localEvent.LocalEventFactory;
 
 import java.util.ArrayList;
 
+/**
+ * The interactor for local events
+ */
 public class LocalEventInteractor implements LocalEventInputBoundary {
     private final LocalEventOutputBoundary localEventOutputBoundary;
 
@@ -25,11 +28,18 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         this.localEventFactory = new LocalEventFactory();
     }
 
+    /**
+     * Displays the event creation view
+     */
     @Override
     public void DisplayEventCreationView() {
         localEventOutputBoundary.DisplayEventCreationView();
     }
 
+    /**
+     * Displays the event edit view
+     * @param eventID The ID of the event to be edited
+     */
     @Override
     public void DisplayEventEditView(int eventID) {
         LocalEvent event = eventsDataAccessObject.getByID(eventID);
@@ -41,6 +51,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                 event.isWork(), event.getPinned(), event.getDescendants()));
     }
 
+    /**
+     * Displays the event detailed view
+     * @param eventID The ID of the event to be displayed
+     */
     @Override
     public void DisplayEventDetailedView(int eventID) {
         LocalEvent event = eventsDataAccessObject.getByID(eventID);
@@ -52,6 +66,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                 event.isWork(), event.getPinned(), event.getDescendants()));
     }
 
+    /**
+     * Creates an event and saves it to the database
+     * @param eventInputData The input data for the event to be created
+     */
     @Override
     public void CreateEvent(LocalEventInputData eventInputData) {
         try {
@@ -80,6 +98,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         }
     }
 
+    /**
+     * Edits an event and saves it to the database
+     * @param eventInputData The input data for the event to be edited
+     */
     @Override
     public void EditEvent(LocalEventInputData eventInputData) {
         try {
@@ -110,6 +132,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         }
     }
 
+    /**
+     * Deletes an event from the database
+     * @param eventID The ID of the event to be deleted
+     */
     @Override
     public void DeleteEvent(int eventID) {
         try {
@@ -124,6 +150,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         }
     }
 
+    /**
+     * Displays all events of a user
+     * @param userID The ID of the user whose events are to be displayed
+     */
     @Override
     public void GetAllEvents(int userID) {
         ArrayList<LocalEventOutputData> eventOutputDataArrayList = new ArrayList<>();

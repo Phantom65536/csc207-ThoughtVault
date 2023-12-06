@@ -1,15 +1,16 @@
 package use_case.note;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
- * The output data for notes
+ * The input data for notes
  */
-public class NoteOutputData {
+public class NoteInputData {
     private final int ID;
 
     private final String title;
+
+    private final int userID;
 
     private final String location;
 
@@ -22,8 +23,8 @@ public class NoteOutputData {
     private final ArrayList<Integer> subEvents;
 
     /**
-     * Creates a new NoteOutputData object
-     * @param id The ID of the note
+     * Creates a new NoteInputData object
+     * @param ID The ID of the note
      * @param title The title of the note
      * @param userID The ID of the user who created the note
      * @param location The location of the note
@@ -32,54 +33,24 @@ public class NoteOutputData {
      * @param pinned Whether the note is pinned
      * @param subEvents The IDs of the sub-events of the note
      */
-    public NoteOutputData(int id, String title, int userID, String location,
+    public NoteInputData (int ID, String title, int userID, String location,
                           String description, boolean isWork, boolean pinned,
                           ArrayList<Integer> subEvents) {
-        this.ID = id;
+        this.ID = ID;
 
         this.title = title;
+
+        this.userID = userID;
 
         this.location = location;
 
         this.description = description;
 
-        this.isWork = isWork;
-
         this.pinned = pinned;
 
+        this.isWork = isWork;
+
         this.subEvents = subEvents;
-    }
-
-    /**
-     * Returns a dictionary of the note data
-     * @return The dictionary of the note data
-     */
-    public HashMap<String, Object> getNoteData() {
-        HashMap<String, Object> data = new HashMap<String, Object>();
-
-        data.put("title", getTitle());
-
-        data.put("isWork", getIsWork());
-
-        data.put("pinned", getPinned());
-
-        return data;
-    }
-
-    /**
-     * Returns the pinned status of the note
-     * @return The pinned status of the note
-     */
-    public boolean getPinned() {
-        return pinned;
-    }
-
-    /**
-     * Returns the work status of the note
-     * @return The work status of the note
-     */
-    public boolean getIsWork() {
-        return isWork;
     }
 
     /**
@@ -88,6 +59,30 @@ public class NoteOutputData {
      */
     public int getID() {
         return ID;
+    }
+
+    /**
+     * Returns the description of the note
+     * @return The description of the note
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Returns the ID of the user who created the note
+     * @return The ID of the user who created the note
+     */
+    public int getUserID() {
+        return userID;
+    }
+
+    /**
+     * Returns the location of the note
+     * @return The location of the note
+     */
+    public String getLocation() {
+        return location;
     }
 
     /**
@@ -107,18 +102,18 @@ public class NoteOutputData {
     }
 
     /**
-     * Returns the description of the note
-     * @return The description of the note
+     * Returns the pinned status of the note
+     * @return The pinned status of the note
      */
-    public String getDescription() {
-        return description;
+    public boolean getPinned() {
+        return pinned;
     }
 
     /**
-     * Returns the ID of the user who created the note
-     * @return The ID of the user who created the note
+     * Returns the work status of the note
+     * @return The work status of the note
      */
-    public String getLocation() {
-        return location;
+    public boolean getIsWork() {
+        return isWork;
     }
 }
