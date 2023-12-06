@@ -2,8 +2,12 @@ package view;
 import interface_adapter.*;
 import interface_adapter.exportevents.ExportEventsViewModel;
 import interface_adapter.importevents.ImportEventsViewModel;
-import use_case.local_event.LocalEventController;
-import use_case.local_event.NoteController;
+import interface_adapter.listView.ListViewModel;
+import interface_adapter.listView.ListViewState;
+import interface_adapter.localEvent.LocalEventViewModel;
+import interface_adapter.note.NoteViewModel;
+import interface_adapter.localEvent.LocalEventController;
+import interface_adapter.note.NoteController;
 
 import javax.swing.*;
 import java.awt.*;

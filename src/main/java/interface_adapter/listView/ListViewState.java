@@ -1,0 +1,33 @@
+package interface_adapter.listView;
+
+import java.util.HashMap;
+
+public class ListViewState {
+    private int userId;
+    private HashMap<Integer, HashMap<String, ?>> events;
+    private HashMap<Integer, HashMap<String, ?>> notes;
+
+    public ListViewState() {
+        events = new HashMap<Integer, HashMap<String, ?>>();
+
+        notes = new HashMap<Integer, HashMap<String, ?>>();
+    }
+
+    public HashMap<Integer, HashMap<String, ?>> getEvents() {
+        return events;
+    }
+
+    public HashMap<Integer, HashMap<String, ?>> getNotes() {
+        return notes;
+    }
+
+    public void setEvents(HashMap<Integer, HashMap<String, ?>> events) {
+        this.events = events;
+    }
+
+    public void setNotes(HashMap<Integer, HashMap<String, ?>> notes) {
+        this.notes = notes;
+    }
+    public int getUserId(){return this.userId;}
+    public void setUserId(int userId){this.userId = userId;}
+}

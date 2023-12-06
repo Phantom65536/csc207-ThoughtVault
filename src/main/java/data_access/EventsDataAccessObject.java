@@ -1,6 +1,6 @@
 package data_access;
 
-import entity.LocalEvent;
+import entity.localEvent.LocalEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
