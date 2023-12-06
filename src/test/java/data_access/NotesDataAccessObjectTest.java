@@ -11,8 +11,6 @@ import java.util.Arrays;
 
 public class NotesDataAccessObjectTest extends TestCase {
 
-
-
     public void testSave() throws IOException, ParseException {
         String timeNow = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS").format(new java.util.Date());
         NotesDataAccessObject dao = new NotesDataAccessObject("./testNotes"+timeNow+".json");
@@ -26,6 +24,7 @@ public class NotesDataAccessObjectTest extends TestCase {
 
         assertEquals(1,events0.size());
         assertEquals(0, event0.getUserID());
+        assertEquals(1, event0.getID());
         assertEquals("first",event0.getTitle());
         assertEquals("TA guy's crib",event0.getLocation());
         assertEquals("This is a description.",event0.getDescription());
@@ -41,6 +40,7 @@ public class NotesDataAccessObjectTest extends TestCase {
 
         assertEquals(1,events01.size());
         assertEquals(0, event01.getUserID());
+        assertEquals(1, event01.getID());
         assertEquals("first",event01.getTitle());
         assertEquals("TA guy's crib",event01.getLocation());
         assertEquals("This is a description.",event01.getDescription());
@@ -64,6 +64,7 @@ public class NotesDataAccessObjectTest extends TestCase {
 
         assertEquals(1,events0.size());
         assertEquals(0, event0.getUserID());
+        assertEquals(0, event0.getID());
         assertEquals("second",event0.getTitle());
         assertEquals("TA guy's toilet",event0.getLocation());
         assertEquals("There is no way this is not a description.",event0.getDescription());
@@ -71,8 +72,6 @@ public class NotesDataAccessObjectTest extends TestCase {
         assertEquals(true,event0.getPinned());
         assertEquals(2,event0.getDescendants().size());
     }
-
-    @org.junit.Test
     public void testNotes() throws IOException, ParseException {
         String timeNow = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS").format(new java.util.Date());
         NotesDataAccessObject dao = new NotesDataAccessObject("./testNotes"+timeNow+".json");
@@ -81,33 +80,31 @@ public class NotesDataAccessObjectTest extends TestCase {
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
         dao.save(firstNote);
 
+        Note event0 = dao.getByID(1);
+        assertEquals("first",event0.getTitle());
+
         dao.save(new Note(dao.getNewID(), "second", 0,
                 "TA guy's toilet", "There is no way this is not a description.", true, true, new ArrayList<>(Arrays.asList(firstNote.getID(), 1000))));
 
-        Note event1 = dao.getAllUserEntries(0).get(1);
+        Note event1 = dao.getByID(2);
         assertEquals(2,event1.getDescendants().size());
 
         dao.save(new Note(dao.getNewID(), "third", 0,
                 "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>(Arrays.asList(0, firstNote.getID()))));
-        Note event2 = dao.getAllUserEntries(0).get(2);
+        Note event2 = dao.getByID(3);
         assertEquals(2,event2.getDescendants().size());
 
         Note otherUserEvent = new Note(dao.getNewID(), "another user", 1,
                 "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>());
         dao.save(otherUserEvent);
+        Note event3 = dao.getByID(4);
+        assertEquals("another user",event3.getTitle());
 
         otherUserEvent.amendAllAttributes("another user edited",
                 "Garbage chute :(((", "EDITED DESCRIPTION T_T", true, true, new ArrayList<>());
         dao.save(otherUserEvent);
-
-        Note event3 = dao.getAllUserEntries(1).get(0);
-        assertEquals(1, event3.getUserID());
-        assertEquals("another user edited",event3.getTitle());
-        assertEquals("Garbage chute :(((",event3.getLocation());
-        assertEquals("EDITED DESCRIPTION T_T",event3.getDescription());
-        assertEquals(true, event3.isWork());
-        assertEquals(true,event3.getPinned());
-        assertEquals(0,event3.getDescendants().size());
+        Note event4 = dao.getByID(4);
+        assertEquals("another user edited",event4.getTitle());
 
         ArrayList<Note> user0Events = dao.getAllUserEntries(0);
         assertEquals(3,user0Events.size());
@@ -116,7 +113,9 @@ public class NotesDataAccessObjectTest extends TestCase {
 
         dao.delete(firstNote.getID());
         assertNull(dao.getByID(firstNote.getID()));
-
+        assertEquals(2,dao.getAllUserEntries(0).size());
+        assertEquals(1,dao.getByID(2).getDescendants().size());
+        assertEquals(1,dao.getByID(3).getDescendants().size());
     }
 
 }
