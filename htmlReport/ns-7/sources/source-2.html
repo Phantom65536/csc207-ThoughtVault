@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SignUpPresenter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">interface_adapter.sign_up</a>
+</div>
+
+<h1>Coverage Summary for Class: SignUpPresenter (interface_adapter.sign_up)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SignUpPresenter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package interface_adapter.sign_up;
+&nbsp;
+&nbsp;import interface_adapter.ViewManagerModel;
+&nbsp;import interface_adapter.log_in_out.LogInState;
+&nbsp;import interface_adapter.log_in_out.LogInViewModel;
+&nbsp;import use_case.user.SignUpOutputBoundary;
+&nbsp;
+&nbsp;public class SignUpPresenter implements SignUpOutputBoundary {
+&nbsp;    private final LogInViewModel logInViewModel;
+&nbsp;    private final SignUpViewModel signUpViewModel;
+&nbsp;    private final ViewManagerModel viewManagerModel;
+&nbsp;
+<b class="fc">&nbsp;    public SignUpPresenter(LogInViewModel logInViewModel, SignUpViewModel signUpViewModel, ViewManagerModel viewManagerModel) {</b>
+<b class="fc">&nbsp;        this.logInViewModel = logInViewModel;</b>
+<b class="fc">&nbsp;        this.signUpViewModel = signUpViewModel;</b>
+<b class="fc">&nbsp;        this.viewManagerModel = viewManagerModel;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public void prepareSuccessView(String username) {
+<b class="fc">&nbsp;        signUpViewModel.setState(new SignUpState());</b>
+<b class="fc">&nbsp;        signUpViewModel.firePropertyChanged();</b>
+<b class="fc">&nbsp;        LogInState logInState = logInViewModel.getState();</b>
+<b class="fc">&nbsp;        logInState.setUsername(username);</b>
+<b class="fc">&nbsp;        logInViewModel.firePropertyChanged();</b>
+<b class="fc">&nbsp;        viewManagerModel.setActiveView(logInViewModel.getViewName());</b>
+<b class="fc">&nbsp;        viewManagerModel.firePropertyChanged();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void prepareFailView(String error, ErrorType errorType) {
+<b class="fc">&nbsp;        SignUpState signUpState = signUpViewModel.getState();</b>
+<b class="fc">&nbsp;        if (errorType == ErrorType.USERNAME) {</b>
+<b class="fc">&nbsp;            signUpState.setUsernameError(error);</b>
+<b class="fc">&nbsp;        } else if (errorType == ErrorType.PASSWORD) {</b>
+<b class="fc">&nbsp;            signUpState.setPasswordError(error);</b>
+<b class="fc">&nbsp;        } else if (errorType == ErrorType.CREDENTIALS) {</b>
+<b class="fc">&nbsp;            signUpState.setCredentialsError(error);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        signUpViewModel.firePropertyChanged();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void switchToLogin() {
+<b class="fc">&nbsp;        signUpViewModel.setState(new SignUpState());</b>
+<b class="fc">&nbsp;        signUpViewModel.firePropertyChanged();</b>
+<b class="fc">&nbsp;        viewManagerModel.setActiveView(logInViewModel.getViewName());</b>
+<b class="fc">&nbsp;        viewManagerModel.firePropertyChanged();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:32</div>
+</div>
+</body>
+</html>

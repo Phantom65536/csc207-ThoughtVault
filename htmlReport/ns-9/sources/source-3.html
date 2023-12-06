@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GCalEventOutputData</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">use_case.gcalevent</a>
+</div>
+
+<h1>Coverage Summary for Class: GCalEventOutputData (use_case.gcalevent)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GCalEventOutputData</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package use_case.gcalevent;
+&nbsp;
+&nbsp;import com.google.api.client.util.DateTime;
+&nbsp;import com.google.api.services.calendar.Calendar;
+&nbsp;import com.google.api.services.calendar.model.CalendarList;
+&nbsp;import com.google.api.services.calendar.model.CalendarListEntry;
+&nbsp;import com.google.api.services.calendar.model.Event;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class GCalEventOutputData {
+&nbsp;    final private String eventId;
+&nbsp;    final private String title;
+&nbsp;    final private DateTime date;
+&nbsp;    final private DateTime startTime;
+&nbsp;    final private DateTime endTime;
+&nbsp;    final private String location;
+&nbsp;    final private String description;
+&nbsp;
+<b class="nc">&nbsp;    public GCalEventOutputData(String eventId, Calendar calendar) throws IOException {</b>
+<b class="nc">&nbsp;        this.eventId = eventId;</b>
+&nbsp;
+<b class="nc">&nbsp;        HashMap&lt;String, Object&gt; eventAttributes = getEventAttributes(calendar, eventId);</b>
+<b class="nc">&nbsp;        this.title = (String) eventAttributes.get(&quot;title&quot;);</b>
+<b class="nc">&nbsp;        this.date = (DateTime) eventAttributes.get(&quot;date&quot;);</b>
+<b class="nc">&nbsp;        this.startTime = (DateTime) eventAttributes.get(&quot;startTime&quot;);</b>
+<b class="nc">&nbsp;        this.endTime = (DateTime) eventAttributes.get(&quot;endTime&quot;);</b>
+<b class="nc">&nbsp;        this.location = (String) eventAttributes.get(&quot;location&quot;);</b>
+<b class="nc">&nbsp;        this.description = (String) eventAttributes.get(&quot;description&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Event getEventById(Calendar calendar, String calendarId, String eventId) throws IOException {
+<b class="nc">&nbsp;        return calendar.events().get(calendarId, eventId).execute();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private HashMap&lt;String, Object&gt; getEventAttributes(Calendar calendar, String eventId) throws IOException {
+<b class="nc">&nbsp;        CalendarList calendarList = calendar.calendarList().list().setPageToken(null).execute();</b>
+<b class="nc">&nbsp;        List&lt;CalendarListEntry&gt; items = calendarList.getItems();</b>
+<b class="nc">&nbsp;        String calendarId = items.get(0).getId();</b>
+&nbsp;
+<b class="nc">&nbsp;        Event event = calendar.events().get(calendarId, eventId).execute();</b>
+&nbsp;
+<b class="nc">&nbsp;        HashMap&lt;String, Object&gt; eventAttributes = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        eventAttributes.put(&quot;title&quot;, event.getSummary());</b>
+<b class="nc">&nbsp;        eventAttributes.put(&quot;date&quot;, event.getStart().getDate());</b>
+<b class="nc">&nbsp;        eventAttributes.put(&quot;startTime&quot;, event.getStart().getDateTime());</b>
+<b class="nc">&nbsp;        eventAttributes.put(&quot;endTime&quot;, event.getEnd().getDateTime());</b>
+<b class="nc">&nbsp;        eventAttributes.put(&quot;location&quot;, event.getLocation());</b>
+<b class="nc">&nbsp;        eventAttributes.put(&quot;description&quot;, event.getDescription());</b>
+<b class="nc">&nbsp;        return eventAttributes;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:32</div>
+</div>
+</body>
+</html>

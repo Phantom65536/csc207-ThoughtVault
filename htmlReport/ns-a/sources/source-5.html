@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SignUpInteractor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">use_case.user</a>
+</div>
+
+<h1>Coverage Summary for Class: SignUpInteractor (use_case.user)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SignUpInteractor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package use_case.user;
+&nbsp;
+&nbsp;import org.mindrot.jbcrypt.BCrypt;
+&nbsp;import data_access.GCalDataAccessObject;
+&nbsp;import entity.User;
+&nbsp;
+&nbsp;public class SignUpInteractor implements SignUpInputBoundary{
+&nbsp;    final UserDataAccessInterface userDataAccessObject;
+&nbsp;    final SignUpOutputBoundary signUpPresenter;
+&nbsp;
+<b class="fc">&nbsp;    public SignUpInteractor(UserDataAccessInterface userDataAccessObject, SignUpOutputBoundary signUpPresenter) {</b>
+<b class="fc">&nbsp;        this.userDataAccessObject = userDataAccessObject;</b>
+<b class="fc">&nbsp;        this.signUpPresenter = signUpPresenter;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void createUser(SignUpInputData inputData) {
+<b class="fc">&nbsp;        if (userDataAccessObject.getUserByUsername(inputData.getUsername()) != null) {</b>
+<b class="fc">&nbsp;            signUpPresenter.prepareFailView(&quot;This username is already taken.&quot;, SignUpOutputBoundary.ErrorType.USERNAME);</b>
+<b class="fc">&nbsp;        } else if (!inputData.getPassword().equals(inputData.getRepeatPassword())) {</b>
+<b class="fc">&nbsp;            signUpPresenter.prepareFailView(&quot;The password you entered does not match your repeated password.&quot;, SignUpOutputBoundary.ErrorType.PASSWORD);</b>
+<b class="fc">&nbsp;        } else if (GCalDataAccessObject.getCredentials(inputData.getAPIKEy()) == null) {</b>
+<b class="fc">&nbsp;            signUpPresenter.prepareFailView(&quot;Invalid credentials.&quot;, SignUpOutputBoundary.ErrorType.CREDENTIALS);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            String hashedPw = hashPassword(inputData.getPassword());</b>
+<b class="fc">&nbsp;            User newUser = new User(userDataAccessObject.getNewID(), inputData.getUsername(), hashedPw, inputData.getAPIKEy());</b>
+<b class="fc">&nbsp;            userDataAccessObject.save(newUser);</b>
+<b class="fc">&nbsp;            signUpPresenter.prepareSuccessView(newUser.getUsername());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void switchtoLogin() {
+<b class="fc">&nbsp;        signUpPresenter.switchToLogin();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String hashPassword(String password) {
+<b class="fc">&nbsp;        return BCrypt.hashpw(password, BCrypt.gensalt());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:32</div>
+</div>
+</body>
+</html>
