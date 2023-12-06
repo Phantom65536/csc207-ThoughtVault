@@ -4,15 +4,16 @@ import com.google.api.client.auth.oauth2.Credential;
 import data_access.GCalDataAccessObject;
 import entity.User;
 import org.mindrot.jbcrypt.BCrypt;
+import use_case.gcalevent.GCalEventDataAccessInterface;
 
 import java.io.IOException;
 
 public class LogInOutInteractor implements LogInOutInputBoundary{
     final UserDataAccessInterface userDataAccessObject;
-    final GCalDataAccessObject gcalDAO;
+    final GCalEventDataAccessInterface gcalDAO;
     final LogInOutOutputBoundary logInOutPresenter;
 
-    public LogInOutInteractor(UserDataAccessInterface userDataAccessObject, GCalDataAccessObject gcalDAO, LogInOutOutputBoundary logInOutPresenter) {
+    public LogInOutInteractor(UserDataAccessInterface userDataAccessObject, GCalEventDataAccessInterface gcalDAO, LogInOutOutputBoundary logInOutPresenter) {
         this.userDataAccessObject = userDataAccessObject;
         this.gcalDAO = gcalDAO;
         this.logInOutPresenter = logInOutPresenter;
