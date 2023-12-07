@@ -17,6 +17,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ * View class for exporting events.
+ */
 public class ExportEventsView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "export events";
     private final ExportEventsViewModel exportEventsViewModel;
@@ -26,7 +29,11 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
     final JButton exportEvents;
     private final ExportEventsController exportEventsController;
     final JButton home;
-
+    /**
+     * Instantiate a ExportEventsView by adding the necessary labels, input fields and buttons.
+     * @param exportEventsViewModel
+     * @param exportEventsController
+     */
     public ExportEventsView(ExportEventsViewModel exportEventsViewModel, ExportEventsController exportEventsController) throws IOException {
         this.exportEventsViewModel = exportEventsViewModel;
         this.exportEventsController = exportEventsController;
@@ -111,10 +118,19 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
         this.add(buttons);
     }
 
+    /**
+     * Default action of unprocessed buttons.
+     * @param evt the event to be processed
+     */
     public void actionPerformed(ActionEvent evt) {
         JOptionPane.showConfirmDialog(this, "You are exporting an event");
     }
 
+    /**
+     * Display error message when an event notification is detected.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         ExportEventsState state = (ExportEventsState) evt.getNewValue();

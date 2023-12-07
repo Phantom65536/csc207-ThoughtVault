@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Input Data class for importing and exporting events.
+ */
 public class GCalEventInputData {
     final private String eventId;
     final private String title;
@@ -18,6 +21,12 @@ public class GCalEventInputData {
     final private DateTime endTime;
     final private String location;
     final private String description;
+
+    /**
+     * Instantiates an instance of GCalEventInputData
+     * @param eventId The specific event identifier
+     * @param calendar The user's Google Calendar
+     * */
     public GCalEventInputData(String eventId, Calendar calendar) throws IOException {
         this.eventId = eventId;
 
@@ -30,14 +39,18 @@ public class GCalEventInputData {
         this.description = (String) eventAttributes.get("description");
     }
 
+    /**
+     * Get the eventId of the GCalInputData object
+     * */
     public String getEventId() {
         return eventId;
     }
 
-    public Event getEventById(Calendar calendar, String calendarId, String eventId) throws IOException {
-        return calendar.events().get(calendarId, eventId).execute();
-    }
-
+    /**
+     * Get all of the event attributes of a specific event given a user's google calendar and the specific eventId
+     * @param eventId The specific event identifier
+     * @param calendar The user's Google Calendar
+     * */
     private HashMap<String, Object> getEventAttributes(Calendar calendar, String eventId) throws IOException {
         CalendarList calendarList = calendar.calendarList().list().setPageToken(null).execute();
         List<CalendarListEntry> items = calendarList.getItems();
@@ -55,6 +68,9 @@ public class GCalEventInputData {
         return eventAttributes;
     }
 
+    /**
+     * Get the event title
+     * */
     public String getTitle() {
         return title;
     }

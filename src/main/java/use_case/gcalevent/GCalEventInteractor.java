@@ -11,10 +11,7 @@ import use_case.localEvent.LocalEventOutputData;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.Date;
+import java.util.*;
 
 public class GCalEventInteractor implements GCalEventInputBoundary {
     final GCalEventDataAccessInterface userDataAccessObject;
@@ -159,7 +156,9 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
                         event.getDescription(),
                         event.isWork(),
                         event.getPinned(),
-                        event.getDescendants());
+                        event.getDescendants(),
+                        (HashMap<Integer, String>) entriesDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                );
                 listOfEvents.add(inputData);
                 System.out.println(inputData.getTitle());
             }
@@ -171,6 +170,9 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         return listOfEvents;
     }
 
+    /**
+     * Switch to Home View
+     * */
     public boolean switchToHome() {
         gCalEventPresenter.switchToHome();
         return true;

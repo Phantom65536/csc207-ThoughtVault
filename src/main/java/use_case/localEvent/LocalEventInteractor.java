@@ -5,6 +5,7 @@ import data_access.EventsDataAccessObject;
 import entity.localEvent.LocalEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The interactor for local events
@@ -34,7 +35,9 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                 LocalEventOutputData(event.getID(), event.getTitle(),
                 event.getUserID(), event.getDate(), event.getStartTime(),
                 event.getEndTime(), event.getLocation(), event.getDescription(),
-                event.isWork(), event.getPinned(), event.getDescendants()));
+                event.isWork(), event.getPinned(), event.getDescendants(),
+                (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID()))
+        );
     }
 
     /**
@@ -56,7 +59,11 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                             event.getDate(), event.getStartTime(),
                             event.getEndTime(), event.getLocation(),
                             event.getDescription(), event.isWork(),
-                            event.getPinned(), event.getDescendants()));
+                            event.getPinned(), event.getDescendants(),
+                            (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                    )
+            )
+            ;
         }
 
         catch (RuntimeException e) {
@@ -86,7 +93,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                             event.getDate(), event.getStartTime(),
                             event.getEndTime(), event.getLocation(),
                             event.getDescription(), event.isWork(),
-                            event.getPinned(), event.getDescendants()));
+                            event.getPinned(), event.getDescendants(),
+                            (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                    )
+            );
         }
 
         catch (RuntimeException e) {
@@ -128,7 +138,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                     event.getStartTime(), event.getEndTime(),
                     event.getLocation(), event.getDescription(),
                     event.isWork(), event.getPinned(),
-                    event.getDescendants()));
+                    event.getDescendants(),
+                    (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                    )
+            );
         }
 
         localEventOutputBoundary.DisplayAllEvents(eventOutputDataArrayList);

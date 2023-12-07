@@ -17,6 +17,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ * View class for importing events.
+ */
 public class ImportEventsView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "import events";
     private final ImportEventsViewModel importEventsViewModel;
@@ -27,6 +30,12 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
     final JButton home;
     private final ImportEventsController importEventsController;
 
+    /**
+     * Instantiate a ImportEventsView by adding the necessary labels, input fields and buttons.
+     *
+     * @param importEventsViewModel
+     * @param controller
+     */
     public ImportEventsView(ImportEventsViewModel importEventsViewModel, ImportEventsController controller) throws IOException {
 
         this.importEventsController = controller;
@@ -97,7 +106,7 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(home)){
+                        if (e.getSource().equals(home)) {
                             importEventsController.switchToHome();
                         }
                     }
@@ -109,17 +118,27 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
         this.add(eventsList);
         this.add(buttons);
     }
-        public void actionPerformed(ActionEvent evt){
-            JOptionPane.showConfirmDialog(this, "You are importing an event");
-        }
+    /**
+     * Default action of unprocessed buttons.
+     * @param evt the event to be processed
+     */
+    public void actionPerformed(ActionEvent evt) {
+        JOptionPane.showConfirmDialog(this, "You are importing an event");
+    }
 
-        @Override
-        public void propertyChange(PropertyChangeEvent evt){
-            ImportEventsState state = (ImportEventsState) evt.getNewValue();
-            if (state.getImportEventError() != null){
-                JOptionPane.showMessageDialog(this, state.getImportEventError());
-            } else if (state.getImportedEventSummary() != null){
-                JOptionPane.showMessageDialog(this, "You have imported:" + state.getImportedEventSummary());
-            }
+    /**
+     * Display error message when an event notification is detected.
+     *
+     * @param evt A PropertyChangeEvent object describing the event source
+     *            and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        ImportEventsState state = (ImportEventsState) evt.getNewValue();
+        if (state.getImportEventError() != null) {
+            JOptionPane.showMessageDialog(this, state.getImportEventError());
+        } else if (state.getImportedEventSummary() != null) {
+            JOptionPane.showMessageDialog(this, "You have imported:" + state.getImportedEventSummary());
         }
     }
+}

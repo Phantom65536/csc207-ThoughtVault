@@ -1,5 +1,6 @@
 package use_case.localEvent;
 
+import com.sun.java.accessibility.util.AccessibilityListenerList;
 import use_case.note.NoteOutputData;
 
 import java.time.LocalDate;
@@ -33,13 +34,14 @@ public class LocalEventOutputData extends NoteOutputData {
      * @param isWork Whether the event is a work event
      * @param pinned Whether the event is pinned
      * @param subEvents The IDs of the sub-events of the event
+     * @param allEvents All of the events
      */
     public LocalEventOutputData(int ID, String title, int userID, LocalDate date,
                                 LocalTime startTime, LocalTime endTime,
                                 String location, String description, boolean isWork,
-                                boolean pinned, ArrayList<Integer> subEvents) {
+                                boolean pinned, ArrayList<Integer> subEvents, HashMap<Integer, String> allEvents) {
         super(ID, title, userID, location, description, isWork, pinned,
-                subEvents);
+                subEvents, allEvents);
 
         this.date = date;
 
