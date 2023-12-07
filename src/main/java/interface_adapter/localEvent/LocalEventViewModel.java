@@ -26,7 +26,7 @@ public class LocalEventViewModel extends ViewModel {
 
     public static final String DESCRIPTION_LABEL = "Description: ";
 
-    public static final String IS_WORK_LABEL = "Is Work: ";
+    public static final String IS_WORK_LABEL = "Is Work: (Uncheck to set label as PERSONAL)";
 
     public static final String PINNED_LABEL = "Pinned: ";
 
