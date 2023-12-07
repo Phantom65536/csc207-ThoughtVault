@@ -12,5 +12,5 @@ public interface EntriesDataAccessInterface<T extends Note> {
     void save(T entry);
     void delete(int entryID);
     int getNewID();
-    Map<Integer, String> getTitlesOfSubEntries(List<Integer> subEntries);
+    Map<Integer, String> getTitlesOfAllEntries(int userid);
 }
