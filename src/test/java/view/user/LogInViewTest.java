@@ -2,16 +2,22 @@ package view.user;
 
 import data_access.GCalDataAccessObject;
 import data_access.UserDataAccessObject;
+import entity.localEvent.LocalEvent;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.listView.ListViewModel;
+import interface_adapter.localEvent.LocalEventController;
 import interface_adapter.log_in_out.*;
 import interface_adapter.log_in_out.LogInOutPresenter;
 import interface_adapter.log_in_out.LogInState;
+import interface_adapter.note.NoteController;
 import interface_adapter.sign_up.SignUpViewModel;
 import junit.framework.TestCase;
 import org.json.simple.parser.ParseException;
 import org.junit.runner.RunWith;
 import org.mockito.Answers;
 import org.mockito.junit.MockitoJUnitRunner;
+import use_case.localEvent.LocalEventInputBoundary;
+import use_case.note.NoteInputBoundary;
 import use_case.user.*;
 import view.LabelTextPanel;
 
@@ -29,19 +35,22 @@ import static org.mockito.Mockito.*;
 public class LogInViewTest extends TestCase {
     String username = "Elsie";
     String password = "password";
-    String repeatPassword = "password";
-    String credential = "{\"installed\":{\"client_id\":\"676658923300-jefh7ko5cp9n7cf92vj427ltrd0rumo4.apps.googleusercontent.com\",\"project_id\":\"thought-vault-400423\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"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\",\"redirect_uris\":[\"http://localhost\"]}}";
-
     @org.junit.Test
     public void testUsernameInfo() {
 
         // create the UI; note, we don't make a real LogInOutInputBoundary,
         // since we don't need it for this test.
         LogInOutInputBoundary sib = null;
-
         LogInOutController controller = new LogInOutController(sib);
         LogInViewModel viewModel = new LogInViewModel();
-        JPanel LogInView = new LogInView(viewModel, controller);
+        ListViewModel listViewModel = new ListViewModel();
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
+
+
+        JPanel LogInView = new LogInView(viewModel, controller, listViewModel, noteController, localEventController);
         JFrame jf = new JFrame();
         jf.setContentPane(LogInView);
         jf.pack();
@@ -129,7 +138,14 @@ public class LogInViewTest extends TestCase {
         LogInOutInputBoundary sib = null;
         LogInOutController controller = new LogInOutController(sib);
         LogInViewModel viewModel = new LogInViewModel();
-        JPanel LogInView = new LogInView(viewModel, controller);
+        ListViewModel listViewModel = new ListViewModel();
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
+
+
+        JPanel LogInView = new LogInView(viewModel, controller, listViewModel, noteController, localEventController);
         JFrame jf = new JFrame();
         jf.setContentPane(LogInView);
         jf.pack();
@@ -218,7 +234,8 @@ public class LogInViewTest extends TestCase {
         SignUpViewModel viewModel = new SignUpViewModel();
         LogInViewModel loginviewModel = new LogInViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
-        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,viewManagerModel);
+        ListViewModel listViewViewModel = new ListViewModel();
+        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,listViewViewModel, viewManagerModel);
 
         GCalDataAccessObject gcalDAO = new GCalDataAccessObject();
         
@@ -229,8 +246,13 @@ public class LogInViewTest extends TestCase {
 
         LogInOutController controller = spy(new LogInOutController(interactor));
 
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
 
-        JPanel LogInView = new LogInView(loginviewModel, controller);
+
+        JPanel LogInView = new LogInView(loginviewModel, controller, listViewViewModel, noteController, localEventController);
 
         LogInState currentState = loginviewModel.getState();
         currentState.setUsername(username);
@@ -262,7 +284,13 @@ public class LogInViewTest extends TestCase {
         LogInOutController controller = spy(new LogInOutController(sib));
 
         LogInViewModel viewModel = new LogInViewModel();
-        JPanel LogInView = new LogInView(viewModel, controller);
+        ListViewModel listViewModel = new ListViewModel();
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
+
+        JPanel LogInView = new LogInView(viewModel, controller, listViewModel, noteController, localEventController);
         JFrame jf = new JFrame();
         jf.setContentPane(LogInView);
         jf.pack();
@@ -347,7 +375,13 @@ public class LogInViewTest extends TestCase {
         LogInOutController controller = spy(new LogInOutController(sib));
 
         LogInViewModel viewModel = new LogInViewModel();
-        JPanel LogInView = new LogInView(viewModel, controller);
+        ListViewModel listViewModel = new ListViewModel();
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
+
+        JPanel LogInView = new LogInView(viewModel, controller, listViewModel, noteController, localEventController);
         JFrame jf = new JFrame();
         jf.setContentPane(LogInView);
         jf.pack();
@@ -455,7 +489,8 @@ public class LogInViewTest extends TestCase {
         SignUpViewModel viewModel = new SignUpViewModel();
         LogInViewModel loginviewModel = new LogInViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
-        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,viewManagerModel);
+        ListViewModel listViewViewModel = new ListViewModel();
+        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,listViewViewModel, viewManagerModel);
 
         GCalDataAccessObject gcalDAO = new GCalDataAccessObject();
 
@@ -467,7 +502,14 @@ public class LogInViewTest extends TestCase {
         LogInOutController controller = spy(new LogInOutController(interactor));
 
 
-        JPanel LogInView = new LogInView(loginviewModel, controller);
+        ListViewModel listViewModel = new ListViewModel();
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
+
+        JPanel LogInView = new LogInView(loginviewModel, controller, listViewModel, noteController, localEventController);
+
 
         LogInState currentState = loginviewModel.getState();
         currentState.setUsername(username+"y");
@@ -504,7 +546,8 @@ public class LogInViewTest extends TestCase {
         SignUpViewModel viewModel = new SignUpViewModel();
         LogInViewModel loginviewModel = new LogInViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
-        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,viewManagerModel);
+        ListViewModel listViewModel = new ListViewModel();
+        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,listViewModel,viewManagerModel);
 
         GCalDataAccessObject gcalDAO = new GCalDataAccessObject();
 
@@ -516,7 +559,13 @@ public class LogInViewTest extends TestCase {
         LogInOutController controller = spy(new LogInOutController(interactor));
 
 
-        JPanel LogInView = new LogInView(loginviewModel, controller);
+
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
+
+        JPanel LogInView = new LogInView(loginviewModel, controller, listViewModel, noteController, localEventController);
 
         LogInState currentState = loginviewModel.getState();
         currentState.setUsername(username);
@@ -553,7 +602,8 @@ public class LogInViewTest extends TestCase {
         SignUpViewModel viewModel = new SignUpViewModel();
         LogInViewModel loginviewModel = new LogInViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
-        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,viewManagerModel);
+        ListViewModel listViewModel = new ListViewModel();
+        LogInOutOutputBoundary successPresenter = new LogInOutPresenter(loginviewModel,viewModel,listViewModel,viewManagerModel);
 
         GCalDataAccessObject gcalDAO = new GCalDataAccessObject();
 
@@ -565,7 +615,13 @@ public class LogInViewTest extends TestCase {
         LogInOutController controller = spy(new LogInOutController(interactor));
 
 
-        JPanel LogInView = new LogInView(loginviewModel, controller);
+
+        NoteInputBoundary noteInputBoundary = mock(NoteInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        NoteController noteController = new NoteController(noteInputBoundary);
+        LocalEventInputBoundary localEventInputBoundary = mock(LocalEventInputBoundary.class, Answers.CALLS_REAL_METHODS);
+        LocalEventController localEventController = new LocalEventController(localEventInputBoundary);
+
+        JPanel LogInView = new LogInView(loginviewModel, controller, listViewModel, noteController, localEventController);
 
         LogInState currentState = loginviewModel.getState();
         currentState.setUsername(username);
