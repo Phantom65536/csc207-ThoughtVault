@@ -5,17 +5,6 @@ package use_case.note;
  */
 public interface NoteInputBoundary {
     /**
-     * Displays the note creation view
-     */
-    void DisplayNoteCreationView();
-
-    /**
-     * Displays the note edit view
-     * @param noteID The ID of the note to be edited
-     */
-    void DisplayNoteEditView(int noteID);
-
-    /**
      * Displays the note detailed view
      * @param noteID The ID of the note to be displayed
      */

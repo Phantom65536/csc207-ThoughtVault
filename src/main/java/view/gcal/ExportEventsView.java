@@ -1,10 +1,11 @@
-package view;
+package view.gcal;
 
 import interface_adapter.exportevents.ExportEventsController;
 import interface_adapter.exportevents.ExportEventsState;
 import interface_adapter.exportevents.ExportEventsViewModel;
-import interface_adapter.home.HomeViewModel;
-import output_data.LocalEventOutputData;
+import interface_adapter.listView.ListViewModel;
+import use_case.localEvent.LocalEventOutputData;
+import view.LabelTextPanel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -90,7 +91,7 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
         );
 
         // Switches to Home view upon clicking Home button
-        home = new JButton(HomeViewModel.HOME_BUTTON_LABEL);
+        home = new JButton(ListViewModel.HOME_BUTTON_LABEL);
         buttons.add(home);
 
         home.addActionListener(

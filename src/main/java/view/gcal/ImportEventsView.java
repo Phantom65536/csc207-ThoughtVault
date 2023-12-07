@@ -1,10 +1,11 @@
-package view;
+package view.gcal;
 
-import interface_adapter.home.HomeViewModel;
+import interface_adapter.listView.ListViewModel;
 import interface_adapter.importevents.ImportEventsController;
 import interface_adapter.importevents.ImportEventsState;
 import interface_adapter.importevents.ImportEventsViewModel;
 import use_case.gcalevent.GCalEventInputData;
+import view.LabelTextPanel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -89,7 +90,7 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
         );
 
         // Switches to Home View upon clicking the Home button
-        home = new JButton(HomeViewModel.HOME_BUTTON_LABEL);
+        home = new JButton(ListViewModel.HOME_BUTTON_LABEL);
         buttons.add(home);
 
         home.addActionListener(

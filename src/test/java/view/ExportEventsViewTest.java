@@ -1,20 +1,21 @@
 package view;
 
 import com.google.api.client.auth.oauth2.Credential;
-import data_access.EntriesDataAccessInterface;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.exportevents.ExportEventsController;
 import interface_adapter.exportevents.ExportEventsPresenter;
 import interface_adapter.exportevents.ExportEventsViewModel;
-import interface_adapter.home.HomeViewModel;
+import interface_adapter.listView.ListViewModel;
 import junit.framework.TestCase;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
+import use_case.EntriesDataAccessInterface;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.gcalevent.GCalEventInteractor;
+import view.gcal.ExportEventsView;
 
 
 import javax.swing.*;
@@ -44,7 +45,7 @@ public class ExportEventsViewTest {
         String APIkey = prop.getProperty("apiKey");
 
         ExportEventsViewModel exportEventsViewModel = new ExportEventsViewModel();
-        HomeViewModel homeViewModel = new HomeViewModel();
+        ListViewModel homeViewModel = new ListViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
         GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
@@ -95,7 +96,7 @@ public class ExportEventsViewTest {
         String APIkey = prop.getProperty("apiKey");
 
         ExportEventsViewModel exportEventsViewModel = new ExportEventsViewModel();
-        HomeViewModel homeViewModel = new HomeViewModel();
+        ListViewModel homeViewModel = new ListViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
         GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
