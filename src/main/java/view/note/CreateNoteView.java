@@ -41,7 +41,7 @@ public class CreateNoteView extends JPanel implements ActionListener, PropertyCh
         locationField = new JTextField();
         JLabel descriptionLabel = new JLabel("Description:");
         descriptionField = new JTextField();
-        JLabel workLabel = new JLabel("Is Work Event:");
+        JLabel workLabel = new JLabel("Is Work Event: (Unchecked means PERSONAL)");
         workCheckBox = new JCheckBox();
         JLabel pinnedLabel = new JLabel("Pinned:");
         pinnedCheckBox = new JCheckBox();
