@@ -5,9 +5,9 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
-import entity.LocalEvent;
+import entity.localEvent.LocalEvent;
 import output_data.LocalEventOutputData;
-import use_case.local_event.EntriesDataAccessInterface;
+import data_access.EntriesDataAccessInterface;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -143,8 +143,8 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
                         event.getTitle(),
                         event.getUserID(),
                         event.getDate(),
-                        event.getStartEndTIme()[0],
-                        event.getStartEndTIme()[1],
+                        event.getStartTime(),
+                        event.getEndTime(),
                         event.getLocation(),
                         event.getDescription(),
                         event.isWork(),

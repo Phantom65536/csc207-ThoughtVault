@@ -9,7 +9,7 @@ import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.gcalevent.GCalEventInputBoundary;
 import use_case.gcalevent.GCalEventInteractor;
 import use_case.gcalevent.GCalEventOutputBoundary;
-import use_case.local_event.EntriesDataAccessInterface;
+import data_access.EntriesDataAccessInterface;
 import view.ImportEventsView;
 
 import javax.swing.*;

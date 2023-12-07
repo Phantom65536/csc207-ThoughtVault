@@ -13,7 +13,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.gcalevent.GCalEventInteractor;
-import use_case.local_event.EntriesDataAccessInterface;
+import data_access.EntriesDataAccessInterface;
 
 import javax.swing.*;
 
