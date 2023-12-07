@@ -20,11 +20,11 @@ public class NoteViewModel extends ViewModel {
 
     public static final String DESCRIPTION_LABEL = "Description: ";
 
-    public static final String IS_WORK_LABEL = "Is Work: ";
+    public static final String IS_WORK_LABEL = "Is Work: (Unchecked sets the label to be PERSONAL)";
 
     public static final String PINNED_LABEL = "Pinned: ";
 
-    public static final String SUB_EVENTS_LABEL = "Sub-events: ";
+    public static final String SUB_NOTES_LABEL = "Sub-notes: ";
 
     private NoteState state = new NoteState();
 
