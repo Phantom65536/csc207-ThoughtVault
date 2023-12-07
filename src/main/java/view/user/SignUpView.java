@@ -20,6 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+/**
+ * View class for signing up.
+ */
 public class SignUpView extends JPanel implements ActionListener, PropertyChangeListener {
     private final SignUpViewModel signUpViewModel;
     private final JTextField usernameInputField = new JTextField(15);
@@ -33,6 +36,11 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     private final JButton signUp;
     private final JButton switchToLoginView;
 
+    /**
+     * Instantiate a new SignUpView by adding the necessary labels, input fields and buttons.
+     * @param viewModel
+     * @param controller
+     */
     public SignUpView(SignUpViewModel viewModel, SignUpController controller) {
         this.signUpViewModel = viewModel;
         this.signUpController = controller;
@@ -88,6 +96,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         signUp.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 new ActionListener() {
+                    /**
+                     * Check if the input fields are empty and if not sign the user up with the controller
+                     * @param evt the event to be processed
+                     */
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
                             SignUpState currentState = signUpViewModel.getState();
@@ -108,6 +120,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         );
 
         switchToLoginView.addActionListener(new ActionListener() {
+            /**
+             * Switch to log in view
+             * @param evt the event to be processed
+             */
             @Override
             public void actionPerformed(ActionEvent evt) {
                 if (evt.getSource().equals(switchToLoginView)) {
@@ -118,6 +134,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
         usernameInputField.addKeyListener(
                 new KeyListener() {
+                    /**
+                     * Update username in the corresponding view model state
+                     * @param e the event to be processed
+                     */
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignUpState currentState = signUpViewModel.getState();
@@ -138,6 +158,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
         passwordInputField.addKeyListener(
                 new KeyListener() {
+                    /**
+                     * Update password in the corresponding view model state
+                     * @param e the event to be processed
+                     */
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignUpState currentState = signUpViewModel.getState();
@@ -159,6 +183,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
         repeatPasswordInputField.addKeyListener(
                 new KeyListener() {
+                    /**
+                     * Update repeated password in the corresponding view model state
+                     * @param e the event to be processed
+                     */
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignUpState currentState = signUpViewModel.getState();
@@ -180,6 +208,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
         credentialsStringInputField.addKeyListener(
                 new KeyListener() {
+                    /**
+                     * Update credentials JSON string in the corresponding view model state
+                     * @param e the event to be processed
+                     */
                     @Override
                     public void keyTyped(KeyEvent e) {
                         SignUpState currentState = signUpViewModel.getState();
@@ -209,11 +241,20 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         this.add(buttons);
     }
 
+    /**
+     * Default action of unprocessed buttons.
+     * @param evt the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent evt) {
         System.out.println("Click " + evt.getActionCommand());
     }
 
+    /**
+     * Display error message when an event notification is detected.
+     * @param evt A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         SignUpState signUpState = signUpViewModel.getState();

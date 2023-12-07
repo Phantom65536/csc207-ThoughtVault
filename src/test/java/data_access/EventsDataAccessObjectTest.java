@@ -1,7 +1,7 @@
 package data_access;
 
-import entity.LocalEvent;
-import entity.Note;
+import entity.localEvent.LocalEvent;
+import entity.note.Note;
 import junit.framework.TestCase;
 import org.json.simple.parser.ParseException;
 
@@ -30,8 +30,8 @@ public class EventsDataAccessObjectTest extends TestCase {
         assertEquals(1, event0.getID());
         assertEquals("first",event0.getTitle());
         assertEquals(LocalDate.parse("2023-11-09"),event0.getDate());
-        assertEquals(LocalTime.NOON,event0.getStartEndTIme()[0]);
-        assertEquals(LocalTime.parse("20:00"),event0.getStartEndTIme()[1]);
+        assertEquals(LocalTime.NOON,event0.getStartTime());
+        assertEquals(LocalTime.parse("20:00"),event0.getEndTime());
         assertEquals("TA guy's crib",event0.getLocation());
         assertEquals("This is a description.",event0.getDescription());
         assertEquals(true, event0.isWork());
@@ -49,8 +49,8 @@ public class EventsDataAccessObjectTest extends TestCase {
         assertEquals(1, event01.getID());
         assertEquals("first",event01.getTitle());
         assertEquals(LocalDate.parse("2023-11-09"),event01.getDate());
-        assertEquals(LocalTime.NOON,event01.getStartEndTIme()[0]);
-        assertEquals(LocalTime.parse("20:00"),event01.getStartEndTIme()[1]);
+        assertEquals(LocalTime.NOON,event01.getStartTime());
+        assertEquals(LocalTime.parse("20:00"),event01.getEndTime());
         assertEquals("TA guy's crib",event01.getLocation());
         assertEquals("This is a description.",event01.getDescription());
         assertEquals(true, event01.isWork());
@@ -76,8 +76,8 @@ public class EventsDataAccessObjectTest extends TestCase {
         assertEquals(0, event0.getID());
         assertEquals("second",event0.getTitle());
         assertEquals(LocalDate.parse("2022-01-02"),event0.getDate());
-        assertEquals(LocalTime.MIDNIGHT,event0.getStartEndTIme()[0]);
-        assertEquals(LocalTime.parse("11:00"),event0.getStartEndTIme()[1]);
+        assertEquals(LocalTime.MIDNIGHT,event0.getStartTime());
+        assertEquals(LocalTime.parse("11:00"),event0.getEndTime());
         assertEquals("TA guy's toilet",event0.getLocation());
         assertEquals("There is no way this is not a description.",event0.getDescription());
         assertEquals(true, event0.isWork());

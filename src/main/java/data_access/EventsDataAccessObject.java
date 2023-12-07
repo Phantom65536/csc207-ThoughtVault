@@ -13,6 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A concrete class inheriting EntriesDAO and implementing EventsDAO by saving events as JSON entries
+ */
 public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> {
 
     public EventsDataAccessObject(String jsonPath) throws IOException, ParseException {
@@ -59,5 +62,4 @@ public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> 
             throw new RuntimeException((e));
         }
     }
-
 }

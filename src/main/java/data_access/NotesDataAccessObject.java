@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A concrete class inheriting EntriesDAO and implementing NotesDAO by saving notes as JSON entries
+ */
 public class NotesDataAccessObject extends EntriesDataAccessObject<Note> {
     public NotesDataAccessObject(String jsonFile) throws IOException, ParseException {
         super(jsonFile);
