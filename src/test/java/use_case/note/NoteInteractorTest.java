@@ -81,8 +81,6 @@ public class NoteInteractorTest extends TestCase {
         NotesDataAccessObject notesDataAccessObject = new NotesDataAccessObject("./testNotes"+timeNow+".json");
         NoteInteractor noteInteractor =  new NoteInteractor(noteOutputBoundary, notesDataAccessObject);
 
-        noteInteractor.DisplayNoteCreationView();
-        verify(noteOutputBoundary,times(1)).DisplayNoteCreationView();
 
         NoteInputData noteInputData = new NoteInputData(0, "first", 0,
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
@@ -116,8 +114,6 @@ public class NoteInteractorTest extends TestCase {
 
         NoteOutputData noteOutputData = new NoteOutputData(1, "first", 0,
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
-        noteInteractor.DisplayNoteEditView(1);
-        verify(noteOutputBoundary,times(1)).DisplayNoteEditView(refEq(noteOutputData));
 
         noteInteractor.DisplayNoteDetailedView(1);
         verify(noteOutputBoundary,times(1)).DisplayNoteDetailedView(refEq(noteOutputData));

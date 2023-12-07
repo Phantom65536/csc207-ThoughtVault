@@ -104,9 +104,6 @@ public class LocalEventInteractorTest {
         EventsDataAccessObject LocalEventsDataAccessObject = new EventsDataAccessObject("./testEvent"+timeNow+".json");
         LocalEventInteractor LocalEventInteractor =  new LocalEventInteractor(LocalEventsDataAccessObject, LocalEventOutputBoundary);
 
-        LocalEventInteractor.DisplayEventCreationView();
-        verify(LocalEventOutputBoundary,times(1)).DisplayEventCreationView();
-
         LocalEventInputData LocalEventInputData = new LocalEventInputData(0, "first", 0, LocalDate.parse("2023-11-09"), LocalTime.NOON, LocalTime.parse("20:00"),
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
         LocalEventInteractor.CreateEvent(LocalEventInputData);
@@ -142,9 +139,6 @@ public class LocalEventInteractorTest {
 
         LocalEventOutputData LocalEventOutputData = new LocalEventOutputData(1, "first", 0, LocalDate.parse("2023-11-09"), LocalTime.NOON, LocalTime.parse("20:00"),
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
-        LocalEventInteractor.DisplayEventEditView(1);
-        verify(LocalEventOutputBoundary,times(1)).DisplayEventEditView(refEq(LocalEventOutputData));
-
         LocalEventInteractor.DisplayEventDetailedView(1);
         verify(LocalEventOutputBoundary,times(1)).DisplayEventDetailedView(refEq(LocalEventOutputData));
 

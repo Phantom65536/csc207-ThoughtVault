@@ -88,14 +88,14 @@ public class ExportEventsViewTest {
         String APIkey = prop.getProperty("apiKey");
 
         ExportEventsViewModel exportEventsViewModel = new ExportEventsViewModel();
-        HomeViewModel homeViewModel = new HomeViewModel();
+        ListViewModel listViewModel = new ListViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
         GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
         Credential credential = getCredentials(APIkey);
         userDataAccessObject.setUserCalendar(credential);
         EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
-        ExportEventsPresenter presenter = new ExportEventsPresenter(exportEventsViewModel, homeViewModel, viewManagerModel);
+        ExportEventsPresenter presenter = new ExportEventsPresenter(exportEventsViewModel, listViewModel, viewManagerModel);
 
         GCalEventInteractor inputBoundary = new GCalEventInteractor(userDataAccessObject, presenter, entriesDataAccessObject);
         ExportEventsController exportEventsController = new ExportEventsController(inputBoundary);
@@ -137,14 +137,14 @@ public class ExportEventsViewTest {
         String APIkey = prop.getProperty("apiKey");
 
         ExportEventsViewModel exportEventsViewModel = new ExportEventsViewModel();
-        HomeViewModel homeViewModel = new HomeViewModel();
+        ListViewModel listViewModel = new ListViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
         GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
         Credential credential = getCredentials(APIkey);
         userDataAccessObject.setUserCalendar(credential);
         EntriesDataAccessInterface entriesDataAccessObject = new EventsDataAccessObject("./testEvent.json");
-        ExportEventsPresenter presenter = new ExportEventsPresenter(exportEventsViewModel, homeViewModel, viewManagerModel);
+        ExportEventsPresenter presenter = new ExportEventsPresenter(exportEventsViewModel, listViewModel, viewManagerModel);
 
         GCalEventInteractor inputBoundary = new GCalEventInteractor(userDataAccessObject, presenter, entriesDataAccessObject);
         ExportEventsController exportEventsController = new ExportEventsController(inputBoundary);
@@ -169,7 +169,7 @@ public class ExportEventsViewTest {
         // Check that the selected event and the exported event are the same
         Assert.assertEquals(
                 viewManagerModel.getActiveView(),
-                homeViewModel.getViewName()
+                listViewModel.getViewName()
         );
     }
 
