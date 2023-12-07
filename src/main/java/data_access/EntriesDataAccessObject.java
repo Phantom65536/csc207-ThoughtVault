@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,6 +83,15 @@ abstract public class EntriesDataAccessObject<T extends Note> implements Entries
         for (Long eventLongID : (ArrayList<Long>) subEntriesJSON)
             entriesList.add(eventLongID.intValue()); 
         return entriesList;
+    }
+
+    @Override
+    public Map<Integer, String> getTitlesOfSubEntries(List<Integer> subEntries) {
+        HashMap<Integer, String> idToTitle = new HashMap<>();
+        for (int subEntry : subEntries) {
+            idToTitle.put(subEntry, entries.get(subEntry).getTitle());
+        }
+        return idToTitle;
     }
 
     /**
