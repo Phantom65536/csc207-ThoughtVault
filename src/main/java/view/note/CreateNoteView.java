@@ -1,4 +1,5 @@
 package view.note;
+import interface_adapter.ViewManagerModel;
 import interface_adapter.note.NoteController;
 import interface_adapter.note.NoteViewModel;
 
@@ -6,27 +7,32 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-public class CreateNoteView extends JPanel{
+public class CreateNoteView extends JPanel implements ActionListener, PropertyChangeListener {
     public static String viewName = "create note view";
-    private NoteController noteController;
+    private final NoteController noteController;
     private JTextField titleField;
     private JTextField locationField;
     private JTextField descriptionField;
     private JCheckBox workCheckBox;
     private JCheckBox pinnedCheckBox;
 
-    private NoteViewModel noteViewModel;
+    private final NoteViewModel noteViewModel;
+    private final ViewManagerModel viewManagerModel;
 
-    public CreateNoteView(NoteViewModel noteViewModel, NoteController noteController) {
+    public CreateNoteView(NoteViewModel noteViewModel, ViewManagerModel viewManagerModel, NoteController noteController) {
         this.noteController = noteController;
         this.noteViewModel = noteViewModel;
+        this.viewManagerModel = viewManagerModel;
+        this.noteViewModel.addPropertyChangeListener(this);
+        this.viewManagerModel.addPropertyChangeListener(this);
         setLayout(new GridLayout(0, 2));
 
         JLabel titleLabel = new JLabel("Title:");
         titleField = new JTextField();
-        JLabel dateLabel = new JLabel("Date (YYYY-MM-DD):");
         JLabel locationLabel = new JLabel("Location:");
         locationField = new JTextField();
         JLabel descriptionLabel = new JLabel("Description:");
@@ -38,7 +44,6 @@ public class CreateNoteView extends JPanel{
 
         add(titleLabel);
         add(titleField);
-        add(dateLabel);
         add(locationLabel);
         add(locationField);
         add(descriptionLabel);
@@ -71,4 +76,13 @@ public class CreateNoteView extends JPanel{
         // For demonstration purposes, printing the collected data
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }
