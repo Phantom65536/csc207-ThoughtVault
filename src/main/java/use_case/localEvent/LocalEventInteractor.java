@@ -74,7 +74,7 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
     public void CreateEvent(LocalEventInputData eventInputData) {
         try {
             LocalEvent event = (LocalEvent) localEventFactory.createNote(
-                    eventInputData.getID(), eventInputData.getTitle(),
+                    eventsDataAccessObject.getNewID(), eventInputData.getTitle(),
                     eventInputData.getUserID(), eventInputData.getDate(),
                     eventInputData.getStartTime(), eventInputData.getEndTime(),
                     eventInputData.getLocation(),

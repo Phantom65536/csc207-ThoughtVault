@@ -6,6 +6,9 @@ import java.util.ArrayList;
  * This class is a State for the NoteView.
  */
 public class NoteState {
+    private int userId;
+
+
     private String title;
 
     private String location;
@@ -16,6 +19,8 @@ public class NoteState {
 
     private boolean pinned;
 
+    private int id;
+
     private ArrayList<Integer> subEvents;
 
     public NoteState() {
@@ -24,16 +29,20 @@ public class NoteState {
     /**
      * Constructor for NoteState.
      *
+     * @param id            The note's ID.
      * @param title         The title of the note.
      * @param location      The location of the note.
      * @param description   The description of the note.
      * @param isWork        Whether the note is for work.
      * @param pinned        Whether the note is pinned.
      * @param subEvents     The sub events of the note.
+     * @param userId        The note creator's ID
      */
-    public NoteState(String title, String location, String description, boolean
-            isWork, boolean pinned, ArrayList<Integer> subEvents) {
+    public NoteState(int id, String title, String location, String description, boolean
+            isWork, boolean pinned, ArrayList<Integer> subEvents, int userId) {
         this.title = title;
+
+        this.id = id;
 
         this.location = location;
 
@@ -44,6 +53,8 @@ public class NoteState {
         this.pinned = pinned;
 
         this.subEvents = subEvents;
+
+        this.userId = userId;
     }
 
     /**
@@ -51,6 +62,7 @@ public class NoteState {
      *
      * @return The title of the note.
      */
+
     public String getTitle() {
         return title;
     }
@@ -99,4 +111,8 @@ public class NoteState {
     public ArrayList<Integer> getSubEvents() {
         return subEvents;
     }
+
+    public int getUserId(){return this.userId;}
+    public int getId(){return this.id;}
+    public void setUserId(int userId){this.userId = userId;}
 }

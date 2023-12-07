@@ -1,7 +1,7 @@
 package interface_adapter.localEvent;
 
 import use_case.localEvent.LocalEventOutputData;
-
+import interface_adapter.localEvent.LocalEventState;
 import interface_adapter.listView.ListViewModel;
 import interface_adapter.listView.ListViewState;
 import interface_adapter.ViewManagerModel;
@@ -53,7 +53,9 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
      * @return                      The local event state.
      */
     public LocalEventState CreateState(LocalEventOutputData localEventOutputData) {
-        return new LocalEventState(localEventOutputData.getTitle(),
+        return new LocalEventState(
+                localEventOutputData.getID(),
+                localEventOutputData.getTitle(),
                 localEventOutputData.getLocation(),
                 localEventOutputData.getDescription(),
                 localEventOutputData.getIsWork(),
@@ -61,7 +63,8 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
                 localEventOutputData.getSubEvents(),
                 localEventOutputData.getDate(),
                 localEventOutputData.getStartTime(),
-                localEventOutputData.getEndTime());
+                localEventOutputData.getEndTime(),
+                localEventOutputData.getUserId());
     }
 
     /**

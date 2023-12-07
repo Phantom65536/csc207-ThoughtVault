@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class NoteInteractor implements NoteInputBoundary {
     private final NoteOutputBoundary noteOutputBoundary;
 
-    private final NotesDataAccessObject<Note> notesDataAccessObject;
+    private final NotesDataAccessObject notesDataAccessObject;
 
     private final NoteFactoryInterface noteFactory;
 
@@ -24,7 +24,7 @@ public class NoteInteractor implements NoteInputBoundary {
      * @param notesDataAccessObject The data access object for the NoteInteractor
      */
     public NoteInteractor(NoteOutputBoundary noteOutputBoundary,
-                          NotesDataAccessObject<Note> notesDataAccessObject){
+                          NotesDataAccessObject notesDataAccessObject){
         this.noteOutputBoundary = noteOutputBoundary;
 
         this.notesDataAccessObject = notesDataAccessObject;
@@ -75,7 +75,7 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void CreateNote(NoteInputData noteInputData) {
         try {
-            Note note = noteFactory.createNote(noteInputData.getID(),
+            Note note = noteFactory.createNote(notesDataAccessObject.getNewID(),
                     noteInputData.getTitle(), noteInputData.getUserID(),
                     noteInputData.getLocation(), noteInputData.getDescription(),
                     noteInputData.getIsWork(), noteInputData.getPinned(),

@@ -6,6 +6,7 @@ import java.util.HashMap;
  * A class that stores the state of the list view.
  */
 public class ListViewState {
+    private int userId;
     private HashMap<Integer, HashMap<String, ?>> events;
     private HashMap<Integer, HashMap<String, ?>> notes;
 
@@ -53,4 +54,6 @@ public class ListViewState {
     public void setNotes(HashMap<Integer, HashMap<String, ?>> notes) {
         this.notes = notes;
     }
+    public int getUserId(){return this.userId;}
+    public void setUserId(int userId){this.userId = userId;}
 }

@@ -1,7 +1,6 @@
 package interface_adapter.note;
 
 import use_case.note.NoteOutputData;
-
 import interface_adapter.listView.ListViewModel;
 import interface_adapter.listView.ListViewState;
 import interface_adapter.ViewManagerModel;
@@ -53,12 +52,14 @@ public class NotePresenter implements NoteOutputBoundary {
      * @return                The note state.
      */
     public NoteState CreateState(NoteOutputData noteOutputData) {
-        return new NoteState(noteOutputData.getTitle(),
+        return new NoteState(noteOutputData.getID(),
+                noteOutputData.getTitle(),
                 noteOutputData.getLocation(),
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
-                noteOutputData.getSubEvents());
+                noteOutputData.getSubEvents(),
+                noteOutputData.getUserId());
     }
 
     /**
@@ -111,12 +112,14 @@ public class NotePresenter implements NoteOutputBoundary {
     @Override
     public void DisplayNoteDetailedView(NoteOutputData noteOutputData) {
         NoteState noteState = new NoteState(
+                noteOutputData.getID(),
                 noteOutputData.getTitle(),
                 noteOutputData.getLocation(),
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
-                noteOutputData.getSubEvents());
+                noteOutputData.getSubEvents(),
+                noteOutputData.getUserId());
         detailedNoteViewModel.setState(noteState);
         detailedNoteViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(

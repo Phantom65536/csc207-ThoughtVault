@@ -67,4 +67,7 @@ public class NoteController {
     public void deleteNote(int NoteID) {
         noteInteractor.DeleteNote(NoteID);
     }
+
+    public void displayNoteDetailedView(int noteId) {noteInteractor.DisplayNoteDetailedView(noteId);
+    }
 }

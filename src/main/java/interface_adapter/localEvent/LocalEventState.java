@@ -24,6 +24,7 @@ public class LocalEventState extends NoteState {
     /**
      * Constructor for LocalEventState.
      *
+     * @param id            The event's ID
      * @param title         The title.
      * @param location      The location.
      * @param description   The description.
@@ -33,12 +34,13 @@ public class LocalEventState extends NoteState {
      * @param date          The date.
      * @param startTime     The start time.
      * @param endTime       The end time.
+     * @param userId        The event creator's ID
      */
-    public LocalEventState(String title, String location, String description,
+    public LocalEventState(int id, String title, String location, String description,
                            boolean isWork, boolean pinned,
                            ArrayList<Integer> subEvents, LocalDate date,
-                           LocalTime startTime, LocalTime endTime) {
-        super(title, location, description, isWork, pinned, subEvents);
+                           LocalTime startTime, LocalTime endTime, int userId) {
+        super(id, title, location, description, isWork, pinned, subEvents, userId);
 
         this.date = date;
 

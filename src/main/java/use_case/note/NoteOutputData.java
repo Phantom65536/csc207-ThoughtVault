@@ -121,4 +121,8 @@ public class NoteOutputData {
     public String getLocation() {
         return location;
     }
+
+    public int getUserId() {
+        return this.userID;
+    }
 }

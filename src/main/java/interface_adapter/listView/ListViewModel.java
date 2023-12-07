@@ -12,6 +12,9 @@ import java.beans.PropertyChangeSupport;
  * It is used by the ListViewPresenter to update the ListView.
  */
 public class ListViewModel extends ViewModel {
+    public static final String HOME_BUTTON_LABEL = "Home";
+    public static final String IMPORT_EVENTS_BUTTON_LABEL = "Import Events";
+    public static final String EXPORT_EVENTS_BUTTON_LABEL = "Export Events";
     private ListViewState state;
 
     /**

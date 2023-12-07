@@ -77,6 +77,9 @@ public class LocalEventController {
         localEventInteractor.EditEvent(eventInputData);
     }
 
+    public void displayEventDetailedView(int eventID){localEventInteractor.DisplayEventDetailedView(eventID);}
+
+
     /**
      * This method deletes an existing local event.
      *
