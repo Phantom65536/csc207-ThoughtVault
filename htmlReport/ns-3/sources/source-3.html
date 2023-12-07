@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Note</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">entity</a>
+</div>
+
+<h1>Coverage Summary for Class: Note (entity)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Note</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package entity;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;public class Note implements NoteInterface {
+&nbsp;    private final int ID;
+&nbsp;    private String title;
+&nbsp;    private final int userID;
+&nbsp;    private String location;
+&nbsp;    private String description;
+&nbsp;    private LabelCat label;
+&nbsp;    private boolean pinned;
+&nbsp;    private ArrayList&lt;Integer&gt; descendantsID;           // make sure the descendant IDs are valid when instantiating a Note
+&nbsp;
+&nbsp;    public Note(int ID, String title, int userID, String location, String description, boolean isWork, boolean pinned,
+<b class="fc">&nbsp;                ArrayList&lt;Integer&gt; descendants) {</b>
+<b class="fc">&nbsp;        this.ID = ID;</b>
+<b class="fc">&nbsp;        this.userID = userID;</b>
+<b class="fc">&nbsp;        amendAllAttributes(title, location, description, isWork, pinned, descendants);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void amendAllAttributes(String title, String location, String description, boolean isWork, boolean pinned,
+&nbsp;                                   ArrayList&lt;Integer&gt; descendants) {
+<b class="fc">&nbsp;        this.title = title;</b>
+<b class="fc">&nbsp;        this.location = location;</b>
+<b class="fc">&nbsp;        this.description = description;</b>
+<b class="fc">&nbsp;        this.pinned = pinned;</b>
+<b class="fc">&nbsp;        label = isWork ? LabelCat.WORK : LabelCat.PERSONAL;</b>
+<b class="fc">&nbsp;        this.descendantsID = new ArrayList&lt;&gt;(descendants);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getID() {
+<b class="fc">&nbsp;        return ID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getTitle() {
+<b class="fc">&nbsp;        return title;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getUserID() {
+<b class="fc">&nbsp;        return userID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getLocation() {
+<b class="fc">&nbsp;        return location;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String getDescription() {
+<b class="fc">&nbsp;        return description;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean isWork() {
+<b class="fc">&nbsp;        return label == LabelCat.WORK;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean getPinned() {
+<b class="fc">&nbsp;        return pinned;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ArrayList&lt;Integer&gt; getDescendants() {
+<b class="fc">&nbsp;        return descendantsID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void removeDescendants(int descendantID) {
+<b class="fc">&nbsp;        descendantsID.remove(descendantID);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:32</div>
+</div>
+</body>
+</html>
