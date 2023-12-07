@@ -23,29 +23,6 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
     }
 
     /**
-     * Displays the event creation view
-     */
-    @Override
-    public void DisplayEventCreationView() {
-        localEventOutputBoundary.DisplayEventCreationView();
-    }
-
-    /**
-     * Displays the event edit view
-     * @param eventID The ID of the event to be edited
-     */
-    @Override
-    public void DisplayEventEditView(int eventID) {
-        LocalEvent event = eventsDataAccessObject.getByID(eventID);
-
-        localEventOutputBoundary.DisplayEventEditView(new
-                LocalEventOutputData(event.getID(), event.getTitle(),
-                event.getUserID(), event.getDate(), event.getStartTime(),
-                event.getEndTime(), event.getLocation(), event.getDescription(),
-                event.isWork(), event.getPinned(), event.getDescendants()));
-    }
-
-    /**
      * Displays the event detailed view
      * @param eventID The ID of the event to be displayed
      */

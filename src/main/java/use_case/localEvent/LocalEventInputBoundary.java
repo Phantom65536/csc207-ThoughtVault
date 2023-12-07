@@ -6,17 +6,6 @@ package use_case.localEvent;
  */
 public interface LocalEventInputBoundary {
     /**
-     * Displays the event creation view.
-     */
-    void DisplayEventCreationView();
-
-    /**
-     * Displays the event edit view.
-     * @param eventID The ID of the event to be edited.
-     */
-    void DisplayEventEditView(int eventID);
-
-    /**
      * Creates an event.
      * @param eventInputData The data of the event to be created.
      */

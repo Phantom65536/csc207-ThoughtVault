@@ -1,4 +1,4 @@
-package view.listView;
+package view;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.exportevents.ExportEventsViewModel;

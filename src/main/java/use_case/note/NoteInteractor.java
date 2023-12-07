@@ -27,28 +27,6 @@ public class NoteInteractor implements NoteInputBoundary {
     }
 
     /**
-     * Displays the note creation view
-     */
-    @Override
-    public void DisplayNoteCreationView() {
-        noteOutputBoundary.DisplayNoteCreationView();
-    }
-
-    /**
-     * Displays the note edit view
-     * @param noteID The ID of the note to be edited
-     */
-    @Override
-    public void DisplayNoteEditView(int noteID) {
-        Note note = notesDataAccessObject.getByID(noteID);
-
-        noteOutputBoundary.DisplayNoteEditView(new
-                NoteOutputData(note.getID(), note.getTitle(), note.getUserID(),
-                note.getLocation(), note.getDescription(), note.isWork(),
-                note.getPinned(), note.getDescendants()));
-    }
-
-    /**
      * Displays the note detailed view
      * @param noteID The ID of the note to be displayed
      */

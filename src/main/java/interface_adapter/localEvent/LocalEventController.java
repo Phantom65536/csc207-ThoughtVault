@@ -77,6 +77,10 @@ public class LocalEventController {
         localEventInteractor.EditEvent(eventInputData);
     }
 
+    /**
+     * Show an event in detailed view.
+     * @param eventID
+     */
     public void displayEventDetailedView(int eventID){localEventInteractor.DisplayEventDetailedView(eventID);}
 
 
@@ -87,5 +91,13 @@ public class LocalEventController {
      */
     public void deleteEvent(int eventID) {
         localEventInteractor.DeleteEvent(eventID);
+    }
+
+    /**
+     * Show all the notes in list view
+     * @param userid
+     */
+    public void displayEventsListView(int userid) {
+        localEventInteractor.GetAllEvents(userid);
     }
 }

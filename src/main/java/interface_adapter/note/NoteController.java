@@ -68,6 +68,19 @@ public class NoteController {
         noteInteractor.DeleteNote(NoteID);
     }
 
-    public void displayNoteDetailedView(int noteId) {noteInteractor.DisplayNoteDetailedView(noteId);
+    /**
+     * Show a note in detailed view.
+     * @param noteId
+     */
+    public void displayNoteDetailedView(int noteId) {
+        noteInteractor.DisplayNoteDetailedView(noteId);
+    }
+
+    /**
+     * Show all the notes in list view
+     * @param userid
+     */
+    public void displayListViewNotes(int userid) {
+        noteInteractor.GetAllNotes(userid);
     }
 }
