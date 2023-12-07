@@ -61,12 +61,12 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
                 localEventOutputData.getDescription(),
                 localEventOutputData.getIsWork(),
                 localEventOutputData.getPinned(),
-                localEventOutputData.getSubEvents(),
+                localEventOutputData.getSubEntries(),
                 localEventOutputData.getDate(),
                 localEventOutputData.getStartTime(),
                 localEventOutputData.getEndTime(),
                 localEventOutputData.getUserId(),
-                localEventOutputData.getAllEvents()
+                localEventOutputData.getAllEntries()
         );
     }
 

@@ -49,7 +49,7 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         try {
             LocalEvent event = new LocalEvent(eventsDataAccessObject.getNewID(), eventInputData.getTitle(), eventInputData.getUserID(),
                     eventInputData.getDate(), eventInputData.getStartTime(), eventInputData.getEndTime(), eventInputData.getLocation(),
-                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEvents());
+                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEntries());
 
             eventsDataAccessObject.save(event);
 
@@ -81,7 +81,7 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         try {
             LocalEvent event = new LocalEvent(eventInputData.getID(), eventInputData.getTitle(), eventInputData.getUserID(),
                     eventInputData.getDate(), eventInputData.getStartTime(), eventInputData.getEndTime(), eventInputData.getLocation(),
-                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEvents());
+                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEntries());
 
             eventsDataAccessObject.delete(event.getID());
 

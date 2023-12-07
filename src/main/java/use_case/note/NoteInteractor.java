@@ -53,7 +53,7 @@ public class NoteInteractor implements NoteInputBoundary {
         try {
             Note note = new Note(notesDataAccessObject.getNewID(), noteInputData.getTitle(), noteInputData.getUserID(),
                     noteInputData.getLocation(), noteInputData.getDescription(), noteInputData.getIsWork(), noteInputData.getPinned(),
-                    noteInputData.getSubEvents());
+                    noteInputData.getSubEntries());
 
             notesDataAccessObject.save(note);
 
@@ -81,7 +81,7 @@ public class NoteInteractor implements NoteInputBoundary {
         try {
             Note note = new Note(noteInputData.getID(), noteInputData.getTitle(), noteInputData.getUserID(),
                     noteInputData.getLocation(), noteInputData.getDescription(), noteInputData.getIsWork(), noteInputData.getPinned(),
-                    noteInputData.getSubEvents());
+                    noteInputData.getSubEntries());
 
             notesDataAccessObject.delete(note.getID());
 

@@ -20,7 +20,7 @@ public class NoteInputData {
 
     private final boolean pinned;
 
-    private final ArrayList<Integer> subEvents;
+    private final ArrayList<Integer> subEntries;
 
     /**
      * Creates a new NoteInputData object
@@ -31,11 +31,11 @@ public class NoteInputData {
      * @param description The description of the note
      * @param isWork Whether the note is a work note
      * @param pinned Whether the note is pinned
-     * @param subEvents The IDs of the sub-events of the note
+     * @param subEntries The IDs of the sub-entries of the note
      */
     public NoteInputData (int ID, String title, int userID, String location,
                           String description, boolean isWork, boolean pinned,
-                          ArrayList<Integer> subEvents) {
+                          ArrayList<Integer> subEntries) {
         this.ID = ID;
 
         this.title = title;
@@ -50,7 +50,7 @@ public class NoteInputData {
 
         this.isWork = isWork;
 
-        this.subEvents = subEvents;
+        this.subEntries = subEntries;
     }
 
     /**
@@ -97,8 +97,8 @@ public class NoteInputData {
      * Returns the IDs of the sub-events of the note
      * @return The IDs of the sub-events of the note
      */
-    public ArrayList<Integer> getSubEvents() {
-        return subEvents;
+    public ArrayList<Integer> getSubEntries() {
+        return subEntries;
     }
 
     /**

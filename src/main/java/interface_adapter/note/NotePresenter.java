@@ -60,9 +60,9 @@ public class NotePresenter implements NoteOutputBoundary {
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
-                noteOutputData.getSubEvents(),
+                noteOutputData.getSubEntries(),
                 noteOutputData.getUserId(),
-                noteOutputData.getAllEvents()
+                noteOutputData.getAllEntries()
         );
     }
 
@@ -122,9 +122,9 @@ public class NotePresenter implements NoteOutputBoundary {
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
-                noteOutputData.getSubEvents(),
+                noteOutputData.getSubEntries(),
                 noteOutputData.getUserId(),
-                noteOutputData.getAllEvents()
+                noteOutputData.getAllEntries()
         );
         detailedNoteViewModel.setState(noteState);
         detailedNoteViewModel.firePropertyChanged();

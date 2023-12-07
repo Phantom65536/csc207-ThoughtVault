@@ -33,15 +33,15 @@ public class LocalEventOutputData extends NoteOutputData {
      * @param description The description of the event
      * @param isWork Whether the event is a work event
      * @param pinned Whether the event is pinned
-     * @param subEvents The IDs of the sub-events of the event
-     * @param allEvents All of the events
+     * @param subEntries The IDs of the sub-events of the event
+     * @param allEntries All the events
      */
     public LocalEventOutputData(int ID, String title, int userID, LocalDate date,
                                 LocalTime startTime, LocalTime endTime,
                                 String location, String description, boolean isWork,
-                                boolean pinned, ArrayList<Integer> subEvents, HashMap<Integer, String> allEvents) {
+                                boolean pinned, ArrayList<Integer> subEntries, HashMap<Integer, String> allEntries) {
         super(ID, title, userID, location, description, isWork, pinned,
-                subEvents, allEvents);
+                subEntries, allEntries);
 
         this.date = date;
 

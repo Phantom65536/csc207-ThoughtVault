@@ -40,8 +40,8 @@ public class LocalEventState extends NoteState {
     public LocalEventState(int id, String title, String location, String description,
                            boolean isWork, boolean pinned,
                            ArrayList<Integer> subEvents, LocalDate date,
-                           LocalTime startTime, LocalTime endTime, int userId, HashMap<Integer, String> allEvents) {
-        super(id, title, location, description, isWork, pinned, subEvents, userId, allEvents);
+                           LocalTime startTime, LocalTime endTime, int userId, HashMap<Integer, String> allEntries) {
+        super(id, title, location, description, isWork, pinned, subEvents, userId, allEntries);
 
         this.date = date;
 
