@@ -1,0 +1,45 @@
+[
+  {
+    "date": "2023-11-09",
+    "pinned": false,
+    "description": "This is a description.",
+    "endtime": "20:00:00",
+    "location": "TA guy's crib",
+    "id": 5,
+    "label": "WORK",
+    "starttime": "12:00:00",
+    "title": "first",
+    "userid": 0,
+    "sub-events": []
+  },
+  {
+    "date": "2022-01-02",
+    "pinned": true,
+    "description": "There is no way this is not a description.",
+    "endtime": "11:00:00",
+    "location": "TA guy's toilet",
+    "id": 2,
+    "label": "WORK",
+    "starttime": "00:00:00",
+    "title": "second",
+    "userid": 0,
+    "sub-notes": [
+      1000
+    ]
+  },
+  {
+    "date": "2022-01-02",
+    "pinned": true,
+    "description": "NO DESCRIPTION T_T",
+    "endtime": "23:59:00",
+    "location": "Garbage chute :)))",
+    "id": 3,
+    "label": "PERSONAL",
+    "starttime": "00:00:00",
+    "title": "third",
+    "userid": 0,
+    "sub-notes": [
+      0
+    ]
+  }
+]
