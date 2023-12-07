@@ -1,0 +1,331 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > LogInView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">view.user</a>
+</div>
+
+<h1>Coverage Summary for Class: LogInView (view.user)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LogInView</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.7%
+  </span>
+  <span class="absValue">
+    (29/30)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LogInView$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (8/12)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LogInView$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LogInView$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85.7%
+  </span>
+  <span class="absValue">
+    (6/7)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LogInView$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (12/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.9%
+  </span>
+  <span class="absValue">
+    (51/58)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package view.user;
+&nbsp;
+&nbsp;import interface_adapter.log_in_out.LogInOutController;
+&nbsp;import interface_adapter.log_in_out.LogInState;
+&nbsp;import interface_adapter.log_in_out.LogInViewModel;
+&nbsp;import view.LabelTextPanel;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.awt.event.KeyEvent;
+&nbsp;import java.awt.event.KeyListener;
+&nbsp;import java.beans.PropertyChangeEvent;
+&nbsp;import java.beans.PropertyChangeListener;
+&nbsp;import java.io.IOException;
+&nbsp;import java.security.GeneralSecurityException;
+&nbsp;
+&nbsp;public class LogInView extends JPanel implements ActionListener, PropertyChangeListener {
+&nbsp;    private final LogInViewModel loginViewModel;
+&nbsp;
+<b class="fc">&nbsp;    final JTextField usernameInputField = new JTextField(15);</b>
+<b class="fc">&nbsp;    final JPasswordField passwordInputField = new JPasswordField(15);</b>
+&nbsp;
+&nbsp;    final JButton logIn;
+&nbsp;    final JButton switchToSignupView;
+&nbsp;    private final LogInOutController loginoutController;
+&nbsp;
+<b class="fc">&nbsp;    public LogInView(LogInViewModel loginViewModel, LogInOutController controller) {</b>
+<b class="fc">&nbsp;        this.loginViewModel = loginViewModel;</b>
+<b class="fc">&nbsp;        this.loginoutController = controller;</b>
+<b class="fc">&nbsp;        this.loginViewModel.addPropertyChangeListener(this);</b>
+&nbsp;
+<b class="fc">&nbsp;        JLabel title = new JLabel(LogInViewModel.TITLE_VIEW);</b>
+<b class="fc">&nbsp;        title.setAlignmentX(Component.CENTER_ALIGNMENT);</b>
+&nbsp;
+<b class="fc">&nbsp;        LabelTextPanel usernameInfo = new LabelTextPanel(</b>
+&nbsp;                new JLabel(LogInViewModel.USERNAME_LABEL), usernameInputField);
+<b class="fc">&nbsp;        LabelTextPanel passwordInfo = new LabelTextPanel(</b>
+&nbsp;                new JLabel(LogInViewModel.PASSWORD_LABEL), passwordInputField);
+&nbsp;
+<b class="fc">&nbsp;        JPanel buttons = new JPanel();</b>
+<b class="fc">&nbsp;        logIn = new JButton(LogInViewModel.LOGIN_BUTTON_LABEL);</b>
+<b class="fc">&nbsp;        buttons.add(logIn);</b>
+<b class="fc">&nbsp;        switchToSignupView = new JButton(LogInViewModel.SWITCH_VIEW_LABEL);</b>
+<b class="fc">&nbsp;        buttons.add(switchToSignupView);</b>
+&nbsp;
+<b class="fc">&nbsp;        logIn.addActionListener(                // This creates an anonymous subclass of ActionListener and instantiates it.</b>
+<b class="fc">&nbsp;                new ActionListener() {</b>
+&nbsp;                    public void actionPerformed(ActionEvent evt) {
+<b class="fc">&nbsp;                        if (evt.getSource().equals(logIn)) {</b>
+<b class="fc">&nbsp;                            LogInState currentState = loginViewModel.getState();</b>
+<b class="fc">&nbsp;                            if (currentState.getUsername() == null || currentState.getPassword() == null) {</b>
+<b class="nc">&nbsp;                                JOptionPane.showMessageDialog(null, &quot;Please fill in all fields.&quot;);</b>
+&nbsp;                            } else {
+&nbsp;                                try {
+<b class="fc">&nbsp;                                    loginoutController.logIn(</b>
+<b class="fc">&nbsp;                                            currentState.getUsername(),</b>
+<b class="fc">&nbsp;                                            currentState.getPassword()</b>
+&nbsp;                                    );
+<b class="nc">&nbsp;                                } catch (GeneralSecurityException | IOException e) {</b>
+<b class="nc">&nbsp;                                    JOptionPane.showMessageDialog(null, &quot;GcalDAO setUserCalendar throws &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;                                    System.out.println(e.getMessage());</b>
+<b class="fc">&nbsp;                                }</b>
+&nbsp;                            }
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;        );
+&nbsp;
+<b class="fc">&nbsp;        switchToSignupView.addActionListener(</b>
+<b class="fc">&nbsp;                new ActionListener() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void actionPerformed(ActionEvent e) {
+<b class="fc">&nbsp;                        if (e.getSource().equals(switchToSignupView)) {</b>
+<b class="fc">&nbsp;                            loginoutController.switchToSignupView();</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;        );
+&nbsp;
+<b class="fc">&nbsp;        usernameInputField.addKeyListener(</b>
+<b class="fc">&nbsp;            new KeyListener() {</b>
+&nbsp;                @Override
+&nbsp;                public void keyTyped(KeyEvent e) {
+<b class="fc">&nbsp;                    LogInState currentState = loginViewModel.getState();</b>
+<b class="fc">&nbsp;                    String text = usernameInputField.getText() + e.getKeyChar();</b>
+<b class="fc">&nbsp;                    currentState.setUsername(text);</b>
+<b class="fc">&nbsp;                    loginViewModel.setState(currentState);</b>
+&nbsp;                }
+&nbsp;
+&nbsp;                @Override
+&nbsp;                public void keyPressed(KeyEvent e) {
+<b class="fc">&nbsp;                }</b>
+&nbsp;
+&nbsp;                @Override
+&nbsp;                public void keyReleased(KeyEvent e) {
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        );
+&nbsp;
+<b class="fc">&nbsp;        passwordInputField.addKeyListener(</b>
+<b class="fc">&nbsp;                new KeyListener() {</b>
+&nbsp;                    @Override
+&nbsp;                    public void keyTyped(KeyEvent e) {
+<b class="fc">&nbsp;                        LogInState currentState = loginViewModel.getState();</b>
+<b class="fc">&nbsp;                        currentState.setPassword(String.valueOf(passwordInputField.getPassword()) + e.getKeyChar());</b>
+<b class="fc">&nbsp;                        loginViewModel.setState(currentState);</b>
+&nbsp;                    }
+&nbsp;
+&nbsp;                    @Override
+&nbsp;                    public void keyPressed(KeyEvent e) {
+&nbsp;
+<b class="fc">&nbsp;                    }</b>
+&nbsp;
+&nbsp;                    @Override
+&nbsp;                    public void keyReleased(KeyEvent e) {
+&nbsp;
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+&nbsp;        );
+&nbsp;
+<b class="fc">&nbsp;        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));</b>
+<b class="fc">&nbsp;        this.add(title);</b>
+<b class="fc">&nbsp;        this.add(usernameInfo);</b>
+<b class="fc">&nbsp;        this.add(passwordInfo);</b>
+<b class="fc">&nbsp;        this.add(buttons);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void actionPerformed(ActionEvent evt) {
+<b class="nc">&nbsp;        System.out.println(&quot;Click &quot; + evt.getActionCommand());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void propertyChange(PropertyChangeEvent evt) {
+<b class="fc">&nbsp;        LogInState logInState = (LogInState) evt.getNewValue();</b>
+<b class="fc">&nbsp;        if (logInState.getUsernameError() != null) {</b>
+<b class="fc">&nbsp;            JOptionPane.showMessageDialog(null, logInState.getUsernameError());</b>
+<b class="fc">&nbsp;        } else if (logInState.getPasswordError() != null) {</b>
+<b class="fc">&nbsp;            JOptionPane.showMessageDialog(null, logInState.getPasswordError());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:32</div>
+</div>
+</body>
+</html>

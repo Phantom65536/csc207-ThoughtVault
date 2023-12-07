@@ -13,6 +13,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A concrete class inheriting EntriesDAO and implementing EventsDAO by saving events as JSON entries
+ */
 public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> {
 
     public EventsDataAccessObject(String jsonPath) throws IOException, ParseException {
@@ -58,32 +61,5 @@ public class EventsDataAccessObject extends EntriesDataAccessObject<LocalEvent> 
         } catch (IOException e) {
             throw new RuntimeException((e));
         }
-    }
-
-    // for testing only
-    public static void main(String[] args) throws IOException, ParseException {
-        EventsDataAccessObject dao = new EventsDataAccessObject("./testEvent.json");
-
-        LocalEvent firstEvent = new LocalEvent(dao.getNewID(), "first", 0, LocalDate.parse("2023-11-09"), LocalTime.NOON, LocalTime.parse("20:00"),
-                "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
-        dao.save(firstEvent);
-        System.out.print(firstEvent.getID());
-        dao.save(new LocalEvent(dao.getNewID(), "second", 0, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("11:00"),
-                "TA guy's toilet", "There is no way this is not a description.", true, true, new ArrayList<>(Arrays.asList(firstEvent.getID(), 1000))));
-        dao.save(new LocalEvent(dao.getNewID(), "third", 0, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("23:59"),
-                "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>(Arrays.asList(0, firstEvent.getID()))));
-
-        LocalEvent otherUserEvent = new LocalEvent(dao.getNewID(), "another user", 1, LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("23:59"),
-                "Garbage chute :)))", "NO DESCRIPTION T_T", false, true, new ArrayList<>());
-        dao.save(otherUserEvent);
-        System.out.print(otherUserEvent.getID());
-        otherUserEvent.amendAllAttributes("another user editted", LocalDate.parse("2022-01-02"), LocalTime.MIDNIGHT, LocalTime.parse("23:59"),
-                "Garbage chute :(((", "EDITED DESCRIPTION T_T", true, true, new ArrayList<>());
-        dao.save(otherUserEvent);
-
-        ArrayList<LocalEvent> user0Events = dao.getAllUserEntries(0);
-        dao.delete(firstEvent.getID());
-
-//        System.out.print(dao.getByID());
     }
 }

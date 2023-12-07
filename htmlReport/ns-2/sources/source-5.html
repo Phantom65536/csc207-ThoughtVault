@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > UserDataAccessObject</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">data_access</a>
+</div>
+
+<h1>Coverage Summary for Class: UserDataAccessObject (data_access)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserDataAccessObject</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.3%
+  </span>
+  <span class="absValue">
+    (36/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package data_access;
+&nbsp;
+&nbsp;import entity.User;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.JSONParser;
+&nbsp;import org.json.simple.parser.ParseException;
+&nbsp;import use_case.user.UserDataAccessInterface;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.FileWriter;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.Map;
+&nbsp;
+&nbsp;public class UserDataAccessObject implements UserDataAccessInterface {
+<b class="fc">&nbsp;    private final Map&lt;String, User&gt; users = new HashMap&lt;&gt;();</b>
+&nbsp;    private final File jsonFile;
+<b class="fc">&nbsp;    private int lastID = 0;</b>
+&nbsp;
+&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+<b class="fc">&nbsp;    public UserDataAccessObject(String jsonPath) throws IOException, ParseException {</b>
+<b class="fc">&nbsp;        jsonFile = new File(jsonPath);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (jsonFile.length() == 0) {</b>
+&nbsp;            // Create new file with jsonPath if it doesn&#39;t exist
+<b class="fc">&nbsp;            save();</b>
+&nbsp;        } else {
+&nbsp;            // Read existing Events JSON file and map each event JSON object to a key-value pair in events
+<b class="fc">&nbsp;            JSONParser jsonParser = new JSONParser();</b>
+<b class="fc">&nbsp;            try (FileReader reader = new FileReader(jsonFile)) {</b>
+<b class="fc">&nbsp;                Object obj = jsonParser.parse(reader);</b>
+<b class="fc">&nbsp;                JSONArray usersList = (JSONArray) obj;</b>
+<b class="fc">&nbsp;                usersList.forEach(usr -&gt; parseUserObj((JSONObject) usr));</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void parseUserObj(JSONObject userJSON) {
+<b class="fc">&nbsp;        int userID = ((Long) userJSON.get(&quot;id&quot;)).intValue();</b>
+<b class="fc">&nbsp;        String username = (String) userJSON.get(&quot;username&quot;);</b>
+<b class="fc">&nbsp;        String hashedPw = (String) userJSON.get(&quot;password&quot;);</b>
+<b class="fc">&nbsp;        String usrCredFileStr = (String) userJSON.get(&quot;gcal-credential&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        users.put(username, new User(userID, username, hashedPw, usrCredFileStr));</b>
+<b class="fc">&nbsp;        lastID = userID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public User getUserByUsername(String username) {
+&nbsp;        // returns null if key does not exist
+<b class="fc">&nbsp;        return users.get(username);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void save(User user) {
+<b class="fc">&nbsp;        users.put(user.getUsername(), user);</b>
+<b class="fc">&nbsp;        save();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getNewID() {
+<b class="fc">&nbsp;        return ++lastID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;    private void save() {
+<b class="fc">&nbsp;        try (FileWriter writer = new FileWriter(jsonFile)) {</b>
+&nbsp;            // Write every user in the users map to jsonFile
+<b class="fc">&nbsp;            JSONArray allUsersJSON = new JSONArray();</b>
+<b class="fc">&nbsp;            for (String usrname : users.keySet()) {</b>
+<b class="fc">&nbsp;                JSONObject userDetails = new JSONObject();</b>
+<b class="fc">&nbsp;                userDetails.put(&quot;id&quot;, users.get(usrname).getUserid());</b>
+<b class="fc">&nbsp;                userDetails.put(&quot;username&quot;, users.get(usrname).getUsername());</b>
+<b class="fc">&nbsp;                userDetails.put(&quot;password&quot;, users.get(usrname).getHashedPassword());</b>
+<b class="fc">&nbsp;                userDetails.put(&quot;gcal-credential&quot;, users.get(usrname).getCredential());</b>
+&nbsp;
+<b class="fc">&nbsp;                allUsersJSON.add(userDetails);</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;
+<b class="fc">&nbsp;            writer.write(allUsersJSON.toJSONString());</b>
+<b class="fc">&nbsp;            writer.flush();</b>
+<b class="fc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException((e));</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-12-05 19:32</div>
+</div>
+</body>
+</html>

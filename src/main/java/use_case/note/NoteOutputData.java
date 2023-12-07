@@ -10,6 +10,8 @@ public class NoteOutputData {
     private final int ID;
     private final int userID;
 
+    private final int userID;
+
     private final String title;
 
     private final String location;

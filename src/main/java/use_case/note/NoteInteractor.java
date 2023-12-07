@@ -2,9 +2,7 @@ package use_case.note;
 
 import data_access.NotesDataAccessObject;
 
-import entity.NoteFactoryInterface;
 import entity.note.Note;
-import entity.note.NoteFactory;
 
 import java.util.ArrayList;
 
@@ -16,8 +14,6 @@ public class NoteInteractor implements NoteInputBoundary {
 
     private final NotesDataAccessObject notesDataAccessObject;
 
-    private final NoteFactoryInterface noteFactory;
-
     /**
      * Constructor for NoteInteractor
      * @param noteOutputBoundary The presenter for the NoteInteractor
@@ -28,8 +24,6 @@ public class NoteInteractor implements NoteInputBoundary {
         this.noteOutputBoundary = noteOutputBoundary;
 
         this.notesDataAccessObject = notesDataAccessObject;
-
-        this.noteFactory = new NoteFactory();
     }
 
     /**
@@ -75,10 +69,8 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void CreateNote(NoteInputData noteInputData) {
         try {
-            Note note = noteFactory.createNote(notesDataAccessObject.getNewID(),
-                    noteInputData.getTitle(), noteInputData.getUserID(),
-                    noteInputData.getLocation(), noteInputData.getDescription(),
-                    noteInputData.getIsWork(), noteInputData.getPinned(),
+            Note note = new Note(notesDataAccessObject.getNewID(), noteInputData.getTitle(), noteInputData.getUserID(),
+                    noteInputData.getLocation(), noteInputData.getDescription(), noteInputData.getIsWork(), noteInputData.getPinned(),
                     noteInputData.getSubEvents());
 
             notesDataAccessObject.save(note);
@@ -102,10 +94,8 @@ public class NoteInteractor implements NoteInputBoundary {
     @Override
     public void EditNote(NoteInputData noteInputData) {
         try {
-            Note note = noteFactory.createNote(noteInputData.getID(),
-                    noteInputData.getTitle(), noteInputData.getUserID(),
-                    noteInputData.getLocation(), noteInputData.getDescription(),
-                    noteInputData.getIsWork(), noteInputData.getPinned(),
+            Note note = new Note(noteInputData.getID(), noteInputData.getTitle(), noteInputData.getUserID(),
+                    noteInputData.getLocation(), noteInputData.getDescription(), noteInputData.getIsWork(), noteInputData.getPinned(),
                     noteInputData.getSubEvents());
 
             notesDataAccessObject.delete(note.getID());

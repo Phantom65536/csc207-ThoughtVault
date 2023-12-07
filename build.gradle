@@ -11,5 +11,8 @@ dependencies {
     implementation 'com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 //    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'at.favre.lib:bcrypt:0.10.2'
+//    implementation 'at.favre.lib:bcrypt:0.10.2'
+    implementation 'org.mindrot:jbcrypt:0.4'
+    testImplementation 'junit:junit:4.10'
+    testImplementation "org.mockito:mockito-core:3.+"
 }
