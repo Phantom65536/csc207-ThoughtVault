@@ -33,4 +33,5 @@ public interface NoteInputBoundary {
      * @param userID The ID of the user whose notes are to be retrieved
      */
     void GetAllNotes(int userID);
+    void switchToEdit();
 }

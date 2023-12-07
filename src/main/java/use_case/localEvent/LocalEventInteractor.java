@@ -5,6 +5,7 @@ import data_access.EventsDataAccessObject;
 import entity.localEvent.LocalEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The interactor for local events
@@ -34,7 +35,9 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                 LocalEventOutputData(event.getID(), event.getTitle(),
                 event.getUserID(), event.getDate(), event.getStartTime(),
                 event.getEndTime(), event.getLocation(), event.getDescription(),
-                event.isWork(), event.getPinned(), event.getDescendants()));
+                event.isWork(), event.getPinned(), event.getDescendants(),
+                (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID()))
+        );
     }
 
     /**
@@ -46,7 +49,7 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         try {
             LocalEvent event = new LocalEvent(eventsDataAccessObject.getNewID(), eventInputData.getTitle(), eventInputData.getUserID(),
                     eventInputData.getDate(), eventInputData.getStartTime(), eventInputData.getEndTime(), eventInputData.getLocation(),
-                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEvents());
+                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEntries());
 
             eventsDataAccessObject.save(event);
 
@@ -56,7 +59,11 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                             event.getDate(), event.getStartTime(),
                             event.getEndTime(), event.getLocation(),
                             event.getDescription(), event.isWork(),
-                            event.getPinned(), event.getDescendants()));
+                            event.getPinned(), event.getDescendants(),
+                            (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                    )
+            )
+            ;
         }
 
         catch (RuntimeException e) {
@@ -74,7 +81,7 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
         try {
             LocalEvent event = new LocalEvent(eventInputData.getID(), eventInputData.getTitle(), eventInputData.getUserID(),
                     eventInputData.getDate(), eventInputData.getStartTime(), eventInputData.getEndTime(), eventInputData.getLocation(),
-                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEvents());
+                    eventInputData.getDescription(), eventInputData.getIsWork(), eventInputData.getPinned(), eventInputData.getSubEntries());
 
             eventsDataAccessObject.delete(event.getID());
 
@@ -86,7 +93,10 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                             event.getDate(), event.getStartTime(),
                             event.getEndTime(), event.getLocation(),
                             event.getDescription(), event.isWork(),
-                            event.getPinned(), event.getDescendants()));
+                            event.getPinned(), event.getDescendants(),
+                            (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                    )
+            );
         }
 
         catch (RuntimeException e) {
@@ -128,9 +138,17 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
                     event.getStartTime(), event.getEndTime(),
                     event.getLocation(), event.getDescription(),
                     event.isWork(), event.getPinned(),
-                    event.getDescendants()));
+                    event.getDescendants(),
+                    (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                    )
+            );
         }
 
         localEventOutputBoundary.DisplayAllEvents(eventOutputDataArrayList);
+    }
+
+    @Override
+    public void switchToEdit() {
+        localEventOutputBoundary.switchToEdit();
     }
 }

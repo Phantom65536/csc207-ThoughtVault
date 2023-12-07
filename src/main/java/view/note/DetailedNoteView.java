@@ -16,6 +16,7 @@ public class DetailedNoteView extends JPanel {
     private JLabel pinnedLabel;
     private JLabel subEventsLabel;
     private JButton deleteButton;
+    private JButton editButton;
     private NoteController noteController;
     public String viewName = "";
     public DetailedNoteView (NoteViewModel noteViewModel, NoteController noteController){
@@ -27,7 +28,17 @@ public class DetailedNoteView extends JPanel {
         descriptionLabel = new JLabel(NoteViewModel.DESCRIPTION_LABEL + noteViewModel.getState().getDescription());
         isWorkLabel = new JLabel(NoteViewModel.IS_WORK_LABEL + noteViewModel.getState().getIsWork());
         pinnedLabel = new JLabel(NoteViewModel.PINNED_LABEL + noteViewModel.getState().getPinned());
-        subEventsLabel = new JLabel(NoteViewModel.SUB_EVENTS_LABEL + noteViewModel.getState().getSubEvents().toString());
+        subEventsLabel = new JLabel(NoteViewModel.SUB_EVENTS_LABEL + noteViewModel.getState().getSubNotes().toString());
+
+        editButton = new JButton("Edit Note");
+        editButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        noteController.switchToEdit();
+                    }
+                }
+        );
 
         deleteButton = new JButton("Delete Event");
         deleteButton.addActionListener(new ActionListener() {

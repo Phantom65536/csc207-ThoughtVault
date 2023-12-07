@@ -38,15 +38,15 @@ public class LocalEventController {
      * @param description The description of the event.
      * @param isWork      Whether the event is a work event.
      * @param pinned      Whether the event is pinned.
-     * @param subEvents   The IDs of the sub-events of the event.
+     * @param subEntries   The IDs of the sub-entries of the event.
      */
     public void createEvent(int id, String title, int userID, LocalDate date,
                             LocalTime startTime, LocalTime endTime,
                             String location, String description, boolean isWork,
-                            boolean pinned, ArrayList<Integer> subEvents) {
+                            boolean pinned, ArrayList<Integer> subEntries) {
         LocalEventInputData eventInputData = new LocalEventInputData(id, title, userID,
                 date, startTime, endTime, location, description, isWork, pinned,
-                subEvents);
+                subEntries);
 
         localEventInteractor.CreateEvent(eventInputData);
     }
@@ -99,5 +99,8 @@ public class LocalEventController {
      */
     public void displayEventsListView(int userid) {
         localEventInteractor.GetAllEvents(userid);
+    }
+    public void switchToEdit(){
+        localEventInteractor.switchToEdit();
     }
 }

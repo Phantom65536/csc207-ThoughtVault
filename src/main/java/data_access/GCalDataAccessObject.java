@@ -60,14 +60,24 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
         calendarId = null;
     }
 
+    /**
+     * Returns the calendar associated with the GCalDataAccessObject instance.
+     * */
     public Calendar getCalendar() {
         return calendar;
     }
 
+    /**
+     * Returns the unique identifier (ID) associated with the calendar.
+     * */
     public String getCalendarId() {
         return calendarId;
     }
 
+    /**
+     * Checks if an event with the specified event ID exists in the associated calendar.
+     * @throws IOException if the event cannot be retrieved from the user's Google calendar.
+     * */
     public boolean eventExists(String eventId) throws IOException {
         if (calendar == null)
             return false;

@@ -45,4 +45,5 @@ public interface LocalEventOutputBoundary {
      * @param eventOutputDataArrayList The list of events to be displayed
      */
     void DisplayAllEvents(ArrayList<LocalEventOutputData> eventOutputDataArrayList);
+    void switchToEdit();
 }

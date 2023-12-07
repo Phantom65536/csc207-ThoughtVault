@@ -5,6 +5,7 @@ import data_access.NotesDataAccessObject;
 import entity.note.Note;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The interactor for the Note entity
@@ -37,7 +38,10 @@ public class NoteInteractor implements NoteInputBoundary {
         noteOutputBoundary.DisplayNoteDetailedView(new
                 NoteOutputData(note.getID(), note.getTitle(), note.getUserID(),
                 note.getLocation(), note.getDescription(), note.isWork(),
-                note.getPinned(), note.getDescendants()));
+                note.getPinned(), note.getDescendants(),
+                (HashMap<Integer, String>) notesDataAccessObject.getTitlesOfAllEntries(note.getUserID())
+                )
+        );
     }
 
     /**
@@ -49,14 +53,17 @@ public class NoteInteractor implements NoteInputBoundary {
         try {
             Note note = new Note(notesDataAccessObject.getNewID(), noteInputData.getTitle(), noteInputData.getUserID(),
                     noteInputData.getLocation(), noteInputData.getDescription(), noteInputData.getIsWork(), noteInputData.getPinned(),
-                    noteInputData.getSubEvents());
+                    noteInputData.getSubEntries());
 
             notesDataAccessObject.save(note);
 
-            noteOutputBoundary.UpdateNotesList(new NoteOutputData(note.getID(),
+            noteOutputBoundary.UpdateNotesList(
+                    new NoteOutputData(note.getID(),
                     note.getTitle(), note.getUserID(), note.getLocation(),
                     note.getDescription(), note.isWork(), note.getPinned(),
-                    note.getDescendants()));
+                    note.getDescendants(), (HashMap<Integer, String>) notesDataAccessObject.getTitlesOfAllEntries(note.getUserID())
+                    )
+            );
         }
 
         catch (RuntimeException e) {
@@ -74,16 +81,19 @@ public class NoteInteractor implements NoteInputBoundary {
         try {
             Note note = new Note(noteInputData.getID(), noteInputData.getTitle(), noteInputData.getUserID(),
                     noteInputData.getLocation(), noteInputData.getDescription(), noteInputData.getIsWork(), noteInputData.getPinned(),
-                    noteInputData.getSubEvents());
+                    noteInputData.getSubEntries());
 
             notesDataAccessObject.delete(note.getID());
 
             notesDataAccessObject.save(note);
 
-            noteOutputBoundary.UpdateNotesList(new NoteOutputData(note.getID(),
+            noteOutputBoundary.UpdateNotesList(
+                    new NoteOutputData(note.getID(),
                     note.getTitle(), note.getUserID(), note.getLocation(),
                     note.getDescription(), note.isWork(), note.getPinned(),
-                    note.getDescendants()));
+                    note.getDescendants(), (HashMap<Integer, String>) notesDataAccessObject.getTitlesOfAllEntries(note.getUserID())
+                    )
+            );
         }
 
         catch (RuntimeException e) {
@@ -119,12 +129,20 @@ public class NoteInteractor implements NoteInputBoundary {
         ArrayList<NoteOutputData> noteOutputDataArrayList = new ArrayList<>();
 
         for (Note note : notesDataAccessObject.getAllUserEntries(userID)) {
-            noteOutputDataArrayList.add(new NoteOutputData(note.getID(),
+            noteOutputDataArrayList.add(
+                    new NoteOutputData(note.getID(),
                     note.getTitle(), note.getUserID(), note.getLocation(),
                     note.getDescription(), note.isWork(), note.getPinned(),
-                    note.getDescendants()));
+                    note.getDescendants(), (HashMap<Integer, String>) notesDataAccessObject.getTitlesOfAllEntries(note.getUserID())
+                    )
+            );
         }
 
         noteOutputBoundary.DisplayAllNotes(noteOutputDataArrayList);
+    }
+
+    @Override
+    public void switchToEdit() {
+        noteOutputBoundary.switchToEdit();
     }
 }

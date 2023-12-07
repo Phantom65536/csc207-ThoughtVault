@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public interface GCalEventDataAccessInterface {
-    public void resetUserCalendar();
-    public void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException;
+    void resetUserCalendar();
+    void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException;
     Calendar getCalendar();
     String getCalendarId();
     boolean eventExists(String eventId) throws IOException;

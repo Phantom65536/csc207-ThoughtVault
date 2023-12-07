@@ -34,4 +34,5 @@ public interface LocalEventInputBoundary {
      * @param userID The ID of the user whose events are to be displayed.
      */
     void GetAllEvents(int userID);
+    void switchToEdit();
 }

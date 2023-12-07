@@ -45,4 +45,5 @@ public interface NoteOutputBoundary {
      * @param noteOutputDataArrayList The list of notes to be displayed
      */
     void DisplayAllNotes(ArrayList<NoteOutputData> noteOutputDataArrayList);
+    void switchToEdit();
 }

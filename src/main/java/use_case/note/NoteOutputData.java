@@ -8,7 +8,6 @@ import java.util.HashMap;
  */
 public class NoteOutputData {
     private final int ID;
-
     private final int userID;
 
     private final String title;
@@ -21,22 +20,24 @@ public class NoteOutputData {
 
     private final boolean pinned;
 
-    private final ArrayList<Integer> subEvents;
+    private final ArrayList<Integer> subEntries;
+    private final HashMap<Integer, String> allEntries;
 
     /**
      * Creates a new NoteOutputData object
-     * @param id The ID of the note
-     * @param title The title of the note
-     * @param userID The ID of the user who created the note
-     * @param location The location of the note
+     *
+     * @param id          The ID of the note
+     * @param title       The title of the note
+     * @param userID      The ID of the user who created the note
+     * @param location    The location of the note
      * @param description The description of the note
-     * @param isWork Whether the note is a work note
-     * @param pinned Whether the note is pinned
-     * @param subEvents The IDs of the sub-events of the note
+     * @param isWork      Whether the note is a work note
+     * @param pinned      Whether the note is pinned
+     * @param subEntries  The IDs of the sub-events of the note
      */
     public NoteOutputData(int id, String title, int userID, String location,
                           String description, boolean isWork, boolean pinned,
-                          ArrayList<Integer> subEvents) {
+                          ArrayList<Integer> subEntries, HashMap<Integer, String> allEntries) {
         this.ID = id;
 
         this.userID = userID;
@@ -51,11 +52,13 @@ public class NoteOutputData {
 
         this.pinned = pinned;
 
-        this.subEvents = subEvents;
+        this.subEntries = subEntries;
+        this.allEntries = allEntries;
     }
 
     /**
      * Returns a dictionary of the note data
+     *
      * @return The dictionary of the note data
      */
     public HashMap<String, Object> getNoteData() {
@@ -72,6 +75,7 @@ public class NoteOutputData {
 
     /**
      * Returns the pinned status of the note
+     *
      * @return The pinned status of the note
      */
     public boolean getPinned() {
@@ -80,6 +84,7 @@ public class NoteOutputData {
 
     /**
      * Returns the work status of the note
+     *
      * @return The work status of the note
      */
     public boolean getIsWork() {
@@ -88,6 +93,7 @@ public class NoteOutputData {
 
     /**
      * Returns the ID of the note
+     *
      * @return The ID of the note
      */
     public int getID() {
@@ -96,6 +102,7 @@ public class NoteOutputData {
 
     /**
      * Returns the title of the note
+     *
      * @return The title of the note
      */
     public String getTitle() {
@@ -104,14 +111,16 @@ public class NoteOutputData {
 
     /**
      * Returns the IDs of the sub-events of the note
+     *
      * @return The IDs of the sub-events of the note
      */
-    public ArrayList<Integer> getSubEvents() {
-        return subEvents;
+    public ArrayList<Integer> getSubEntries() {
+        return subEntries;
     }
 
     /**
      * Returns the description of the note
+     *
      * @return The description of the note
      */
     public String getDescription() {
@@ -120,6 +129,7 @@ public class NoteOutputData {
 
     /**
      * Returns the ID of the user who created the note
+     *
      * @return The ID of the user who created the note
      */
     public String getLocation() {
@@ -128,5 +138,9 @@ public class NoteOutputData {
 
     public int getUserId() {
         return this.userID;
+    }
+
+    public HashMap<Integer, String> getAllEntries() {
+        return allEntries;
     }
 }

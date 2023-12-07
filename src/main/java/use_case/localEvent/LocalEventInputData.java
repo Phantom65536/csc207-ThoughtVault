@@ -33,14 +33,14 @@ public class LocalEventInputData extends NoteInputData {
      * @param description The description of the event.
      * @param isWork Whether the event is a work event.
      * @param pinned Whether the event is pinned.
-     * @param subEvents The IDs of the sub-events of the event.
+     * @param subEntries The IDs of the sub-entries of the event.
      */
     public LocalEventInputData(int ID, String title, int userID, LocalDate date,
                                LocalTime startTime, LocalTime endTime,
                                String location, String description, boolean isWork,
-                               boolean pinned, ArrayList<Integer> subEvents) {
+                               boolean pinned, ArrayList<Integer> subEntries) {
         super(ID, title, userID, location, description, isWork, pinned,
-                subEvents);
+                subEntries);
 
         this.date = date;
 

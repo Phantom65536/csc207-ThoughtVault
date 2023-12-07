@@ -1,5 +1,6 @@
 package interface_adapter.localEvent;
 
+import interface_adapter.sign_up.SignUpState;
 import use_case.localEvent.LocalEventOutputData;
 import interface_adapter.localEvent.LocalEventState;
 import interface_adapter.listView.ListViewModel;
@@ -60,11 +61,13 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
                 localEventOutputData.getDescription(),
                 localEventOutputData.getIsWork(),
                 localEventOutputData.getPinned(),
-                localEventOutputData.getSubEvents(),
+                localEventOutputData.getSubEntries(),
                 localEventOutputData.getDate(),
                 localEventOutputData.getStartTime(),
                 localEventOutputData.getEndTime(),
-                localEventOutputData.getUserId());
+                localEventOutputData.getUserId(),
+                localEventOutputData.getAllEntries()
+        );
     }
 
     /**
@@ -167,6 +170,17 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
         listViewState.setEvents(listViewEvents);
         listViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(listViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    /**
+     * Switch to edit view
+     */
+    @Override
+    public void switchToEdit() {
+        detailedLocalEventViewModel.setState(new LocalEventState());
+        detailedLocalEventViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView(localEventEditViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

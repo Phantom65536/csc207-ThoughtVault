@@ -11,10 +11,7 @@ import use_case.localEvent.LocalEventOutputData;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.Date;
+import java.util.*;
 
 public class GCalEventInteractor implements GCalEventInputBoundary {
     final GCalEventDataAccessInterface userDataAccessObject;
@@ -31,41 +28,40 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
 
     /**
      * Imports an event from a user's Google Calendar given the eventId.
+     *
      * @param eventId The eventId associated with the Google Calendar Event.
-     * @throws IOException if the event cannot be retrieved from the user's Google Calendar
      * @return True if the event is successfully imported.
-     * */
+     * @throws IOException if the event cannot be retrieved from the user's Google Calendar
+     */
     @Override
     public boolean importEvent(String eventId) throws IOException {
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
 
-        try {
-            if (!userDataAccessObject.eventExists(eventId)) {
-                gCalEventPresenter.prepareFailView(eventId + " :Event does not exist in your calendar.");
-                return false;
-            } else {
-                Event event = calendar.events().get(calendarId, eventId).execute();
-                System.out.println(event.getSummary());
 
-                GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar, calendarId);
-                gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
-
-                return true;
-            }
-        } catch (IOException e) {
-            gCalEventPresenter.prepareFailView("NO event selected");
+        if (!userDataAccessObject.eventExists(eventId)) {
+            gCalEventPresenter.prepareFailView(eventId + " :Event does not exist in your calendar.");
             return false;
+        } else {
+            Event event = calendar.events().get(calendarId, eventId).execute();
+            System.out.println(event.getSummary());
+
+            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar, calendarId);
+            gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
+
+            return true;
         }
+
     }
 
     /**
      * Exports a LocalEvent to the user's Google Calendar.
      * Assume that there is only one calendar associated with each user.
+     *
      * @param localEventId The localeventId associated with the local event that the user wants to export.
-     * @throws IOException If the exportedEvent instance cannot be inserted into the user's Google Calendar.
      * @return True if the event is successfully exported.
-     * */
+     * @throws IOException If the exportedEvent instance cannot be inserted into the user's Google Calendar.
+     */
     @Override
     public boolean exportEvent(int localEventId) throws IOException {
         Calendar calendar = userDataAccessObject.getCalendar();
@@ -91,12 +87,9 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         exportedEvent.setSummary(localEvent.getTitle());
         exportedEvent.setLocation(localEvent.getLocation());
 
-        try {
-            exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
-        } catch (IOException e){
-            gCalEventPresenter.prepareFailView("No event selected");
-            return false;
-        }
+
+        exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
+
 
         // exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
         System.out.println(exportedEvent.getId());
@@ -111,9 +104,10 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
      * Returns a list of GCalEventInputData and prints out the titles of the events.
      * This is for the controller to retrieve a list of all the events so that the
      * user can select which event they want to import.
-     * @throws IOException if the function cannot return a list of events from the user's calendar.
+     *
      * @return An arraylist of GCalEventInputData (events)
-     * */
+     * @throws IOException if the function cannot return a list of events from the user's calendar.
+     */
     public ArrayList<GCalEventInputData> getAllEvents() throws IOException {
         ArrayList<GCalEventInputData> listOfEvents = new ArrayList<>();
         Calendar calendar = userDataAccessObject.getCalendar();
@@ -142,12 +136,13 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
      * Returns a list of LocalEventOutputData and prints out the titles of the events.
      * This is for the controller to retrieve a list of all the events so that the
      * user can select which event they want to export.
+     *
      * @return An arraylist of LocalEventOutputData (events)
-     * */
+     */
     public ArrayList<LocalEventOutputData> getAllLocalEvents() {
         ArrayList<LocalEventOutputData> listOfEvents = new ArrayList<>();
         ArrayList items = entriesDataAccessObject.getAllUserEntries(0);
-        for (Object item: items){
+        for (Object item : items) {
             if (item instanceof LocalEvent) {
                 LocalEvent event = (LocalEvent) item;
                 LocalEventOutputData inputData = new LocalEventOutputData(
@@ -161,7 +156,9 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
                         event.getDescription(),
                         event.isWork(),
                         event.getPinned(),
-                        event.getDescendants());
+                        event.getDescendants(),
+                        (HashMap<Integer, String>) entriesDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                );
                 listOfEvents.add(inputData);
                 System.out.println(inputData.getTitle());
             }
@@ -173,7 +170,10 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         return listOfEvents;
     }
 
-    public boolean switchToHome(){
+    /**
+     * Switch to Home View
+     * */
+    public boolean switchToHome() {
         gCalEventPresenter.switchToHome();
         return true;
     }

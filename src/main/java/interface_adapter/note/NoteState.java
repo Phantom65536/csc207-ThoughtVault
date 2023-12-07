@@ -22,7 +22,7 @@ public class NoteState {
 
     private int id;
 
-    ArrayList<Integer> subEntries;
+    private ArrayList<Integer> subEntries;
     private HashMap<Integer, String> allEntries;
 
     public NoteState() {
@@ -37,11 +37,11 @@ public class NoteState {
      * @param description   The description of the note.
      * @param isWork        Whether the note is for work.
      * @param pinned        Whether the note is pinned.
-     * @param subEntries     The sub events of the note.
+     * @param subEntries     The sub entries of the note.
      * @param userId        The note creator's ID
      */
     public NoteState(int id, String title, String location, String description, boolean
-            isWork, boolean pinned, ArrayList<Integer> subEntries, int userId) {
+            isWork, boolean pinned, ArrayList<Integer> subEntries, int userId, HashMap<Integer, String> allEntries) {
         this.title = title;
 
         this.id = id;
@@ -57,6 +57,7 @@ public class NoteState {
         this.subEntries = subEntries;
 
         this.userId = userId;
+        this.allEntries = allEntries;
     }
 
     /**

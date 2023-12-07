@@ -29,13 +29,13 @@ public class NoteController {
      * @param description The description of the note.
      * @param isWork Whether the note is for work.
      * @param pinned Whether the note is pinned.
-     * @param subEvents The sub-events of the note.
+     * @param subEntries The sub-entries of the note.
      */
     public void createNote(int id, String title, int userID, String location,
                            String description, boolean isWork, boolean pinned,
-                           ArrayList<Integer> subEvents) {
+                           ArrayList<Integer> subEntries) {
         NoteInputData noteInputData = new NoteInputData(id, title, userID,
-                location, description, isWork, pinned, subEvents);
+                location, description, isWork, pinned, subEntries);
 
         noteInteractor.CreateNote(noteInputData);
     }
@@ -49,13 +49,13 @@ public class NoteController {
      * @param description The description of the note.
      * @param isWork Whether the note is for work.
      * @param pinned Whether the note is pinned.
-     * @param subEvents The sub-events of the note.
+     * @param subEntries The sub-events of the note.
      */
     public void editNote(int id, String title, int userID, String location,
                          String description, boolean isWork, boolean pinned,
-                         ArrayList<Integer> subEvents) {
+                         ArrayList<Integer> subEntries) {
         NoteInputData noteInputData = new NoteInputData(id, title, userID,
-                location, description, isWork, pinned, subEvents);
+                location, description, isWork, pinned, subEntries);
 
         noteInteractor.EditNote(noteInputData);
     }
@@ -82,5 +82,8 @@ public class NoteController {
      */
     public void displayListViewNotes(int userid) {
         noteInteractor.GetAllNotes(userid);
+    }
+    public void switchToEdit(){
+        noteInteractor.switchToEdit();
     }
 }
