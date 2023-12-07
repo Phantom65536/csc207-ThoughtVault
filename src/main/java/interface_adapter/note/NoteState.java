@@ -1,6 +1,8 @@
 package interface_adapter.note;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class is a State for the NoteView.
@@ -21,7 +23,8 @@ public class NoteState {
 
     private int id;
 
-    private ArrayList<Integer> subEvents;
+    private ArrayList<Integer> subNotes;
+    private HashMap<Integer, String> allNotes;
 
     public NoteState() {
     }
@@ -35,11 +38,11 @@ public class NoteState {
      * @param description   The description of the note.
      * @param isWork        Whether the note is for work.
      * @param pinned        Whether the note is pinned.
-     * @param subEvents     The sub events of the note.
+     * @param subNotes     The sub events of the note.
      * @param userId        The note creator's ID
      */
     public NoteState(int id, String title, String location, String description, boolean
-            isWork, boolean pinned, ArrayList<Integer> subEvents, int userId) {
+            isWork, boolean pinned, ArrayList<Integer> subNotes, int userId, HashMap<Integer, String> allNotes) {
         this.title = title;
 
         this.id = id;
@@ -52,9 +55,10 @@ public class NoteState {
 
         this.pinned = pinned;
 
-        this.subEvents = subEvents;
+        this.subNotes = subNotes;
 
         this.userId = userId;
+        this.allNotes = allNotes;
     }
 
     /**
@@ -108,11 +112,15 @@ public class NoteState {
      *
      * @return The sub events of the note.
      */
-    public ArrayList<Integer> getSubEvents() {
-        return subEvents;
+    public ArrayList<Integer> getSubNotes() {
+        return subNotes;
     }
 
     public int getUserId(){return this.userId;}
     public int getId(){return this.id;}
     public void setUserId(int userId){this.userId = userId;}
+
+    public HashMap<Integer, String> getAllNotes() {
+        return allNotes;
+    }
 }

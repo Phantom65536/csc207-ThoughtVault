@@ -52,14 +52,17 @@ public class NotePresenter implements NoteOutputBoundary {
      * @return                The note state.
      */
     public NoteState CreateState(NoteOutputData noteOutputData) {
-        return new NoteState(noteOutputData.getID(),
+        return new NoteState(
+                noteOutputData.getID(),
                 noteOutputData.getTitle(),
                 noteOutputData.getLocation(),
                 noteOutputData.getDescription(),
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
                 noteOutputData.getSubEvents(),
-                noteOutputData.getUserId());
+                noteOutputData.getUserId(),
+                noteOutputData.getAllEvents()
+        );
     }
 
     /**
@@ -119,7 +122,9 @@ public class NotePresenter implements NoteOutputBoundary {
                 noteOutputData.getIsWork(),
                 noteOutputData.getPinned(),
                 noteOutputData.getSubEvents(),
-                noteOutputData.getUserId());
+                noteOutputData.getUserId(),
+                noteOutputData.getAllEvents()
+        );
         detailedNoteViewModel.setState(noteState);
         detailedNoteViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(

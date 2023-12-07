@@ -10,8 +10,6 @@ public class NoteOutputData {
     private final int ID;
     private final int userID;
 
-    private final int userID;
-
     private final String title;
 
     private final String location;
@@ -23,6 +21,7 @@ public class NoteOutputData {
     private final boolean pinned;
 
     private final ArrayList<Integer> subEvents;
+    private final HashMap<Integer, String> allEvents;
 
     /**
      * Creates a new NoteOutputData object
@@ -37,7 +36,7 @@ public class NoteOutputData {
      */
     public NoteOutputData(int id, String title, int userID, String location,
                           String description, boolean isWork, boolean pinned,
-                          ArrayList<Integer> subEvents) {
+                          ArrayList<Integer> subEvents, HashMap<Integer, String> allEvents) {
         this.ID = id;
 
         this.userID = userID;
@@ -53,6 +52,7 @@ public class NoteOutputData {
         this.pinned = pinned;
 
         this.subEvents = subEvents;
+        this.allEvents = allEvents;
     }
 
     /**
@@ -129,5 +129,8 @@ public class NoteOutputData {
 
     public int getUserId() {
         return this.userID;
+    }
+    public HashMap<Integer, String> getAllEvents() {
+        return allEvents;
     }
 }
