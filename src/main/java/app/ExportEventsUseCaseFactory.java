@@ -1,5 +1,6 @@
 package app;
 
+import data_access.EntriesDataAccessInterface;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.exportevents.ExportEventsController;
 import interface_adapter.exportevents.ExportEventsPresenter;
@@ -9,7 +10,7 @@ import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.gcalevent.GCalEventInputBoundary;
 import use_case.gcalevent.GCalEventInteractor;
 import use_case.gcalevent.GCalEventOutputBoundary;
-import use_case.local_event.EntriesDataAccessInterface;
+
 import view.ExportEventsView;
 import view.ImportEventsView;
 

@@ -8,6 +8,7 @@ import java.util.HashMap;
  */
 public class NoteOutputData {
     private final int ID;
+    private final int userID;
 
     private final String title;
 
@@ -36,6 +37,8 @@ public class NoteOutputData {
                           String description, boolean isWork, boolean pinned,
                           ArrayList<Integer> subEvents) {
         this.ID = id;
+
+        this.userID = userID;
 
         this.title = title;
 
