@@ -86,10 +86,10 @@ abstract public class EntriesDataAccessObject<T extends Note> implements Entries
     }
 
     @Override
-    public Map<Integer, String> getTitlesOfSubEntries(List<Integer> subEntries) {
+    public Map<Integer, String> getTitlesOfAllEntries(int userid) {
         HashMap<Integer, String> idToTitle = new HashMap<>();
-        for (int subEntry : subEntries) {
-            idToTitle.put(subEntry, entries.get(subEntry).getTitle());
+        for (int id : entries.keySet()) {
+            idToTitle.put(id, entries.get(id).getTitle());
         }
         return idToTitle;
     }
