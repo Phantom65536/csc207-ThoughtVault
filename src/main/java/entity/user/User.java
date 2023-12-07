@@ -1,4 +1,4 @@
-package entity;
+package entity.user;
 
 /**
  * This entity describes a single user in the system.

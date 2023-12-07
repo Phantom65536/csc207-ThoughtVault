@@ -1,7 +1,7 @@
 package data_access;
 
-import entity.LocalEvent;
-import entity.Note;
+import entity.localEvent.LocalEvent;
+import entity.note.Note;
 import junit.framework.TestCase;
 import org.json.simple.parser.ParseException;
 

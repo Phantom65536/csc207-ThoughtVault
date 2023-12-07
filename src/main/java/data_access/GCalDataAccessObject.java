@@ -28,7 +28,7 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES =
-            Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+            Collections.singletonList(CalendarScopes.CALENDAR);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     public GCalDataAccessObject() {}
@@ -71,10 +71,17 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
         return calendar.events().get(calendarId, eventId).execute().getId() != null;
     }
 
+    /**
+     * Creates an authorized Credential object.
+     *
+     * @param jsonCredentials The contents of credentials.json.
+     * @return An authorized Credential object.
+     */
     public static Credential getCredentials(String jsonCredentials) {
         try {
             GoogleClientSecrets clientSecrets =
                     GoogleClientSecrets.load(JSON_FACTORY, new StringReader(jsonCredentials));
+
             final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
             // Build flow and trigger user authorization request.

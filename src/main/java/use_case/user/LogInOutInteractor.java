@@ -2,7 +2,7 @@ package use_case.user;
 
 import com.google.api.client.auth.oauth2.Credential;
 import data_access.GCalDataAccessObject;
-import entity.User;
+import entity.user.User;
 import org.mindrot.jbcrypt.BCrypt;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 

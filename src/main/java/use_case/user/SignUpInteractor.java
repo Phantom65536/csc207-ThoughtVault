@@ -2,7 +2,7 @@ package use_case.user;
 
 import org.mindrot.jbcrypt.BCrypt;
 import data_access.GCalDataAccessObject;
-import entity.User;
+import entity.user.User;
 
 /**
  * Interactor class for signing up.
