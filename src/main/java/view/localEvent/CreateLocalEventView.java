@@ -12,7 +12,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class CreateLocalEventView extends JPanel{
-    public final String viewName = "create event";
+    public static String viewName = "create event view";
     private JTextField titleField;
     private JTextField dateField;
     private JTextField startTimeField;

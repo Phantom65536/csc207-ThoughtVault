@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DetailedNoteView extends JPanel implements ActionListener, PropertyChangeListener {
+    public static final String viewName = "detailed note view";
     private JLabel titleLabel;
     private JLabel titleContent;
     private JLabel locationLabel;

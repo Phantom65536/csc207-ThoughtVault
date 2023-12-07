@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditNoteView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "edit event";
+    public static String viewName = "edit event view";
     private JTextField titleField;
     private JTextField locationField;
     private JTextField descriptionField;
