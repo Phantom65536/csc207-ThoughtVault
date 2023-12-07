@@ -100,4 +100,7 @@ public class LocalEventController {
     public void displayEventsListView(int userid) {
         localEventInteractor.GetAllEvents(userid);
     }
+    public void switchToEdit(){
+        localEventInteractor.switchToEdit();
+    }
 }

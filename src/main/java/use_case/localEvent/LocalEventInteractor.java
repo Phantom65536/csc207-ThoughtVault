@@ -146,4 +146,9 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
 
         localEventOutputBoundary.DisplayAllEvents(eventOutputDataArrayList);
     }
+
+    @Override
+    public void switchToEdit() {
+        localEventOutputBoundary.switchToEdit();
+    }
 }

@@ -83,4 +83,7 @@ public class NoteController {
     public void displayListViewNotes(int userid) {
         noteInteractor.GetAllNotes(userid);
     }
+    public void switchToEdit(){
+        noteInteractor.switchToEdit();
+    }
 }

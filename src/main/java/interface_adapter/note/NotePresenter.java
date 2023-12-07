@@ -1,5 +1,6 @@
 package interface_adapter.note;
 
+import interface_adapter.localEvent.LocalEventState;
 import use_case.note.NoteOutputData;
 import interface_adapter.listView.ListViewModel;
 import interface_adapter.listView.ListViewState;
@@ -175,6 +176,14 @@ public class NotePresenter implements NoteOutputBoundary {
         listViewState.setNotes(listViewNotes);
         listViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(listViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToEdit() {
+        detailedNoteViewModel.setState(new NoteState());
+        detailedNoteViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView(noteEditViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

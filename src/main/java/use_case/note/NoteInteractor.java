@@ -140,4 +140,9 @@ public class NoteInteractor implements NoteInputBoundary {
 
         noteOutputBoundary.DisplayAllNotes(noteOutputDataArrayList);
     }
+
+    @Override
+    public void switchToEdit() {
+        noteOutputBoundary.switchToEdit();
+    }
 }
