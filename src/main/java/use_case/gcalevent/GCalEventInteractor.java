@@ -5,9 +5,9 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
-import data_access.EntriesDataAccessInterface;
+import use_case.EntriesDataAccessInterface;
 import entity.localEvent.LocalEvent;
-import output_data.LocalEventOutputData;
+import use_case.localEvent.LocalEventOutputData;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

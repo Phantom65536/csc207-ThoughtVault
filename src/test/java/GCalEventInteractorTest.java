@@ -1,6 +1,6 @@
 
 import com.google.api.client.auth.oauth2.Credential;
-import data_access.EntriesDataAccessInterface;
+import use_case.EntriesDataAccessInterface;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
 import entity.localEvent.LocalEvent;

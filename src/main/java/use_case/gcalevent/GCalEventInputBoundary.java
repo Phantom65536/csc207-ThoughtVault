@@ -1,9 +1,8 @@
 package use_case.gcalevent;
 
-import output_data.LocalEventOutputData;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import use_case.localEvent.LocalEventOutputData;
 
 public interface GCalEventInputBoundary {
     boolean importEvent(String eventId) throws IOException;

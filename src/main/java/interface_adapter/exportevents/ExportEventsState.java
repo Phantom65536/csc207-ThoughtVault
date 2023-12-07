@@ -1,7 +1,7 @@
 package interface_adapter.exportevents;
 
-import output_data.LocalEventOutputData;
 import use_case.gcalevent.GCalEventInputData;
+import use_case.localEvent.LocalEventOutputData;
 
 import java.util.ArrayList;
 

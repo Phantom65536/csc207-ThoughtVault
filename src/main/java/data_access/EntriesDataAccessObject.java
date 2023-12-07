@@ -5,6 +5,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import use_case.EntriesDataAccessInterface;
 
 import java.io.File;
 import java.io.FileReader;
