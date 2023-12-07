@@ -72,7 +72,12 @@ public class ImportEventsView extends JPanel implements ActionListener, Property
                             ImportEventsState currentState = importEventsViewModel.getState();
                             if (currentState.getSelectedEventIndex() != -1) {
                                 try {
-                                    importEventsController.execute(currentState.getSelectedEventId());
+                                    if (currentState.getSelectedEvent() != null) {
+                                        importEventsController.execute(currentState.getSelectedEventId());
+                                    } else {
+                                        currentState.setImportEventError("No event selected");
+                                        importEventsViewModel.firePropertyChanged();
+                                    }
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }

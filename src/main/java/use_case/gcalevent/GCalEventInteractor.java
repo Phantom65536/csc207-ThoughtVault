@@ -40,17 +40,22 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         Calendar calendar = userDataAccessObject.getCalendar();
         String calendarId = userDataAccessObject.getCalendarId();
 
-        if (!userDataAccessObject.eventExists(eventId)) {
-            gCalEventPresenter.prepareFailView(eventId + " :Event does not exist in your calendar.");
+        try {
+            if (!userDataAccessObject.eventExists(eventId)) {
+                gCalEventPresenter.prepareFailView(eventId + " :Event does not exist in your calendar.");
+                return false;
+            } else {
+                Event event = calendar.events().get(calendarId, eventId).execute();
+                System.out.println(event.getSummary());
+
+                GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar, calendarId);
+                gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
+
+                return true;
+            }
+        } catch (IOException e) {
+            gCalEventPresenter.prepareFailView("NO event selected");
             return false;
-        } else {
-            Event event = calendar.events().get(calendarId, eventId).execute();
-            System.out.println(event.getSummary());
-
-            GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar, calendarId);
-            gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
-
-            return true;
         }
     }
 
@@ -86,7 +91,14 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         exportedEvent.setSummary(localEvent.getTitle());
         exportedEvent.setLocation(localEvent.getLocation());
 
-        exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
+        try {
+            exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
+        } catch (IOException e){
+            gCalEventPresenter.prepareFailView("No event selected");
+            return false;
+        }
+
+        // exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
         System.out.println(exportedEvent.getId());
 
         GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(exportedEvent.getId(), calendar, calendarId);

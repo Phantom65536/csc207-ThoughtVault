@@ -73,7 +73,12 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
                             if (currentState.getSelectedEventIndex() != -1) {
                                 try {
                                     // exportEventsController.execute(currentState.getEntryID());
-                                    exportEventsController.execute(currentState.getSelectedEventId());
+                                    if (currentState.getSelectedEvent() != null){
+                                        exportEventsController.execute(currentState.getSelectedEventId());
+                                    } else {
+                                        currentState.setExportEventError("No event selected");
+                                        exportEventsViewModel.firePropertyChanged();
+                                    }
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
