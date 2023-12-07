@@ -5,9 +5,9 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
-import entity.LocalEvent;
+import data_access.EntriesDataAccessInterface;
+import entity.localEvent.LocalEvent;
 import output_data.LocalEventOutputData;
-import use_case.local_event.EntriesDataAccessInterface;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -75,13 +75,13 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
         Event exportedEvent = new Event();
         // exportedEvent.setICalUID(calendarId);
 
-        LocalDateTime startDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getStartEndTIme()[0]);
+        LocalDateTime startDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getStartTime());
         Date startDate = Date.from(startDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
 
         DateTime start = new DateTime(startDate, TimeZone.getTimeZone("UTC"));
         exportedEvent.setStart(new EventDateTime().setDateTime(start));
 
-        LocalDateTime endDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getStartEndTIme()[1]);
+        LocalDateTime endDateTime = LocalDateTime.of(localEvent.getDate(), localEvent.getEndTime());
         Date endDate = Date.from(endDateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
 
         DateTime end = new DateTime(endDate, TimeZone.getTimeZone("UTC"));
@@ -155,8 +155,8 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
                         event.getTitle(),
                         event.getUserID(),
                         event.getDate(),
-                        event.getStartEndTIme()[0],
-                        event.getStartEndTIme()[1],
+                        event.getStartTime(),
+                        event.getEndTime(),
                         event.getLocation(),
                         event.getDescription(),
                         event.isWork(),
