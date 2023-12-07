@@ -33,7 +33,7 @@ public class CreateLocalEventViewTest {
         LocalEventInteractor inputBoundary = new LocalEventInteractor(entriesDataAccessObject, LocalEventPresenter);
         LocalEventController localEventController = new LocalEventController(inputBoundary);
 
-        JPanel CreateLocalEventView = new CreateLocalEventView(LocalEventViewModel, localEventController);
+        JPanel CreateLocalEventView = new CreateLocalEventView(LocalEventViewModel, viewManagerModel,localEventController);
         JFrame jf = new JFrame();
         jf.setContentPane(CreateLocalEventView);
         jf.pack();
