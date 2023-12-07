@@ -1,5 +1,7 @@
 package interface_adapter.log_in_out;
 
+import interface_adapter.listView.ListViewModel;
+import interface_adapter.listView.ListViewState;
 import interface_adapter.sign_up.SignUpViewModel;
 import interface_adapter.ViewManagerModel;
 import use_case.user.LogInOutOutputBoundary;
@@ -10,6 +12,7 @@ import use_case.user.LogInOutOutputBoundary;
 public class LogInOutPresenter implements LogInOutOutputBoundary {
     private final LogInViewModel logInViewModel;
     private final SignUpViewModel signUpViewModel;
+    private final ListViewModel listViewViewModel;
     private final ViewManagerModel viewManagerModel;
 
     /**
@@ -18,9 +21,10 @@ public class LogInOutPresenter implements LogInOutOutputBoundary {
      * @param signUpViewModel
      * @param viewManagerModel
      */
-    public LogInOutPresenter(LogInViewModel logInViewModel, SignUpViewModel signUpViewModel, ViewManagerModel viewManagerModel) {
+    public LogInOutPresenter(LogInViewModel logInViewModel, SignUpViewModel signUpViewModel, ListViewModel listViewViewModel, ViewManagerModel viewManagerModel) {
         this.logInViewModel = logInViewModel;
         this.signUpViewModel = signUpViewModel;
+        this.listViewViewModel = listViewViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -31,7 +35,9 @@ public class LogInOutPresenter implements LogInOutOutputBoundary {
     @Override
     public void logInSuccessView(int userid) {
         logInViewModel.setState(new LogInState());
-        // switch to events listed view
+        ListViewState listViewState = listViewViewModel.getState();
+        listViewState.setUserId(userid);
+        listViewViewModel.firePropertyChanged();
     }
 
     /**

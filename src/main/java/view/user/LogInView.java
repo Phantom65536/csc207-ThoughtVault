@@ -1,8 +1,11 @@
 package view.user;
 
+import interface_adapter.listView.ListViewModel;
+import interface_adapter.localEvent.LocalEventController;
 import interface_adapter.log_in_out.LogInOutController;
 import interface_adapter.log_in_out.LogInState;
 import interface_adapter.log_in_out.LogInViewModel;
+import interface_adapter.note.NoteController;
 import view.LabelTextPanel;
 
 import javax.swing.*;
@@ -21,6 +24,7 @@ import java.security.GeneralSecurityException;
  */
 public class LogInView extends JPanel implements ActionListener, PropertyChangeListener {
     private final LogInViewModel loginViewModel;
+    private final ListViewModel listViewModel;
 
     final JTextField usernameInputField = new JTextField(15);
     final JPasswordField passwordInputField = new JPasswordField(15);
@@ -28,15 +32,23 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
     final JButton logIn;
     final JButton switchToSignupView;
     private final LogInOutController loginoutController;
+    private final NoteController noteController;
+    private final LocalEventController localEventController;
 
     /**
      * Instantiate a LogInView by adding the necessary labels, input fields and buttons.
      * @param loginViewModel
      * @param controller
+     * @param listViewModel
+     * @param noteController
+     * @param localEventController
      */
-    public LogInView(LogInViewModel loginViewModel, LogInOutController controller) {
+    public LogInView(LogInViewModel loginViewModel, LogInOutController controller, ListViewModel listViewModel, NoteController noteController, LocalEventController localEventController) {
         this.loginViewModel = loginViewModel;
+        this.listViewModel = listViewModel;
         this.loginoutController = controller;
+        this.noteController = noteController;
+        this.localEventController = localEventController;
         this.loginViewModel.addPropertyChangeListener(this);
 
         JLabel title = new JLabel(LogInViewModel.TITLE_VIEW);
@@ -70,6 +82,9 @@ public class LogInView extends JPanel implements ActionListener, PropertyChangeL
                                             currentState.getUsername(),
                                             currentState.getPassword()
                                     );
+                                    int newUserId = listViewModel.getState().getUserId();
+                                    noteController.displayListViewNotes(newUserId);
+                                    localEventController.displayEventsListView(newUserId);
                                 } catch (GeneralSecurityException | IOException e) {
                                     JOptionPane.showMessageDialog(null, "GcalDAO setUserCalendar throws " + e.getMessage());
                                     System.out.println(e.getMessage());
