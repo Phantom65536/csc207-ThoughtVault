@@ -1,5 +1,6 @@
 
 import com.google.api.client.auth.oauth2.Credential;
+import use_case.EntriesDataAccessInterface;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
 import entity.localEvent.LocalEvent;
@@ -7,7 +8,6 @@ import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
 import use_case.gcalevent.*;
-import data_access.EntriesDataAccessInterface;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -4,7 +4,7 @@ import com.google.api.client.auth.oauth2.Credential;
 import data_access.EventsDataAccessObject;
 import data_access.GCalDataAccessObject;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home.HomeViewModel;
+import interface_adapter.listView.ListViewModel;
 import interface_adapter.importevents.ImportEventsController;
 import interface_adapter.importevents.ImportEventsPresenter;
 import interface_adapter.importevents.ImportEventsViewModel;
@@ -13,7 +13,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.gcalevent.GCalEventInteractor;
-import data_access.EntriesDataAccessInterface;
+import use_case.EntriesDataAccessInterface;
+import view.gcal.ImportEventsView;
 
 import javax.swing.*;
 
@@ -38,7 +39,7 @@ public class ImportEventsViewTest {
         String APIkey = prop.getProperty("apiKey");
 
         ImportEventsViewModel importEventsViewModel = new ImportEventsViewModel();
-        HomeViewModel homeViewModel = new HomeViewModel();
+        ListViewModel homeViewModel = new ListViewModel();
         ViewManagerModel viewManagerModel = new ViewManagerModel();
 
         GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();

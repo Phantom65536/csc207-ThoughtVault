@@ -1,17 +1,17 @@
 package interface_adapter.exportevents;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home.HomeViewModel;
+import interface_adapter.listView.ListViewModel;
 import use_case.gcalevent.GCalEventOutputBoundary;
 import use_case.gcalevent.GCalEventOutputData;
 
 public class ExportEventsPresenter implements GCalEventOutputBoundary {
     private final ExportEventsViewModel exportEventsViewModel;
-    private final HomeViewModel homeViewModel;
+    private final ListViewModel listViewModel;
     private ViewManagerModel viewManagerModel;
-    public ExportEventsPresenter(ExportEventsViewModel exportEventsViewModel, HomeViewModel homeViewModel, ViewManagerModel viewManagerModel){
+    public ExportEventsPresenter(ExportEventsViewModel exportEventsViewModel, ListViewModel listViewModel, ViewManagerModel viewManagerModel){
         this.exportEventsViewModel = exportEventsViewModel;
-        this.homeViewModel = homeViewModel;
+        this.listViewModel = listViewModel;
         this.viewManagerModel = viewManagerModel;
     }
     @Override
@@ -36,7 +36,7 @@ public class ExportEventsPresenter implements GCalEventOutputBoundary {
     public void switchToHome() {
         exportEventsViewModel.setState(new ExportEventsState());
         exportEventsViewModel.firePropertyChanged();
-        viewManagerModel.setActiveView(homeViewModel.getViewName());
+        viewManagerModel.setActiveView(listViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

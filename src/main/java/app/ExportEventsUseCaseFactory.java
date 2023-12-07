@@ -4,14 +4,13 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.exportevents.ExportEventsController;
 import interface_adapter.exportevents.ExportEventsPresenter;
 import interface_adapter.exportevents.ExportEventsViewModel;
-import interface_adapter.home.HomeViewModel;
+import interface_adapter.listView.ListViewModel;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.gcalevent.GCalEventInputBoundary;
 import use_case.gcalevent.GCalEventInteractor;
 import use_case.gcalevent.GCalEventOutputBoundary;
-import data_access.EntriesDataAccessInterface;
-import view.ExportEventsView;
-import view.ImportEventsView;
+import use_case.EntriesDataAccessInterface;
+import view.gcal.ExportEventsView;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -24,13 +23,13 @@ public class ExportEventsUseCaseFactory {
     public static ExportEventsView create(
             ViewManagerModel viewManagerModel,
             ExportEventsViewModel exportEventsViewModel,
-            HomeViewModel homeViewModel,
+            ListViewModel listViewModel,
             GCalEventDataAccessInterface gcalDataAccessObject,
             EntriesDataAccessInterface entriesDataAccessObject) {
 
         try {
             ExportEventsController exportEventsController = createExportEventsUseCase(viewManagerModel,
-                    exportEventsViewModel, homeViewModel, gcalDataAccessObject, entriesDataAccessObject);
+                    exportEventsViewModel, listViewModel, gcalDataAccessObject, entriesDataAccessObject);
             return new ExportEventsView(exportEventsViewModel, exportEventsController);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not instantiate Export Events View.");
@@ -42,12 +41,12 @@ public class ExportEventsUseCaseFactory {
     private static ExportEventsController createExportEventsUseCase(
             ViewManagerModel viewManagerModel,
             ExportEventsViewModel exportEventsViewModel,
-            HomeViewModel homeViewModel,
+            ListViewModel listViewModel,
             GCalEventDataAccessInterface gcalDataAccessObject,
             EntriesDataAccessInterface entriesDataAccessObject) throws IOException {
 
         // Pass GCalEventOutputBoundary to the Presenter.
-        GCalEventOutputBoundary gCalEventOutputBoundary = new ExportEventsPresenter(exportEventsViewModel, homeViewModel, viewManagerModel);
+        GCalEventOutputBoundary gCalEventOutputBoundary = new ExportEventsPresenter(exportEventsViewModel, listViewModel, viewManagerModel);
 
         GCalEventInputBoundary exportEventsInteractor = new GCalEventInteractor(
                 gcalDataAccessObject, gCalEventOutputBoundary, entriesDataAccessObject);
