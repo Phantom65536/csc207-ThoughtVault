@@ -8,13 +8,13 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.DateTime;
+import com.google.api.client.util.Value;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.Events;
+import com.google.api.services.calendar.model.*;
+import data_access.GCalDataAccessObject;
+import use_case.gcalevent.GCalEventDataAccessInterface;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -23,6 +23,7 @@ import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 /* class to demonstrate use of Calendar events list API */
 public class CalendarQuickstart {
@@ -46,6 +47,9 @@ public class CalendarQuickstart {
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+
+    @Value("{\"installed\":{\"client_id\":\"795633948902-lnv99a5r05977jor1cm9harbqhq4kcv2.apps.googleusercontent.com\",\"project_id\":\"thought-vault-400118\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"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\",\"redirect_uris\":[\"http://localhost\"]}}")
+    private static String testApiKey;
 
     static JList b;
     static DefaultListModel<String> eventsListModel;
@@ -98,12 +102,34 @@ public class CalendarQuickstart {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        String APIkey = "{\"installed\":{\"client_id\":\"676658923300-jefh7ko5cp9n7cf92vj427ltrd0rumo4.apps.googleusercontent.com\",\"project_id\":\"thought-vault-400423\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"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\",\"redirect_uris\":[\"http://localhost\"]}}";
+//        System.out.println(testApiKey);
+        // String APIkey = "{\"installed\":{\"client_id\":\"676658923300-jefh7ko5cp9n7cf92vj427ltrd0rumo4.apps.googleusercontent.com\",\"project_id\":\"thought-vault-400423\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"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\",\"redirect_uris\":[\"http://localhost\"]}}";
+//        String apiKey = System.getProperty("API_KEY");
+//        System.out.println(apiKey);
+        Properties prop = new Properties();
+        InputStream input = null;
+        input = new FileInputStream("gradle.properties");
 
+        // load a properties file
+        prop.load(input);
+
+        // get the property value and print it out
+        System.out.println(prop.getProperty("apiKey"));
+        GCalEventDataAccessInterface userDataAccessObject = new GCalDataAccessObject();
+        String APIkey = prop.getProperty("apiKey");
+        // Credential credential = getCredentials(APIkey);
+//        System.out.println(credential);
         Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, APIkey))
+                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, prop.getProperty("apiKey")))
                         .setApplicationName(APPLICATION_NAME)
                         .build();
+
+//        String APIkey = "{\"installed\":{\"client_id\":\"676658923300-jefh7ko5cp9n7cf92vj427ltrd0rumo4.apps.googleusercontent.com\",\"project_id\":\"thought-vault-400423\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://oauth2.googleapis.com/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"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\",\"redirect_uris\":[\"http://localhost\"]}}";
+//
+//        Calendar service =
+//                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, APIkey))
+//                        .setApplicationName(APPLICATION_NAME)
+//                        .build();
 
 //        CalendarList calendarList = service.calendarList().list().setPageToken(null).execute();
 //        List<CalendarListEntry> items = calendarList.getItems();
@@ -149,7 +175,6 @@ public class CalendarQuickstart {
 //
 //        application.setSize(400,400);
 //        application.show();
-
 
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());

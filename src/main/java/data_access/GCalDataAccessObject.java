@@ -29,26 +29,12 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES =
             Collections.singletonList(CalendarScopes.CALENDAR);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    public GCalDataAccessObject(String jsonCredentials) throws GeneralSecurityException, IOException {
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
-        Calendar service =
-                new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(jsonCredentials))
-                        .setApplicationName(APPLICATION_NAME)
-                        .build();
-
-        this.calendar = service;
-
-        CalendarList calendarList = service.calendarList().list().setPageToken(null).execute();
-        List<CalendarListEntry> items = calendarList.getItems();
-        this.calendarId = items.get(0).getId();
-
-    }
+    public GCalDataAccessObject() {}
 
     /**
      Assume that there is only ONE calendar.
+     Set the user's calendar and calendarID given a Credential object.
      **/
     public void setUserCalendar(Credential credential) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -66,6 +52,9 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
 
     }
 
+    /**
+     * Reset the user's calendar
+     * */
     public void resetUserCalendar() {
         calendar = null;
         calendarId = null;
@@ -112,22 +101,5 @@ public class GCalDataAccessObject implements GCalEventDataAccessInterface {
             return null;
         }
     }
-
-//    public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, String jsonCredentials)
-//            throws IOException {
-//        GoogleClientSecrets clientSecrets =
-//                GoogleClientSecrets.load(JSON_FACTORY, new StringReader(jsonCredentials));
-//
-//        // Build flow and trigger user authorization request.
-//        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-//                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-//                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-//                .setAccessType("offline")
-//                .build();
-//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-//        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-//        //returns an authorized Credential object.
-//        return credential;
-//    }
 
 }
