@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DetailedNoteView extends JPanel {
+    public static String viewName = "detailed note view";
     private JLabel titleLabel;
     private JLabel locationLabel;
     private JLabel descriptionLabel;
@@ -18,7 +19,6 @@ public class DetailedNoteView extends JPanel {
     private JButton deleteButton;
     private JButton editButton;
     private NoteController noteController;
-    public String viewName = "";
     public DetailedNoteView (NoteViewModel noteViewModel, NoteController noteController){
         this.viewName = noteViewModel.getViewName();
 
@@ -28,7 +28,7 @@ public class DetailedNoteView extends JPanel {
         descriptionLabel = new JLabel(NoteViewModel.DESCRIPTION_LABEL + noteViewModel.getState().getDescription());
         isWorkLabel = new JLabel(NoteViewModel.IS_WORK_LABEL + noteViewModel.getState().getIsWork());
         pinnedLabel = new JLabel(NoteViewModel.PINNED_LABEL + noteViewModel.getState().getPinned());
-        subEventsLabel = new JLabel(NoteViewModel.SUB_EVENTS_LABEL + noteViewModel.getState().getSubNotes().toString());
+        subEventsLabel = new JLabel(NoteViewModel.SUB_NOTES_LABEL + noteViewModel.getState().getSubEntries().toString());
 
         editButton = new JButton("Edit Note");
         editButton.addActionListener(

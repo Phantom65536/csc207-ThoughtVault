@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class CreateNoteView extends JPanel{
-    public final String viewName = "create note";
+    public static String viewName = "create note view";
     private NoteController noteController;
     private JTextField titleField;
     private JTextField locationField;

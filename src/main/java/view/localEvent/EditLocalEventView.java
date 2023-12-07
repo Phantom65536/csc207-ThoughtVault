@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EditLocalEventView extends JPanel implements ActionListener, PropertyChangeListener {
-    public final String viewName = "edit event";
+    public static String viewName = "edit event view";
     private JTextField titleField;
     private JTextField dateField;
     private JTextField startTimeField;
