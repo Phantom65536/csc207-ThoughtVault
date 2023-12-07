@@ -1,6 +1,6 @@
 package data_access;
 
-import entity.Note;
+import entity.note.Note;
 import junit.framework.TestCase;
 import org.json.simple.parser.ParseException;
 
