@@ -1,17 +1,11 @@
 package use_case.localEvent;
 
 import data_access.EventsDataAccessObject;
-import data_access.NotesDataAccessObject;
 import entity.localEvent.LocalEvent;
-import entity.note.Note;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
-import use_case.note.NoteInputData;
-import use_case.note.NoteInteractor;
-import use_case.note.NoteOutputBoundary;
-import use_case.note.NoteOutputData;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -20,6 +14,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.refEq;
@@ -70,6 +65,25 @@ public class LocalEventInteractorTest {
         assertEquals(event.getDescendants().size(), 0);
     }
 
+    public void compareLocalEvents1(LocalEventOutputData localEventOutputData){
+        assertEquals(localEventOutputData.getID(), 1);
+        assertEquals(localEventOutputData.getTitle(), "first");
+        assertEquals(localEventOutputData.getUserId(), 0);
+        assertEquals(localEventOutputData.getLocation(), "TA guy's crib");
+        assertEquals(localEventOutputData.getDescription(), "This is a description.");
+        assertEquals(localEventOutputData.getDate(),LocalDate.parse("2023-11-09"));
+        assertEquals(localEventOutputData.getStartTime(), LocalTime.NOON);
+        assertEquals(localEventOutputData.getEndTime(), LocalTime.parse("20:00"));
+        assertEquals(localEventOutputData.getIsWork(), true);
+        assertEquals(localEventOutputData.getPinned(), false);
+        assertEquals(localEventOutputData.getSubEvents().size(), 0);
+        HashMap<String, Object> eventData = localEventOutputData.getEventData();
+        assertEquals(eventData.get("date"),LocalDate.parse("2023-11-09"));
+        assertEquals(eventData.get("startTime"), LocalTime.NOON);
+        assertEquals(eventData.get("endTime"), LocalTime.parse("20:00"));
+
+    }
+
     public void compareLocalEvents2(LocalEventInputData LocalEventInputData, LocalEvent event){
 
         assertEquals(event.getID(), 2);
@@ -114,6 +128,7 @@ public class LocalEventInteractorTest {
         assertEquals(1,eventList.size());
         LocalEventOutputData LocalEventOutputData = new LocalEventOutputData(1, "first", 0, LocalDate.parse("2023-11-09"), LocalTime.NOON, LocalTime.parse("20:00"),
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
+        compareLocalEvents1(LocalEventOutputData);
         verify(LocalEventOutputBoundary,times(1)).UpdateEventsList(refEq(LocalEventOutputData));
 
 

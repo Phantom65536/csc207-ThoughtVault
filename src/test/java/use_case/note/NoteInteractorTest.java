@@ -7,14 +7,19 @@ import org.json.simple.parser.ParseException;
 import org.junit.*;
 import org.mockito.Answers;
 import org.mockito.ArgumentCaptor;
+import use_case.localEvent.LocalEventOutputData;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class NoteInteractorTest extends TestCase {
@@ -52,6 +57,23 @@ public class NoteInteractorTest extends TestCase {
         assertEquals(event.getPinned(), false);
         assertEquals(event.getDescendants().size(), 0);
     }
+
+    public void compareNotes1(NoteOutputData noteOutputData){
+        assertEquals(noteOutputData.getID(), 1);
+        assertEquals(noteOutputData.getTitle(), "first");
+        assertEquals(noteOutputData.getUserId(), 0);
+        assertEquals(noteOutputData.getLocation(), "TA guy's crib");
+        assertEquals(noteOutputData.getDescription(), "This is a description.");
+        assertEquals(noteOutputData.getIsWork(), true);
+        assertEquals(noteOutputData.getPinned(), false);
+        assertEquals(noteOutputData.getSubEvents().size(), 0);
+        HashMap<String, Object> eventData = noteOutputData.getNoteData();
+        assertEquals(eventData.get("title"),"first");
+        assertEquals(eventData.get("isWork"), true);
+        assertEquals(eventData.get("pinned"), false);
+
+    }
+
 
     public void compareNotes2(NoteInputData noteInputData, Note event){
 
@@ -92,6 +114,7 @@ public class NoteInteractorTest extends TestCase {
         assertEquals(1,eventList.size());
         NoteOutputData noteOutputData = new NoteOutputData(1, "first", 0,
                 "TA guy's crib", "This is a description.", true, false, new ArrayList<>());
+        compareNotes1(noteOutputData);
         verify(noteOutputBoundary,times(1)).UpdateNotesList(refEq(noteOutputData));
 
 
