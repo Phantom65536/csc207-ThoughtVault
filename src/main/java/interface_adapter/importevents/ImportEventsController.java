@@ -22,12 +22,4 @@ public class ImportEventsController {
     public void switchToHome(){
         gCalEventUseCaseInteractor.switchToHome();
     }
-//    public List<String> getAllEventsTitles() throws IOException {
-//        ArrayList<GCalEventInputData> listOfEvents = gCalEventUseCaseInteractor.getAllEvents();
-//        ArrayList<String> eventsTitles = new ArrayList<>();
-//        for (GCalEventInputData event : listOfEvents) {
-//            eventsTitles.add(event.getTitle());
-//        }
-//        return eventsTitles;
-//    }
 }

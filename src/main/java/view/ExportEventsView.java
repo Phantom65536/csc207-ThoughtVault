@@ -1,10 +1,10 @@
 package view;
 
-import com.google.api.services.calendar.model.Event;
 import interface_adapter.exportevents.ExportEventsController;
 import interface_adapter.exportevents.ExportEventsState;
 import interface_adapter.exportevents.ExportEventsViewModel;
 import interface_adapter.home.HomeViewModel;
+import output_data.LocalEventOutputData;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -26,7 +26,7 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
     private final ExportEventsController exportEventsController;
     final JButton home;
 
-    public ExportEventsView(ExportEventsViewModel exportEventsViewModel, ExportEventsController exportEventsController) {
+    public ExportEventsView(ExportEventsViewModel exportEventsViewModel, ExportEventsController exportEventsController) throws IOException {
         this.exportEventsViewModel = exportEventsViewModel;
         this.exportEventsController = exportEventsController;
         this.exportEventsViewModel.addPropertyChangeListener(this);
@@ -38,12 +38,15 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
                 new JLabel("Events"), eventsField
         );
 
+        // Create a list to display events
         eventsListModel = new DefaultListModel<>();
         ExportEventsState currentState = exportEventsViewModel.getState();
-        for (Event event : currentState.getListOfEvents()) {
-            eventsListModel.addElement(event.getSummary());
+        currentState.setListOfLocalEvents(exportEventsController.getAllLocalEvents());
+        for (LocalEventOutputData event : currentState.getListOfLocalEvents()) {
+            eventsListModel.addElement(event.getTitle());
         }
 
+        // Allows the user to select the event that they want to import
         eventsList = new JList<>(eventsListModel);
         eventsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         eventsList.addListSelectionListener(
@@ -57,6 +60,7 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
                 }
         );
 
+        // Exports the selected event upon clicking the Export Events button
         JPanel buttons = new JPanel();
         exportEvents = new JButton(ExportEventsViewModel.EXPORT_EVENTS_BUTTON_LABEL);
         buttons.add(exportEvents);
@@ -68,7 +72,13 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
                             ExportEventsState currentState = exportEventsViewModel.getState();
                             if (currentState.getSelectedEventIndex() != -1) {
                                 try {
-                                    exportEventsController.execute(currentState.getEntryID());
+                                    // exportEventsController.execute(currentState.getEntryID());
+                                    if (currentState.getSelectedEvent() != null){
+                                        exportEventsController.execute(currentState.getSelectedEventId());
+                                    } else {
+                                        currentState.setExportEventError("No event selected");
+                                        exportEventsViewModel.firePropertyChanged();
+                                    }
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -79,6 +89,7 @@ public class ExportEventsView extends JPanel implements ActionListener, Property
                 }
         );
 
+        // Switches to Home view upon clicking Home button
         home = new JButton(HomeViewModel.HOME_BUTTON_LABEL);
         buttons.add(home);
 
