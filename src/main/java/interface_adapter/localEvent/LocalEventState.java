@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * State for local events.
@@ -39,8 +40,8 @@ public class LocalEventState extends NoteState {
     public LocalEventState(int id, String title, String location, String description,
                            boolean isWork, boolean pinned,
                            ArrayList<Integer> subEvents, LocalDate date,
-                           LocalTime startTime, LocalTime endTime, int userId) {
-        super(id, title, location, description, isWork, pinned, subEvents, userId);
+                           LocalTime startTime, LocalTime endTime, int userId, HashMap<Integer, String> allEvents) {
+        super(id, title, location, description, isWork, pinned, subEvents, userId, allEvents);
 
         this.date = date;
 
