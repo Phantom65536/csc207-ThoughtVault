@@ -35,4 +35,5 @@ public interface LocalEventInputBoundary {
      */
     void GetAllEvents(int userID);
     void switchToEdit();
+    void switchToEditView(int eventID);
 }

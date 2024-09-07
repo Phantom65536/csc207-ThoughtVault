@@ -28,8 +28,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     private final JTextField usernameInputField = new JTextField(15);
     private final JPasswordField passwordInputField = new JPasswordField(15);
     private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
-    private final JTextArea credentialsStringInputField = new JTextArea(10, 45);
-//    private final JFileChooser credentialsFileInputField = new JFileChooser();
+    private final JTextArea credentialsStringInputField = new JTextArea(10, 409);
     private final SignUpController signUpController;
 
 //    private final JButton chooseCredentialFile;
@@ -57,41 +56,11 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
                 new JLabel(SignUpViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
         JLabel credentialsInputInfo = new JLabel(SignUpViewModel.CREDENTIALS_STRING_LABEL);
 
-//        credentialsFileInputField.setFileSelectionMode(JFileChooser.FILES_ONLY);
-//        credentialsFileInputField.setAcceptAllFileFilterUsed(false);
-//        credentialsFileInputField.addChoosableFileFilter(
-//                new FileFilter() {
-//                    @Override
-//                    public boolean accept(File f) {
-//                        return !f.isDirectory() && f.getName().toLowerCase().endsWith(".txt");
-//                    }
-//
-//                    @Override
-//                    public String getDescription() {
-//                        return "Text Files (*.txt)";
-//                    }
-//                }
-//        );
-
         JPanel buttons = new JPanel();
-//        chooseCredentialFile = new JButton(SignUpViewModel.CREDENTIALS_UPLOAD_LABEL);
-//        buttons.add(chooseCredentialFile);
         signUp = new JButton(SignUpViewModel.SIGNUP_BUTTON_LABEL);
         buttons.add(signUp);
         switchToLoginView = new JButton(SignUpViewModel.SWITCH_VIEW_LABEL);
         buttons.add(switchToLoginView);
-
-//        chooseCredentialFile.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent evt) {
-//                if (evt.getSource().equals(chooseCredentialFile)) {
-//                    if (credentialsFileInputField.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-//                        try (BufferedReader br = )
-//                    }
-//                    SignUpState signUpState = signUpViewModel.getState();
-//                }
-//            }
-//        });
 
         signUp.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -103,9 +72,12 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(signUp)) {
                             SignUpState currentState = signUpViewModel.getState();
-                            if (currentState.getUsername().isEmpty() || currentState.getPassword().isEmpty() ||
-                                    currentState.getRepeatedPassword().isEmpty() || currentState.getCredentialsJSON().isEmpty()) {
-                                JOptionPane.showMessageDialog(null, "Please fill in all fields.");
+                            if (currentState.getUsername().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Username: Please fill in all fields.");
+                            } else if (currentState.getPassword().isEmpty() || currentState.getRepeatedPassword().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Password: Please fill in all fields.");
+                            } else if (currentState.getCredentialsJSON().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Credentials: Please fill in all fields.");
                             } else {
                                     signUpController.signUp(
                                             currentState.getUsername(),

@@ -4,6 +4,8 @@ import use_case.localEvent.LocalEventInputData;
 
 import use_case.localEvent.LocalEventInputBoundary;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import java.time.LocalTime;
@@ -102,5 +104,9 @@ public class LocalEventController {
     }
     public void switchToEdit(){
         localEventInteractor.switchToEdit();
+    }
+    
+    public void switchToEditView(int eventID){
+        localEventInteractor.switchToEditView(eventID);
     }
 }

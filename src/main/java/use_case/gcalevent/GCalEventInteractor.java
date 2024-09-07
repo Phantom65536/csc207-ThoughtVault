@@ -10,7 +10,10 @@ import entity.localEvent.LocalEvent;
 import use_case.localEvent.LocalEventOutputData;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.*;
 
 public class GCalEventInteractor implements GCalEventInputBoundary {
@@ -44,7 +47,35 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
             return false;
         } else {
             Event event = calendar.events().get(calendarId, eventId).execute();
-            System.out.println(event.getSummary());
+                
+            // Convert DateTime to LocalDate
+            String eventDate = event.getStart().getDateTime().toString();
+            OffsetDateTime offsetDateTime = OffsetDateTime.parse(eventDate);
+            LocalDate eventDateParsed = offsetDateTime.toLocalDate();
+
+            // Start time: Convert DateTime to LocalTime
+            LocalTime eventStartTime = offsetDateTime.toLocalTime();
+
+            // End time: Convert DateTime to LocalTime
+            String endEventDate = event.getEnd().getDateTime().toString();
+            OffsetDateTime endOffsetDateTime = OffsetDateTime.parse(endEventDate);
+            LocalTime eventEndTime = endOffsetDateTime.toLocalTime();
+
+            LocalEvent importedEvent = new LocalEvent(
+                entriesDataAccessObject.getNewID(),
+                event.getSummary(),
+                1, // userID
+                eventDateParsed,
+                eventStartTime,
+                eventEndTime,
+                event.getLocation(),
+                event.getDescription(),
+                false,
+                false,
+                new ArrayList<>()
+            );
+
+            entriesDataAccessObject.save(importedEvent);
 
             GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(eventId, calendar, calendarId);
             gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
@@ -89,10 +120,6 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
 
 
         exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
-
-
-        // exportedEvent = calendar.events().insert("primary", exportedEvent).execute();
-        System.out.println(exportedEvent.getId());
 
         GCalEventOutputData gCalEventOutputData = new GCalEventOutputData(exportedEvent.getId(), calendar, calendarId);
         gCalEventPresenter.prepareSuccessView(gCalEventOutputData);
@@ -141,7 +168,7 @@ public class GCalEventInteractor implements GCalEventInputBoundary {
      */
     public ArrayList<LocalEventOutputData> getAllLocalEvents() {
         ArrayList<LocalEventOutputData> listOfEvents = new ArrayList<>();
-        ArrayList items = entriesDataAccessObject.getAllUserEntries(0);
+        ArrayList items = entriesDataAccessObject.getAllUserEntries(1);
         for (Object item : items) {
             if (item instanceof LocalEvent) {
                 LocalEvent event = (LocalEvent) item;

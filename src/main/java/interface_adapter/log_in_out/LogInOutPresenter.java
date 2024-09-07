@@ -29,15 +29,20 @@ public class LogInOutPresenter implements LogInOutOutputBoundary {
     }
 
     /**
-     * Reset log in state if log in is successful
+     * Reset login state if log in is successful
      * @param userid
      */
     @Override
     public void logInSuccessView(int userid) {
         logInViewModel.setState(new LogInState());
+        logInViewModel.firePropertyChanged();
         ListViewState listViewState = listViewViewModel.getState();
         listViewState.setUserId(userid);
         listViewViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView(listViewViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+
+        System.out.println("Setting up home page view");
     }
 
     /**

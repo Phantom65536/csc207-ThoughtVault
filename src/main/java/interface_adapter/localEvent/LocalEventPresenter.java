@@ -6,6 +6,7 @@ import interface_adapter.localEvent.LocalEventState;
 import interface_adapter.listView.ListViewModel;
 import interface_adapter.listView.ListViewState;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.exportevents.ExportEventsState;
 import use_case.localEvent.LocalEventOutputBoundary;
 
 import java.util.ArrayList;
@@ -76,8 +77,7 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
      * @param localEventOutputData The local event output data.
      */
     @Override
-    public void UpdateEventsList(LocalEventOutputData
-                                                   localEventOutputData) {
+    public void UpdateEventsList(LocalEventOutputData localEventOutputData) {
         ListViewState listViewState = listViewModel.getState();
         HashMap<Integer, HashMap<String, ?>> listViewEvents =
                 listViewState.getEvents();
@@ -123,7 +123,9 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
         detailedLocalEventViewModel.setState(localEventState);
         detailedLocalEventViewModel.firePropertyChanged();
         viewManagerModel.setActiveView(
-                detailedLocalEventViewModel.getViewName());
+                "detailed local event view");
+        // viewManagerModel.setActiveView(
+        //         detailedLocalEventViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
@@ -149,7 +151,8 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
         LocalEventState localEventState = CreateState(eventOutputData);
         localEventEditViewModel.setState(localEventState);
         localEventEditViewModel.firePropertyChanged();
-        viewManagerModel.setActiveView(localEventEditViewModel.getViewName());
+        viewManagerModel.setActiveView("edit event view");
+        // viewManagerModel.setActiveView(localEventEditViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
@@ -174,13 +177,25 @@ public class LocalEventPresenter implements LocalEventOutputBoundary {
     }
 
     /**
-     * Switch to edit view
+     * Not used - Switch to edit view
      */
     @Override
     public void switchToEdit() {
-        detailedLocalEventViewModel.setState(new LocalEventState());
-        detailedLocalEventViewModel.firePropertyChanged();
-        viewManagerModel.setActiveView(localEventEditViewModel.getViewName());
+        // detailedLocalEventViewModel.setState(new LocalEventState());
+        // detailedLocalEventViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView("edit event view");
+        viewManagerModel.firePropertyChanged();
+    }
+
+    /**
+     * Switch to edit view
+     */
+    @Override
+    public void switchToEditView(LocalEventOutputData localEventOutputData){
+        LocalEventState localEventState = CreateState(localEventOutputData);
+        localEventEditViewModel.setState(localEventState);
+        localEventEditViewModel.firePropertyChanged();
+        viewManagerModel.setActiveView("edit event view");
         viewManagerModel.firePropertyChanged();
     }
 }

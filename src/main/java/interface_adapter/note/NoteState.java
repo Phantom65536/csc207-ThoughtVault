@@ -9,7 +9,6 @@ import java.util.HashMap;
 public class NoteState {
     private int userId;
 
-
     private String title;
 
     private String location;
@@ -57,6 +56,7 @@ public class NoteState {
         this.subEntries = subEntries;
 
         this.userId = userId;
+        
         this.allEntries = allEntries;
     }
 

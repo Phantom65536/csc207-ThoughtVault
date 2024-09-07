@@ -1,6 +1,7 @@
 package view.localEvent;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.listView.ListViewModel;
 import interface_adapter.localEvent.LocalEventController;
 import interface_adapter.localEvent.LocalEventState;
 import interface_adapter.localEvent.LocalEventViewModel;
@@ -37,6 +38,9 @@ public class CreateLocalEventView extends JPanel implements ActionListener, Prop
         this.localEventController = localEventController;
         this.localEventViewModel = localEventViewModel;
         this.viewManagerModel = viewManagerModel;
+
+        localEventViewModel.addPropertyChangeListener(this);
+
         setLayout(new GridLayout(0, 2));
 
         JLabel titleLabel = new JLabel("Title:");
@@ -100,8 +104,8 @@ public class CreateLocalEventView extends JPanel implements ActionListener, Prop
                 createEvent();
             }
         });
-
         add(createButton);
+
     }
     private void createEvent() {
         String title = titleField.getText();
@@ -112,20 +116,22 @@ public class CreateLocalEventView extends JPanel implements ActionListener, Prop
         String description = descriptionField.getText();
         boolean isWork = workCheckBox.isSelected();
         boolean pinned = pinnedCheckBox.isSelected();
-
-        localEventController.createEvent(0, title, localEventViewModel.getState().getUserId(),
+        
+        localEventController.createEvent(1, title, 1,
                 date, startTime, endTime, location, description, isWork,pinned, new ArrayList<Integer>());
+        // localEventController.createEvent(1, title, localEventViewModel.getState().getUserId(),
+        //         date, startTime, endTime, location, description, isWork,pinned, new ArrayList<Integer>());
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        JOptionPane.showConfirmDialog(this, "You are creating an event");
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("view")) {
+        if (evt.getPropertyName().equals("state")) {
             LocalEventState eventState = localEventViewModel.getState();
             HashMap<Integer, String> subEventsMap = eventState.getAllEntries();
             for (int id : subEventsMap.keySet()) {

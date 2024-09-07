@@ -1,6 +1,5 @@
 package app;
 
-import data_access.EventsDataAccessObject;
 import data_access.NotesDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.listView.ListViewModel;
@@ -68,7 +67,7 @@ public class NotesUseCaseFactory {
         return null;
     }
 
-    public static DetailedNoteView createDetailedLNoteView(
+    public static DetailedNoteView createDetailedNoteView(
             ViewManagerModel viewManagerModel,
             NoteViewModel detailedNoteViewModel,
             NoteViewModel noteCreationViewModel,
@@ -104,7 +103,7 @@ public class NotesUseCaseFactory {
                 noteEditViewModel, listViewModel
         );
 
-        NotesDataAccessObject notesDataAccessObject = new NotesDataAccessObject("./testEvents.json");
+        NotesDataAccessObject notesDataAccessObject = new NotesDataAccessObject("./testNotes.json");
 
         NoteInputBoundary noteInteractor = new NoteInteractor(
                 noteOutputBoundary, notesDataAccessObject

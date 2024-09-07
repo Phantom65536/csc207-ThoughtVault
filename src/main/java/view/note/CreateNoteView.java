@@ -31,8 +31,8 @@ public class CreateNoteView extends JPanel implements ActionListener, PropertyCh
         this.noteController = noteController;
         this.noteViewModel = noteViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.noteViewModel.addPropertyChangeListener(this);
-        this.viewManagerModel.addPropertyChangeListener(this);
+        // this.noteViewModel.addPropertyChangeListener(this);
+        // this.viewManagerModel.addPropertyChangeListener(this);
         setLayout(new GridLayout(0, 2));
 
         JLabel titleLabel = new JLabel("Title:");

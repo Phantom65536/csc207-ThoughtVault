@@ -2,13 +2,17 @@ package view.localEvent;
 
 import interface_adapter.localEvent.LocalEventViewModel;
 import interface_adapter.localEvent.LocalEventController;
+import interface_adapter.localEvent.LocalEventState;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 
-public class DetailedLocalEventView extends JPanel{
+public class DetailedLocalEventView extends JPanel implements PropertyChangeListener {
     public static String viewName = "detailed local event view";
     private JLabel titleLabel;
     private JLabel locationLabel;
@@ -22,54 +26,70 @@ public class DetailedLocalEventView extends JPanel{
     private JLabel startTimeLabel;
     private JLabel endTimeLabel;
     private LocalEventController localEventController;
-    public DetailedLocalEventView (LocalEventViewModel localEventViewModel, LocalEventController localEventController){
-        this.viewName = localEventViewModel.getViewName();
+    private LocalEventViewModel localEventViewModel;
 
-        setLayout(new GridLayout(6, 1)); // Adjust the layout as per your preference
-        titleLabel = new JLabel(LocalEventViewModel.TITLE_LABEL + localEventViewModel.getState().getTitle());
-        locationLabel = new JLabel(LocalEventViewModel.LOCATION_LABEL + localEventViewModel.getState().getLocation());
-        descriptionLabel = new JLabel(LocalEventViewModel.DESCRIPTION_LABEL + localEventViewModel.getState().getDescription());
-        isWorkLabel = new JLabel(LocalEventViewModel.IS_WORK_LABEL + localEventViewModel.getState().getIsWork());
-        pinnedLabel = new JLabel(LocalEventViewModel.PINNED_LABEL + localEventViewModel.getState().getPinned());
-        subEventsLabel = new JLabel(LocalEventViewModel.SUB_EVENTS_LABEL + localEventViewModel.getState().getSubEntries().toString());
-        dateLabel = new JLabel(LocalEventViewModel.DATE_LABEL + localEventViewModel.getState().getDate().toString());
-        startTimeLabel = new JLabel(LocalEventViewModel.START_TIME_LABEL + localEventViewModel.getState().getStartTime().toString());
-        endTimeLabel = new JLabel(LocalEventViewModel.END_TIME_LABEL+ localEventViewModel.getState().getEndTime().toString());
+    public DetailedLocalEventView(LocalEventViewModel localEventViewModel, LocalEventController localEventController) {
+        this.localEventViewModel = localEventViewModel;
+        this.localEventController = localEventController;
+        localEventViewModel.addPropertyChangeListener(this);
+    }
 
-        JPanel buttons = new JPanel();
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("state")) {
+            setLayout(new GridLayout(6, 1)); // Adjust the layout as per your preference
 
-        editButton = new JButton("Edit Event");
-        buttons.add(editButton);
-        editButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        localEventController.switchToEdit();
-                    }
+            titleLabel = new JLabel(LocalEventViewModel.TITLE_LABEL + localEventViewModel.getState().getTitle());
+            locationLabel = new JLabel(
+                    LocalEventViewModel.LOCATION_LABEL + localEventViewModel.getState().getLocation());
+            descriptionLabel = new JLabel(
+                    LocalEventViewModel.DESCRIPTION_LABEL + localEventViewModel.getState().getDescription());
+            isWorkLabel = new JLabel(LocalEventViewModel.IS_WORK_LABEL + localEventViewModel.getState().getIsWork());
+            pinnedLabel = new JLabel(LocalEventViewModel.PINNED_LABEL + localEventViewModel.getState().getPinned());
+            subEventsLabel = new JLabel(
+                    LocalEventViewModel.SUB_EVENTS_LABEL + localEventViewModel.getState().getSubEntries().toString());
+            dateLabel = new JLabel(
+                    LocalEventViewModel.DATE_LABEL + localEventViewModel.getState().getDate().toString());
+            startTimeLabel = new JLabel(
+                    LocalEventViewModel.START_TIME_LABEL + localEventViewModel.getState().getStartTime().toString());
+            endTimeLabel = new JLabel(
+                    LocalEventViewModel.END_TIME_LABEL + localEventViewModel.getState().getEndTime().toString());
+
+            JPanel buttons = new JPanel();
+
+            editButton = new JButton("Edit Event");
+            buttons.add(editButton);
+            editButton.addActionListener(
+                    new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {      
+                            // localEventController.switchToEdit();
+                            localEventController.switchToEditView(localEventViewModel.getState().getId());
+                        }
+                    });
+
+            deleteButton = new JButton("Delete Event");
+            buttons.add(deleteButton);
+            deleteButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Action to perform when delete button is clicked
+                    // For now, let's remove the panel itself
+                    localEventController.deleteEvent(localEventViewModel.getState().getId());
                 }
-        );
+            });
+            add(titleLabel);
+            add(locationLabel);
+            add(descriptionLabel);
+            add(isWorkLabel);
+            add(pinnedLabel);
+            add(subEventsLabel);
+            add(dateLabel);
+            add(startTimeLabel);
+            add(endTimeLabel);
+            add(buttons);
 
-        deleteButton = new JButton("Delete Event");
-        buttons.add(deleteButton);
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Action to perform when delete button is clicked
-                // For now, let's remove the panel itself
-                localEventController.deleteEvent(localEventViewModel.getState().getId());
-            }
-        });
-        add(titleLabel);
-        add(locationLabel);
-        add(descriptionLabel);
-        add(isWorkLabel);
-        add(pinnedLabel);
-        add(subEventsLabel);
-        add(dateLabel);
-        add(startTimeLabel);
-        add(endTimeLabel);
-        add(buttons);
-
-        setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Add a border for clarity
+            setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        }
     }
 }

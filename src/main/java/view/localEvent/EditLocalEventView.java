@@ -37,84 +37,14 @@ public class EditLocalEventView extends JPanel implements ActionListener, Proper
 
     private LocalEventController localEventController;
 
-    public EditLocalEventView(LocalEventViewModel localEventViewModel, ViewManagerModel viewManagerModel, LocalEventController localEventController) {
+    public EditLocalEventView(LocalEventViewModel localEventViewModel, ViewManagerModel viewManagerModel,
+            LocalEventController localEventController) {
         this.localEventController = localEventController;
         this.localEventViewModel = localEventViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.localEventViewModel.addPropertyChangeListener(this);
-        this.viewManagerModel.addPropertyChangeListener(this);
-
-        setLayout(new GridLayout(0, 2));
-
-        JLabel titleLabel = new JLabel(LocalEventViewModel.TITLE_LABEL);
-        titleField = new JTextField();
-        JLabel dateLabel = new JLabel(LocalEventViewModel.DATE_LABEL);
-        dateField = new JTextField();
-        JLabel startTimeLabel = new JLabel(LocalEventViewModel.START_TIME_LABEL);
-        startTimeField = new JTextField();
-        JLabel endTimeLabel = new JLabel(LocalEventViewModel.END_TIME_LABEL);
-        endTimeField = new JTextField();
-        JLabel locationLabel = new JLabel(LocalEventViewModel.LOCATION_LABEL);
-        locationField = new JTextField();
-        JLabel descriptionLabel = new JLabel(LocalEventViewModel.DESCRIPTION_LABEL);
-        descriptionField = new JTextField();
-        JLabel workLabel = new JLabel(LocalEventViewModel.IS_WORK_LABEL);
-        workCheckBox = new JCheckBox();
-        workCheckBox.setSelected(false);
-        JLabel pinnedLabel = new JLabel(LocalEventViewModel.PINNED_LABEL );
-        pinnedCheckBox = new JCheckBox();
-        pinnedCheckBox.setSelected(false);
-
-        JLabel subEventLabel = new JLabel(LocalEventViewModel.SUB_EVENTS_LABEL );
+        localEventViewModel.addPropertyChangeListener(this);
+        viewManagerModel.addPropertyChangeListener(this);
         eventsListModel = new DefaultListModel<>();
-        eventsList = new JList<>(eventsListModel);
-        eventsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JButton addSubEventButton = new JButton("Add the selected sub-event");
-        JLabel subEventsTOBeAdded = new JLabel();
-
-        addSubEventButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int setIndex = eventsList.getSelectedIndex();
-                String selectionTitle = eventsList.getModel().getElementAt(setIndex);
-                int iend = selectionTitle.indexOf(":");
-                int entryId = Integer.parseInt(selectionTitle.substring(0,iend));
-                LocalEventState eventState = localEventViewModel.getState();
-                eventState.addEntryId(entryId);
-                subEventsTOBeAdded.setText(subEventsTOBeAdded.getText()+eventState.getAllEntries().get(entryId));
-            }
-        });
-
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editEvent();
-            }
-        });
-
-
-
-        add(titleLabel);
-        add(titleField);
-        add(dateLabel);
-        add(dateField);
-        add(startTimeLabel);
-        add(startTimeField);
-        add(endTimeLabel);
-        add(endTimeField);
-        add(locationLabel);
-        add(locationField);
-        add(descriptionLabel);
-        add(descriptionField);
-        add(workLabel);
-        add(workCheckBox);
-        add(pinnedLabel);
-        add(pinnedCheckBox);
-        add(saveButton);
-        add(eventsList);
-        add(subEventLabel);
-        add(addSubEventButton);
     }
 
     private void editEvent() {
@@ -127,10 +57,11 @@ public class EditLocalEventView extends JPanel implements ActionListener, Proper
         boolean isWork = workCheckBox.isSelected();
         boolean pinned = pinnedCheckBox.isSelected();
 
-        // Call the editEvent method in your localEventController passing the updated information
+        // Call the editEvent method in your localEventController passing the updated
+        // information
         localEventController.editEvent(localEventViewModel.getState().getId(),
-                title,localEventViewModel.getState().getUserId(),date,startTime,
-                endTime,location,description,isWork,pinned,new ArrayList<Integer>());
+                title, localEventViewModel.getState().getUserId(), date, startTime,
+                endTime, location, description, isWork, pinned, new ArrayList<Integer>());
     }
 
     @Override
@@ -140,21 +71,88 @@ public class EditLocalEventView extends JPanel implements ActionListener, Proper
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("view")) {
-            titleField.setText(localEventViewModel.getState().getTitle());
-            dateField.setText(localEventViewModel.getState().getDate().format(DateTimeFormatter.ISO_LOCAL_DATE));
-            startTimeField.setText(localEventViewModel.getState().getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
-            endTimeField.setText(localEventViewModel.getState().getEndTime().format(DateTimeFormatter.ISO_LOCAL_DATE));
-            locationField.setText(localEventViewModel.getState().getLocation());
-            descriptionField.setText(localEventViewModel.getState().getDescription());
-            workCheckBox.setSelected(localEventViewModel.getState().getIsWork());
-            pinnedCheckBox.setSelected(localEventViewModel.getState().getPinned());
+        if (evt.getPropertyName().equals("state")) {
+            // ArrayList<Integer> subEventId = localEventViewModel.getState().getSubEntries();
+            // HashMap<Integer, String> subEventMap = localEventViewModel.getState().getAllEntries();
+            // for (int id : subEventId) {
+            //     eventsListModel.addElement(subEventMap.get(id));
+            // }
 
-            ArrayList<Integer> subEventId = localEventViewModel.getState().getSubEntries();
-            HashMap<Integer,String> subEventMap = localEventViewModel.getState().getAllEntries();
-            for (int id: subEventId){
-                eventsListModel.addElement(subEventMap.get(id));
-            }
+            setLayout(new GridLayout(0, 2));
+            JLabel titleLabel = new JLabel(LocalEventViewModel.TITLE_LABEL);
+            titleField = new JTextField(localEventViewModel.getState().getTitle());
+            JLabel dateLabel = new JLabel(LocalEventViewModel.DATE_LABEL);
+            dateField = new JTextField(localEventViewModel.getState().getDate().toString());
+            JLabel startTimeLabel = new JLabel(LocalEventViewModel.START_TIME_LABEL);
+            startTimeField = new JTextField(localEventViewModel.getState().getStartTime().toString());
+            JLabel endTimeLabel = new JLabel(
+                    LocalEventViewModel.END_TIME_LABEL);
+            endTimeField = new JTextField(localEventViewModel.getState().getEndTime().toString());
+            JLabel locationLabel = new JLabel(
+                    LocalEventViewModel.LOCATION_LABEL);
+            locationField = new JTextField(localEventViewModel.getState().getLocation());
+            JLabel descriptionLabel = new JLabel(
+                    LocalEventViewModel.DESCRIPTION_LABEL);
+            descriptionField = new JTextField(localEventViewModel.getState().getDescription());
+            JLabel isWorkLabel = new JLabel(
+                    LocalEventViewModel.IS_WORK_LABEL);
+            workCheckBox = new JCheckBox();
+            workCheckBox.setSelected(localEventViewModel.getState().getIsWork());
+
+            JLabel pinnedLabel = new JLabel(
+                    LocalEventViewModel.PINNED_LABEL);
+            pinnedCheckBox = new JCheckBox();
+            pinnedCheckBox.setSelected(localEventViewModel.getState().getPinned());
+            
+            JLabel subEventLabel = new JLabel(
+                    LocalEventViewModel.SUB_EVENTS_LABEL + localEventViewModel.getState().getSubEntries().toString());
+                    
+            eventsList = new JList<>(eventsListModel);
+            eventsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            JButton addSubEventButton = new JButton("Add the selected sub-event");
+            JLabel subEventsTOBeAdded = new JLabel();
+
+            addSubEventButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int setIndex = eventsList.getSelectedIndex();
+                    String selectionTitle = eventsList.getModel().getElementAt(setIndex);
+                    int iend = selectionTitle.indexOf(":");
+                    int entryId = Integer.parseInt(selectionTitle.substring(0, iend));
+                    LocalEventState eventState = localEventViewModel.getState();
+                    eventState.addEntryId(entryId);
+                    subEventsTOBeAdded.setText(subEventsTOBeAdded.getText() + eventState.getAllEntries().get(entryId));
+                }
+            });
+
+            JButton saveButton = new JButton("Save");
+            saveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    editEvent();
+                }
+            });
+
+            add(titleLabel);
+            add(titleField);
+            add(dateLabel);
+            add(dateField);
+            add(startTimeLabel);
+            add(startTimeField);
+            add(endTimeLabel);
+            add(endTimeField);
+            add(locationLabel);
+            add(locationField);
+            add(descriptionLabel);
+            add(descriptionField);
+            add(isWorkLabel);
+            add(workCheckBox);
+            add(pinnedLabel);
+            add(pinnedCheckBox);
+            add(saveButton);
+            add(eventsList);
+            add(subEventLabel);
+            add(addSubEventButton);
         }
     }
 }

@@ -130,25 +130,42 @@ public class LocalEventInteractor implements LocalEventInputBoundary {
     @Override
     public void GetAllEvents(int userID) {
         ArrayList<LocalEventOutputData> eventOutputDataArrayList = new ArrayList<>();
-
+        
         for (LocalEvent event :
                 eventsDataAccessObject.getAllUserEntries(userID)) {
-            eventOutputDataArrayList.add(new LocalEventOutputData(event.getID(),
-                    event.getTitle(), event.getUserID(), event.getDate(),
-                    event.getStartTime(), event.getEndTime(),
-                    event.getLocation(), event.getDescription(),
-                    event.isWork(), event.getPinned(),
-                    event.getDescendants(),
-                    (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
-                    )
-            );
+                    eventOutputDataArrayList.add(
+                        new LocalEventOutputData(
+                            event.getID(),
+                            event.getTitle(), event.getUserID(), event.getDate(),
+                            event.getStartTime(), event.getEndTime(),
+                            event.getLocation(), event.getDescription(),
+                            event.isWork(), event.getPinned(),
+                            event.getDescendants(),
+                            (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID())
+                        )
+                    );
         }
 
         localEventOutputBoundary.DisplayAllEvents(eventOutputDataArrayList);
     }
 
+    /**
+     * Not in usage. Refer to switchToEditView
+     */
     @Override
     public void switchToEdit() {
         localEventOutputBoundary.switchToEdit();
+    }
+
+    @Override
+    public void switchToEditView(int eventID){
+        LocalEvent event = eventsDataAccessObject.getByID(eventID);
+        localEventOutputBoundary.switchToEditView(new
+                LocalEventOutputData(event.getID(), event.getTitle(),
+                event.getUserID(), event.getDate(), event.getStartTime(),
+                event.getEndTime(), event.getLocation(), event.getDescription(),
+                event.isWork(), event.getPinned(), event.getDescendants(),
+                (HashMap<Integer, String>) eventsDataAccessObject.getTitlesOfAllEntries(event.getUserID()))
+        );
     }
 }

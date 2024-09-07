@@ -78,5 +78,6 @@ public class LocalEventViewModel extends ViewModel {
 
     public void setUserId(int userId) {
         this.state.setUserId(userId);
+        support.firePropertyChange("userid", null, this.state);
     }
 }

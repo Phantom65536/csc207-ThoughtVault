@@ -1,6 +1,5 @@
 package use_case.localEvent;
 
-import com.sun.java.accessibility.util.AccessibilityListenerList;
 import use_case.note.NoteOutputData;
 
 import java.time.LocalDate;

@@ -46,4 +46,5 @@ public interface LocalEventOutputBoundary {
      */
     void DisplayAllEvents(ArrayList<LocalEventOutputData> eventOutputDataArrayList);
     void switchToEdit();
+    void switchToEditView(LocalEventOutputData eventOutputData);
 }

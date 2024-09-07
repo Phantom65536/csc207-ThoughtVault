@@ -1,6 +1,7 @@
 package app;
 
 import data_access.*;
+import com.google.api.client.auth.oauth2.Credential;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.exportevents.ExportEventsViewModel;
 import interface_adapter.importevents.ImportEventsViewModel;
@@ -14,6 +15,7 @@ import interface_adapter.note.NotePresenter;
 import interface_adapter.note.NoteViewModel;
 import interface_adapter.sign_up.SignUpViewModel;
 import org.json.simple.parser.ParseException;
+
 import use_case.EntriesDataAccessInterface;
 import use_case.gcalevent.GCalEventDataAccessInterface;
 import use_case.localEvent.LocalEventInteractor;
@@ -22,15 +24,26 @@ import use_case.user.UserDataAccessInterface;
 import view.ViewManager;
 import view.gcal.ExportEventsView;
 import view.gcal.ImportEventsView;
+import view.localEvent.CreateLocalEventView;
+import view.localEvent.DetailedLocalEventView;
+import view.localEvent.EditLocalEventView;
+import view.note.CreateNoteView;
 import view.user.LogInView;
 import view.user.SignUpView;
+import view.ListView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.util.Properties;
+
+import static data_access.GCalDataAccessObject.getCredentials;
 
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException, GeneralSecurityException, ParseException {
         // Build the main program window, the main panel containing the
         // various cards, and the layout, and stitch them together.
 
@@ -43,6 +56,13 @@ public class Main {
         // The various View objects. Only one view is visible at a time.
         JPanel views = new JPanel(cardLayout);
         application.add(views);
+
+        // Read the apiKey environment variable
+        Properties prop = new Properties();
+        InputStream input = null;
+        input = new FileInputStream("gradle.properties");
+        prop.load(input);
+        String APIkey = prop.getProperty("apiKey");
 
         // This keeps track of and manages which view is currently showing.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
@@ -57,13 +77,13 @@ public class Main {
         ExportEventsViewModel exportEventsViewModel = new ExportEventsViewModel();
         ImportEventsViewModel importEventsViewModel = new ImportEventsViewModel();
         ListViewModel listViewModel = new ListViewModel();
-        // LocalEventViewModel localEventViewModel = new LocalEventViewModel();
-        // NoteViewModel noteViewModel = new NoteViewModel();
 
         GCalEventDataAccessInterface gCalEventDataAccessInterface = new GCalDataAccessObject();
+        Credential credential = getCredentials(APIkey);
+        gCalEventDataAccessInterface.setUserCalendar(credential);
         EventsDataAccessObject eventsDataAccessObject = new EventsDataAccessObject("./testEvents.json");
-        UserDataAccessInterface userDataAccessObject = new UserDataAccessObject("./testEvents.json");
-        NotesDataAccessObject notesDataAccessObject = new NotesDataAccessObject("./testEvents.json");
+        UserDataAccessInterface userDataAccessObject = new UserDataAccessObject("./users.json");
+        NotesDataAccessObject notesDataAccessObject = new NotesDataAccessObject("./testNotes.json");
 
         NoteViewModel noteViewModel = new NoteViewModel("detailed note view");
         NoteViewModel noteCreationViewModel = new NoteViewModel("create note view");
@@ -86,26 +106,39 @@ public class Main {
         LocalEventController localEventController = new LocalEventController(inputBoundary);
 
         ImportEventsView importEventsView = ImportEventsUseCaseFactory.create(
-                viewManagerModel, importEventsViewModel, listViewModel, gCalEventDataAccessInterface, eventsDataAccessObject);
+                viewManagerModel, importEventsViewModel, listViewModel, 
+                gCalEventDataAccessInterface, eventsDataAccessObject);
         views.add(importEventsView, importEventsView.viewName);
 
         ExportEventsView exportEventsView = ExportEventsUseCaseFactory.create(
-                viewManagerModel, exportEventsViewModel, listViewModel, gCalEventDataAccessInterface, eventsDataAccessObject);
+                viewManagerModel, exportEventsViewModel, listViewModel, 
+                gCalEventDataAccessInterface, eventsDataAccessObject);
         views.add(exportEventsView, exportEventsView.viewName);
-
-        LogInView logInView = (LogInView) UsersUseCaseFactory.create(
-                viewManagerModel, loginViewModel, signupViewModel, listViewModel, userDataAccessObject,
-                gCalEventDataAccessInterface, noteController, localEventController
-        )[0];
-        views.add(logInView, loginViewModel.getViewName());
 
         SignUpView signUpView = (SignUpView) UsersUseCaseFactory.create(
                 viewManagerModel, loginViewModel, signupViewModel, listViewModel, userDataAccessObject,
                 gCalEventDataAccessInterface, noteController, localEventController
-        )[1];
+        )[0];
         views.add(signUpView, signupViewModel.getViewName());
-//        LoggedInView loggedInView = new LoggedInView(loggedInViewModel);
-//        views.add(loggedInView, loggedInView.viewName);
+
+        LogInView logInView = (LogInView) UsersUseCaseFactory.create(
+                viewManagerModel, loginViewModel, signupViewModel, listViewModel, userDataAccessObject,
+                gCalEventDataAccessInterface, noteController, localEventController
+        )[1];
+        views.add(logInView, loginViewModel.getViewName());
+
+        ListView listView = LocalEventsUseCaseFactory.createListView(viewManagerModel, detailedLocalEventViewModel, localEventCreationViewModel, localEventCreationViewModel, listViewModel, importEventsViewModel, exportEventsViewModel, noteViewModel, noteController);
+        views.add(listView, listViewModel.getViewName());
+
+        CreateLocalEventView createLocalEventView = LocalEventsUseCaseFactory.createLocalEventView(
+                viewManagerModel, detailedLocalEventViewModel, localEventCreationViewModel, localEventCreationViewModel, listViewModel);
+        views.add(createLocalEventView, localEventCreationViewModel.getViewName());
+
+        EditLocalEventView editLocalEventView = LocalEventsUseCaseFactory.createEditLocalEventView(viewManagerModel, detailedLocalEventViewModel, localEventCreationViewModel, localEventCreationViewModel, listViewModel);
+        views.add(editLocalEventView, LocalEventViewModel.getViewName());
+
+        DetailedLocalEventView detailedLocalEventView = LocalEventsUseCaseFactory.createDetailedLocalEventView(viewManagerModel, detailedLocalEventViewModel, localEventCreationViewModel, localEventCreationViewModel, listViewModel);
+        views.add(detailedLocalEventView, detailedLocalEventViewModel.getViewName());
 
         viewManagerModel.setActiveView(loginViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

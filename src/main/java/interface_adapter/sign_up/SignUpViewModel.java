@@ -9,7 +9,7 @@ import java.beans.PropertyChangeSupport;
  * The view model for signing up.
  */
 public class SignUpViewModel extends ViewModel {
-    public static final String TITLE_VIEW = "Log in view";
+    public static final String TITLE_VIEW = "Sign Up view";
     public static final String USERNAME_LABEL = "Username: ";
     public static final String PASSWORD_LABEL = "Password: ";
     public static final String REPEAT_PASSWORD_LABEL = "Repeated Password: ";

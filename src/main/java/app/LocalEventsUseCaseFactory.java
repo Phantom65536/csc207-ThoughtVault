@@ -2,10 +2,15 @@ package app;
 
 import data_access.EventsDataAccessObject;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.exportevents.ExportEventsViewModel;
+import interface_adapter.importevents.ImportEventsViewModel;
 import interface_adapter.listView.ListViewModel;
 import interface_adapter.localEvent.LocalEventController;
 import interface_adapter.localEvent.LocalEventPresenter;
 import interface_adapter.localEvent.LocalEventViewModel;
+import interface_adapter.note.NoteController;
+import interface_adapter.note.NoteViewModel;
+
 import org.json.simple.parser.ParseException;
 import use_case.localEvent.LocalEventInputBoundary;
 import use_case.localEvent.LocalEventInteractor;
@@ -13,6 +18,8 @@ import use_case.localEvent.LocalEventOutputBoundary;
 import view.localEvent.CreateLocalEventView;
 import view.localEvent.DetailedLocalEventView;
 import view.localEvent.EditLocalEventView;
+
+import view.ListView;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -87,6 +94,31 @@ public class LocalEventsUseCaseFactory {
 
         return null;
     }
+
+    // New addition!!
+    public static ListView createListView(
+            ViewManagerModel viewManagerModel,
+            LocalEventViewModel detailedLocalEventViewModel,
+            LocalEventViewModel localEventCreationViewModel,
+            LocalEventViewModel localEventEditViewModel,
+            ListViewModel listViewModel,
+            ImportEventsViewModel importEventsViewModel,
+            ExportEventsViewModel exportEventsViewModel,
+            NoteViewModel noteViewModel,
+            NoteController noteController
+    ) throws IOException, ParseException {
+        try {
+            LocalEventController localEventController = createLocalEventUseCase(
+                    viewManagerModel, detailedLocalEventViewModel, localEventCreationViewModel,
+                    localEventEditViewModel, listViewModel
+            );
+            return new ListView(listViewModel, importEventsViewModel, exportEventsViewModel, viewManagerModel, detailedLocalEventViewModel, noteViewModel, localEventController, noteController);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Could not open user data file.");
+            return null;
+        }
+    }
+
 
     private static LocalEventController createLocalEventUseCase(
             ViewManagerModel viewManagerModel, LocalEventViewModel detailedLocalEventViewModel,
